@@ -61,7 +61,7 @@ function MainPage() {
         <Wrapper>
             <Header>Get started with the experiment</Header>
             <Text>Thanks for your time. You can start the experiment by clicking  on the "Start Experiment" button on the bottom of this page.</Text>
-            <Link to="/add">
+            <Link to="/changes">
                 <StyledButton>
                     <ButtonLabel>Start Experiment</ButtonLabel>
                 </StyledButton>

@@ -5,6 +5,7 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter, Route, Routes}  from 'react-router-dom';
 import ParticipantList from './Components/Pages/ParticipantList'
 import AddParticipant from "./Components/Pages/AddParticipant";
+import ChangeList from "./Components/Pages/ChangeList";
 
 ReactDOM.render(
     <BrowserRouter>
@@ -12,6 +13,7 @@ ReactDOM.render(
             <Routes>
                 <Route exact path="/" element={<ParticipantList />} />
                 <Route exact path={`/add`} element={<AddParticipant />} />
+                <Route exact path="/changes" element={<ChangeList />} />
             </Routes>
         </div>
     </BrowserRouter>,
