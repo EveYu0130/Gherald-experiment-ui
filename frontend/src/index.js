@@ -6,13 +6,15 @@ import {BrowserRouter, Route, Routes}  from 'react-router-dom';
 import ParticipantList from './Components/Pages/ParticipantList'
 import AddParticipant from "./Components/Pages/AddParticipant";
 import ChangeList from "./Components/Pages/ChangeList";
+import MainPage from "./Components/Pages/MainPage";
 
 ReactDOM.render(
     <BrowserRouter>
         <div>
             <Routes>
-                <Route exact path="/" element={<ParticipantList />} />
-                <Route exact path={`/add`} element={<AddParticipant />} />
+                <Route exact path="/" element={<MainPage />} />
+                <Route exact path="/participants" element={<ParticipantList />} />
+                <Route exact path={`/participants/add`} element={<AddParticipant />} />
                 <Route exact path="/changes" element={<ChangeList />} />
             </Routes>
         </div>

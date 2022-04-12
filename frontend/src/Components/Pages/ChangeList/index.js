@@ -77,7 +77,7 @@ function ChangeList() {
     const columns = [
         {
             Header: 'Number',
-            accessor: 'number'
+            accessor: '_number'
         },
         {
             Header: 'Project',

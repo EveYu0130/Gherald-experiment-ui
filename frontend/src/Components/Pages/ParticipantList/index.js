@@ -90,7 +90,7 @@ function ParticipantList() {
     const [participants, setParticipants] = useState([]);
 
     useEffect(() => {
-        fetch('/list')
+        fetch('/api/participants')
             .then(results => results.json())
             .then(data => {
                 setLoading(false);
@@ -121,7 +121,7 @@ function ParticipantList() {
                     <Table columns={columns} data={participants} />
                 )}
             </div>
-            <Link to="/add">
+            <Link to="/participants/add">
                 <StyledButton>
                     <ButtonLabel>Add a Participant</ButtonLabel>
                 </StyledButton>
