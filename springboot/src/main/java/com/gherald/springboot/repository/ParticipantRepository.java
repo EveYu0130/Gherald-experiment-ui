@@ -1,5 +1,6 @@
-package com.gherald.springboot.jpa;
+package com.gherald.springboot.repository;
 
+import com.gherald.springboot.model.Participant;
 import org.springframework.data.repository.CrudRepository;
 
 public interface ParticipantRepository extends CrudRepository<Participant, Integer> {

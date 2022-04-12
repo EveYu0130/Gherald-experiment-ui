@@ -59,8 +59,6 @@ const ButtonLabel = styled.label`
   margin-left: 5px;
 `;
 
-
-
 function AddParticipant() {
     const [email, setEmail] = useState('');
     const navigate = useNavigate();
