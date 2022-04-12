@@ -110,8 +110,7 @@ function ChangeList() {
     let data = []
     changes.forEach(change => {
         data.push({
-            subject: <Link to={{pathname:`${url}/${change.id}`, state: {changeDetail: change }}}>{change.subject}</Link>,
-            // subject: <Link to={`${url}/${change._number}`} state={{ changeDetail: change }}>{change.subject}</Link>,
+            subject: <Link to={`${url}/${change.id}`}>{change.subject}</Link>,
             project: change.project,
             branch: change.branch,
             status: change.status,

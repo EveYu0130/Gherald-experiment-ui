@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -32,10 +32,35 @@ const Text = styled.h3`
     // width: 20%;
 `;
 
+const spin = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+`;
+
+const spinAnimation = css`
+  ${spin} 1s infinite linear
+`;
+
+const Spinner = styled.div`
+  pointer-events: all;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  border: 5px solid
+    rgba(255, 255, 255, 0.2);
+  border-top-color: #43D1AF;
+  border-right-color: #43D1AF;
+  animation: ${spinAnimation};
+  transition: border-top-color 0.5s linear, border-right-color 0.5s linear;
+  margin-left: 48%;
+`;
+
 function ChangeDetail(props) {
     const { changeId } = useParams();
-    const location = useLocation();
-    const { changeDetail } = location.state;
 
     const [loading, setLoading] = useState(true);
     const [change, setChange] = useState([]);
@@ -54,16 +79,22 @@ function ChangeDetail(props) {
             <Header>Change Detail</Header>
             <Text>{change.subject}</Text>
             <div>
-                <Text>{change.id}</Text>
-                <Text>{change.number}</Text>
-                <Text>{change.project}</Text>
-                <Text>{change.branch}</Text>
-                <Text>{change.status}</Text>
-                <Text>{change.created}</Text>
-                <Text>{change.updated}</Text>
-                <Text>{change.submitted}</Text>
-                <Text>{change.insertions}</Text>
-                <Text>{change.deletions}</Text>
+                {loading ? (
+                    <Spinner/>
+                ) : (
+                    <div>
+                        <Text>{change.id}</Text>
+                        <Text>{change.number}</Text>
+                        <Text>{change.project}</Text>
+                        <Text>{change.branch}</Text>
+                        <Text>{change.status}</Text>
+                        <Text>{change.created}</Text>
+                        <Text>{change.updated}</Text>
+                        <Text>{change.submitted}</Text>
+                        <Text>{change.insertions}</Text>
+                        <Text>{change.deletions}</Text>
+                    </div>
+                )}
             </div>
         </Wrapper>
     );
