@@ -68,14 +68,14 @@ function AddParticipant() {
     const handleSubmit = (e) => {
         console.log('Participant added');
         e.preventDefault();
-        fetch('/add', {
+        fetch('/api/participants/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: "email="+email
         }).then(response => {
-            navigate('/')
+            navigate('/participants')
             console.log(response);
         }).catch(error => {
             console.log(error);
@@ -94,7 +94,7 @@ function AddParticipant() {
                     <ButtonLabel>Submit</ButtonLabel>
                 </StyledButton>
             </form>
-            <Link to="/">
+            <Link to="/participants">
                 <StyledButton>
                     <ButtonLabel>Cancel</ButtonLabel>
                 </StyledButton>

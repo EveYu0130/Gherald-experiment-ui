@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import Table from '../../Molecules/Table';
-import Button from '../../Atoms/Button';
-import { Link } from 'react-router-dom';
 
 
 const Wrapper = styled.div`
@@ -62,72 +60,60 @@ const Spinner = styled.div`
   margin-left: 48%;
 `;
 
-const StyledButton = styled(Button)`
-  color: #fff;
-  flex-shrink: 0;
-  padding: 8px 16px;
-  justify-content: center;
-  margin-bottom: 10px;
-  width: 200px;
-  margin: 2% 1%;
-
-  @media (max-width: 375px) {
-    height: 52px;
-  }
-
-  &:disabled {
-    opacity: 0.65; 
-    cursor: not-allowed;
-  }
-`;
-
-const ButtonLabel = styled.label`
-  margin-left: 5px;
-`;
-
-function ParticipantList() {
+function ChangeList() {
     const [loading, setLoading] = useState(true);
-    const [participants, setParticipants] = useState([]);
+    const [changes, setChanges] = useState([]);
 
     useEffect(() => {
-        fetch('/api/participants')
+        fetch('/api/changes')
             .then(results => results.json())
             .then(data => {
                 setLoading(false);
-                setParticipants(data);
+                setChanges(data);
             })
     }, [])
 
 
     const columns = [
         {
-            Header: 'Id',
-            accessor: 'id'
+            Header: 'Number',
+            accessor: '_number'
         },
         {
-            Header: 'Email',
-            accessor: 'email'
+            Header: 'Project',
+            accessor: 'project'
+        },
+        {
+            Header: 'Branch',
+            accessor: 'branch'
+        },
+        {
+            Header: 'Status',
+            accessor: 'status'
+        },
+        {
+            Header: 'Created',
+            accessor: 'created'
+        },
+        {
+            Header: 'Subject',
+            accessor: 'subject'
         }
     ]
 
     return (
         <Wrapper>
-            <Header>Participants</Header>
-            <Text>Here is the list of participants you have added.</Text>
+            <Header>Changes</Header>
+            <Text>Here is the list of changes you have added.</Text>
             <div>
                 {loading ? (
                     <Spinner/>
                 ) : (
-                    <Table columns={columns} data={participants} />
+                    <Table columns={columns} data={changes} />
                 )}
             </div>
-            <Link to="/participants/add">
-                <StyledButton>
-                    <ButtonLabel>Add a Participant</ButtonLabel>
-                </StyledButton>
-            </Link>
         </Wrapper>
     );
 }
 
-export default ParticipantList;
+export default ChangeList;
