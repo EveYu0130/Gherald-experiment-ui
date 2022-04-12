@@ -2,14 +2,10 @@ package com.gherald.springboot.controller;
 
 import com.gherald.springboot.model.Change;
 import com.gherald.springboot.repository.ChangeRepository;
-import org.apache.tomcat.util.json.JSONParser;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
@@ -50,5 +46,10 @@ public class ChangeController {
     @GetMapping("/api/changes")
     public Iterable<Change> getChanges() {
         return changeRepository.findAll();
+    }
+
+    @GetMapping("/api/changes/{id}")
+    public Change getChangeById(@PathVariable String id) {
+        return changeRepository.findChangeById(id);
     }
 }

@@ -113,7 +113,7 @@ public class Change {
         return number;
     }
 
-    public void set_number(Integer _number) {
-        this.number = _number;
+    public void set_number(Integer number) {
+        this.number = number;
     }
 }

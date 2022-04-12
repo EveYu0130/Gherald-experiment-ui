@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../../Atoms/Button';
 
@@ -61,7 +61,7 @@ const ButtonLabel = styled.label`
 
 function AddParticipant() {
     const [email, setEmail] = useState('');
-    const navigate = useNavigate();
+    const history = useHistory();
 
     const handleChange = (e) => setEmail(e.target.value);
 
@@ -75,7 +75,7 @@ function AddParticipant() {
             },
             body: "email="+email
         }).then(response => {
-            navigate('/participants')
+            history.push('/participants')
             console.log(response);
         }).catch(error => {
             console.log(error);
