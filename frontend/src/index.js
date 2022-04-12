@@ -1,13 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter, Route, Routes}  from 'react-router-dom';
+import ParticipantList from './Components/Pages/ParticipantList'
+import AddParticipant from "./Components/Pages/AddParticipant";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <BrowserRouter>
+        <div>
+            <Routes>
+                <Route exact path="/" element={<ParticipantList />} />
+                <Route exact path={`/add`} element={<AddParticipant />} />
+            </Routes>
+        </div>
+    </BrowserRouter>,
   document.getElementById('root')
 );
 
