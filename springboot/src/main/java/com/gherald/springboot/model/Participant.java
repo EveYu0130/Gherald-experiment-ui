@@ -1,4 +1,4 @@
-package com.gherald.springboot.jpa;
+package com.gherald.springboot.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

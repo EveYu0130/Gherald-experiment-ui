@@ -1,7 +1,7 @@
 package com.gherald.springboot.controller;
 
-import com.gherald.springboot.jpa.Participant;
-import com.gherald.springboot.jpa.ParticipantRepository;
+import com.gherald.springboot.model.Participant;
+import com.gherald.springboot.repository.ParticipantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
