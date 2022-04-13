@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import Table from '../../Molecules/Table';
 import Button from '../../Atoms/Button';
-import { Link } from 'react-router-dom';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useParams,
+    useRouteMatch
+} from "react-router-dom";
+import AddParticipant from "../AddParticipant";
 
 
 const Wrapper = styled.div`
@@ -96,7 +104,7 @@ function ParticipantList() {
                 setLoading(false);
                 setParticipants(data);
             })
-    }, [])
+    })
 
 
     const columns = [
@@ -110,23 +118,32 @@ function ParticipantList() {
         }
     ]
 
+    const { path, url } = useRouteMatch();
+
     return (
-        <Wrapper>
-            <Header>Participants</Header>
-            <Text>Here is the list of participants you have added.</Text>
-            <div>
-                {loading ? (
-                    <Spinner/>
-                ) : (
-                    <Table columns={columns} data={participants} />
-                )}
-            </div>
-            <Link to="/participants/add">
-                <StyledButton>
-                    <ButtonLabel>Add a Participant</ButtonLabel>
-                </StyledButton>
-            </Link>
-        </Wrapper>
+        <Router>
+            <Switch>
+                <Route exact path={path}>
+                    <Wrapper>
+                        <Header>Participants</Header>
+                        <Text>Here is the list of participants you have added.</Text>
+                        <div>
+                            {loading ? (
+                                <Spinner/>
+                            ) : (
+                                <Table columns={columns} data={participants} />
+                            )}
+                        </div>
+                        <Link to={`${url}/add`}>
+                            <StyledButton>
+                                <ButtonLabel>Add a Participant</ButtonLabel>
+                            </StyledButton>
+                        </Link>
+                    </Wrapper>
+                </Route>
+                <Route path={`${path}/add`} component={AddParticipant} />
+            </Switch>
+        </Router>
     );
 }
 

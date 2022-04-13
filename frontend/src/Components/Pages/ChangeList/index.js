@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import Table from '../../Molecules/Table';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useParams,
+    useRouteMatch
+} from "react-router-dom";
+import ChangeDetail from "../ChangeDetail";
 
 
 const Wrapper = styled.div`
@@ -71,13 +80,14 @@ function ChangeList() {
                 setLoading(false);
                 setChanges(data);
             })
-    }, [])
+    })
 
+    const { path, url } = useRouteMatch();
 
     const columns = [
         {
-            Header: 'Number',
-            accessor: '_number'
+            Header: 'Subject',
+            accessor: 'subject'
         },
         {
             Header: 'Project',
@@ -92,27 +102,40 @@ function ChangeList() {
             accessor: 'status'
         },
         {
-            Header: 'Created',
-            accessor: 'created'
-        },
-        {
-            Header: 'Subject',
-            accessor: 'subject'
+            Header: 'Updated',
+            accessor: 'updated'
         }
     ]
 
+    let data = []
+    changes.forEach(change => {
+        data.push({
+            subject: <Link to={`${url}/${change.id}`}>{change.subject}</Link>,
+            project: change.project,
+            branch: change.branch,
+            status: change.status,
+            updated: change.updated
+        })
+    })
+
     return (
-        <Wrapper>
-            <Header>Changes</Header>
-            <Text>Here is the list of changes you have added.</Text>
-            <div>
-                {loading ? (
-                    <Spinner/>
-                ) : (
-                    <Table columns={columns} data={changes} />
-                )}
-            </div>
-        </Wrapper>
+        <Router>
+            <Switch>
+                <Route exact path={path}>
+                    <Wrapper>
+                        <Header>Changes</Header>
+                        <div>
+                            {loading ? (
+                                <Spinner/>
+                            ) : (
+                                <Table columns={columns} data={data} />
+                            )}
+                        </div>
+                    </Wrapper>
+                </Route>
+                <Route path={`${path}/:changeId`} component={ChangeDetail} />
+            </Switch>
+        </Router>
     );
 }
 

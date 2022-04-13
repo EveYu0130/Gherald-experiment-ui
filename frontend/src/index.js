@@ -2,22 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Route, Routes}  from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import ParticipantList from './Components/Pages/ParticipantList'
-import AddParticipant from "./Components/Pages/AddParticipant";
 import ChangeList from "./Components/Pages/ChangeList";
 import MainPage from "./Components/Pages/MainPage";
 
 ReactDOM.render(
     <BrowserRouter>
-        <div>
-            <Routes>
-                <Route exact path="/" element={<MainPage />} />
-                <Route exact path="/participants" element={<ParticipantList />} />
-                <Route exact path={`/participants/add`} element={<AddParticipant />} />
-                <Route exact path="/changes" element={<ChangeList />} />
-            </Routes>
-        </div>
+        <Switch>
+            <Route exact path="/" component={MainPage} />
+            <Route exact path="/participants" component={ParticipantList}>
+                {/*<Route exact path={`/participants/add`} component={AddParticipant} />*/}
+            </Route>
+            <Route exact path="/changes" component={ChangeList}>
+                {/*<Route exact path="/changes/:changeId" component={ChangeDetail} />*/}
+            </Route>
+        </Switch>
     </BrowserRouter>,
   document.getElementById('root')
 );
