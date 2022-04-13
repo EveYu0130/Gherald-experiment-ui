@@ -109,11 +109,11 @@ public class Change {
         this.deletions = deletions;
     }
 
-    public Integer get_number() {
+    public Integer getNumber() {
         return number;
     }
 
-    public void set_number(Integer number) {
+    public void setNumber(Integer number) {
         this.number = number;
     }
 }
