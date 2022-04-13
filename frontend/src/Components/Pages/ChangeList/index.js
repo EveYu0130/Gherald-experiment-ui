@@ -124,7 +124,6 @@ function ChangeList() {
                 <Route exact path={path}>
                     <Wrapper>
                         <Header>Changes</Header>
-                        <Text>Here is the list of changes you have added.</Text>
                         <div>
                             {loading ? (
                                 <Spinner/>

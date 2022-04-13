@@ -30,7 +30,6 @@ public class ChangeController {
             change.setStatus(jsonObject.getString("status"));
             change.setCreated(jsonObject.getString("created"));
             change.setUpdated(jsonObject.getString("updated"));
-            change.setSubmitted(jsonObject.getString("submitted"));
             change.setInsertions(jsonObject.getInt("insertions"));
             change.setDeletions(jsonObject.getInt("deletions"));
             change.setNumber(jsonObject.getInt("_number"));
@@ -68,7 +67,15 @@ public class ChangeController {
     }
 
     @GetMapping("/api/changes/{id}")
-    public Change getChangeById(@PathVariable String id) {
-        return changeRepository.findChangeById(id);
+//    public Change getChangeById(@PathVariable String id) {
+//        return changeRepository.findChangeById(id);
+//    }
+    public String getChangeById(@PathVariable String id) {
+        String uri = String.format("https://codereview.qt-project.org/changes/?q=%s+AND+project:qt/qtbase+AND+branch:dev&o=DETAILED_LABELS&o=CURRENT_REVISION&o=ALL_FILES&o=CURRENT_COMMIT&o=DETAILED_ACCOUNTS", id);
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        result = result.substring(6, (result.length() - 2));
+//        JSONObject jsonObject = new JSONObject(result);
+        return result;
     }
 }
