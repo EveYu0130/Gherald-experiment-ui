@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import { useParams } from "react-router-dom";
 import { Box, Paper, Grid, Typography, List, ListItem, ListItemText, Table, TableBody, TableCell, TableContainer,  TableHead, TableRow } from '@mui/material';
+import {parseDiff, Diff, Hunk, useSourceExpansion} from 'react-diff-view';
+import {refractor} from 'refractor'
+import 'react-diff-view/style/index.css';
+// import text from './diff';
+import {diffLines, formatLines} from 'unidiff';
+import { CODE_A, CODE_B } from "./myInput";
+import tokenize from './tokenize';
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -62,25 +69,41 @@ function NewlineText(props) {
     return text.split('\n').map(str => <p>{str}</p>);
 }
 
+const EMPTY_HUNKS = [];
+
 
 function ChangeDetail(props) {
     const { changeId } = useParams();
 
     const [loading, setLoading] = useState(true);
     const [change, setChange] = useState({});
+    const [files, setFiles] = useState([]);
+    const [{type, hunks}, setDiff] = useState('');
+    const [tokens, setTokens] = useState({});
+
+
+    // const text = formatLines(diffLines(CODE_A, CODE_B), {context: 3});
+    // console.log(text)
+    // const [fileDiff] = parseDiff(text, {nearbySequences: 'zip'});
+    // console.log(fileDiff)
+    const options = {
+        highlight: true,
+        language: 'javascript',
+        refractor: refractor,
+    };
+
+    // const [hunksWithSourceExpansion, expandCode] = useSourceExpansion(hunks, CODE_B);
+    // console.log(hunksWithSourceExpansion)
+
+    // const tokens = useMemo(() => hunks.length > 0 ? tokenize(hunks, options) : [], [hunks]);
+
+
+    // const tokens = useMemo(() => tokenize(fileDiff.hunks, options), [fileDiff.hunks]);
 
     useEffect(() => {
         fetch(`/api/changes/${changeId}`)
             .then(results => results.json())
             .then(data => {
-                let files = [];
-                for (const [key, value] of Object.entries(data.revisions[Object.keys(data.revisions)[0]].files)) {
-                    files.push({
-                        filename: key,
-                        lines_inserted: value.lines_inserted ? value.lines_inserted : 0,
-                        lines_deleted: value.lines_deleted ? value.lines_deleted : 0
-                    });
-                };
                 setChange({
                     status: data.status,
                     subject: data.subject,
@@ -90,11 +113,33 @@ function ChangeDetail(props) {
                     // submitter: "" || data.submitter.name,
                     number: data._number,
                     owner: "" || data.owner.name,
-                    commitMsg: data.revisions[Object.keys(data.revisions)[0]].commit.message,
-                    files
+                    commitMsg: data.revisions[Object.keys(data.revisions)[0]].commit.message
                 });
-                setLoading(false);
+                return fetch(`/api/changes/${changeId}/files`)
             })
+            .then(results => results.json())
+            .then(data => {
+                let filesLst = [];
+                for (const [key, value] of Object.entries(data)) {
+                    filesLst.push({
+                        filename: key,
+                        status: value.status ? value.status : "",
+                        lines_inserted: value.lines_inserted ? value.lines_inserted : 0,
+                        lines_deleted: value.lines_deleted ? value.lines_deleted : 0
+                    });
+                };
+                setFiles([...filesLst]);
+                setLoading(false);
+                const text = formatLines(diffLines(CODE_A, CODE_B), {context: 3});
+                console.log(text)
+                const [fileDiff] = parseDiff(text, {nearbySequences: 'zip'});
+                console.log(fileDiff)
+                setTokens(tokenize(fileDiff.hunks));
+                console.log(tokens);
+                setDiff(fileDiff);
+                // tokenize(fileDiff.hunks, options);
+            })
+            .catch(reqErr => console.error(reqErr))
     }, [])
 
     return (
@@ -157,10 +202,11 @@ function ChangeDetail(props) {
                                             <TableCell>File</TableCell>
                                             <TableCell align="right">Additions</TableCell>
                                             <TableCell align="right">Deletions</TableCell>
+                                            <TableCell align="right">""</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {change.files.map((file) => (
+                                        {files.map((file) => (
                                             <TableRow
                                                 key={file.filename}
                                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -168,14 +214,24 @@ function ChangeDetail(props) {
                                                 <TableCell component="th" scope="row">
                                                     {file.filename}
                                                 </TableCell>
-                                                <TableCell align="right">{file.lines_inserted}</TableCell>
-                                                <TableCell align="right">{file.lines_deleted}</TableCell>
+                                                <TableCell align="right">{file.status ? "" : file.lines_inserted}</TableCell>
+                                                <TableCell align="right">{file.status ? "" : file.lines_deleted}</TableCell>
+                                                <TableCell align="right">Detail</TableCell>
                                             </TableRow>
                                         ))}
                                     </TableBody>
                                 </Table>
                             </TableContainer>
                         </Box>
+
+                        <div>
+                            {hunks != null &&
+                                <Diff viewType="split" diffType={type} hunks={hunks}
+                                      tokens={tokens}>
+                                    {hunks => hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} />)}
+                                </Diff>
+                            }
+                        </div>
                     </div>
                 )}
             </div>

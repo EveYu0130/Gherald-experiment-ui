@@ -5,8 +5,11 @@ import com.gherald.springboot.repository.ChangeRepository;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.http.HttpRequest;
 
 @RestController
 public class ChangeController {
@@ -78,4 +81,25 @@ public class ChangeController {
 //        JSONObject jsonObject = new JSONObject(result);
         return result;
     }
+
+    @GetMapping("/api/changes/{id}/files")
+    public String getChangeFilesById(@PathVariable String id) {
+        String uri = String.format("https://codereview.qt-project.org/changes/%s/revisions/1/files", id);
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+        result = result.substring(5, (result.length() - 1));
+        return result;
+    }
+
+//    @GetMapping("/api/changes/{id}/{file}/diff")
+//    public String getChangeFilesById(@PathVariable String id, @PathVariable String file) {
+//        String uri = String.format("https://codereview.qt-project.org/changes/%s/revisions/1/files/%s/diff" +
+//                "", id, file);
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.getForObject(uri, String.class);
+//        ResponseEntity<String> response
+//                = restTemplate.getForEntity(uri, String.class);
+//        result = result.substring(5, (result.length() - 1));
+//        return result;
+//    }
 }
