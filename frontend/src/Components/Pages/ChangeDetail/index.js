@@ -9,6 +9,7 @@ import 'react-diff-view/style/index.css';
 import {diffLines, formatLines} from 'unidiff';
 import { CODE_A, CODE_B } from "./myInput";
 import tokenize from './tokenize';
+import DiffView from '../../Pages/DiffView';
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -16,18 +17,9 @@ const Wrapper = styled.div`
     -moz-box-sizing: border-box;
     border-radius: 8px;
     background: #f4f7f8;
-    text-align: center;
+    // text-align: center;
     padding: 5% 5%;
     height: 100%;
-`;
-
-const Text = styled.h3`
-    // background: #43D1AF;
-    padding: 20px 0;
-    font-weight: 300;
-    text-align: center;
-    margin: -16px -16px 16px -16px;
-    // width: 20%;
 `;
 
 const spin = keyframes`
@@ -78,27 +70,37 @@ function ChangeDetail(props) {
     const [loading, setLoading] = useState(true);
     const [change, setChange] = useState({});
     const [files, setFiles] = useState([]);
-    const [{type, hunks}, setDiff] = useState('');
-    const [tokens, setTokens] = useState({});
+    // const [{type, hunks}, setDiff] = useState('');
+    // const [type, setDiffType] = useState('');
+    // const [hunks, setDiffHunks] = useState('');
+    // const [tokens, setTokens] = useState({});
 
 
-    // const text = formatLines(diffLines(CODE_A, CODE_B), {context: 3});
-    // console.log(text)
-    // const [fileDiff] = parseDiff(text, {nearbySequences: 'zip'});
-    // console.log(fileDiff)
-    const options = {
-        highlight: true,
-        language: 'javascript',
-        refractor: refractor,
-    };
-
-    // const [hunksWithSourceExpansion, expandCode] = useSourceExpansion(hunks, CODE_B);
-    // console.log(hunksWithSourceExpansion)
+    const text = formatLines(diffLines(CODE_A, CODE_B), {context: 3});
+    console.log(text)
+    const [fileDiff] = parseDiff(text, {nearbySequences: 'zip'});
+    console.log(fileDiff)
+    const linesCount = CODE_A ? CODE_A.split('\n').length : 0;
+    // const options = {
+    //     highlight: true,
+    //     language: 'javascript',
+    //     refractor: refractor,
+    // };
+    //
+    // const [hunksWithSourceExpansion, expandCode] = useSourceExpansion(fileDiff.hunks, CODE_A);
+    // console.log(hunksWithSourceExpansion);
+    // const tokens = tokenize(hunksWithSourceExpansion);
 
     // const tokens = useMemo(() => hunks.length > 0 ? tokenize(hunks, options) : [], [hunks]);
 
 
-    // const tokens = useMemo(() => tokenize(fileDiff.hunks, options), [fileDiff.hunks]);
+    // const tokens = useMemo(() => {
+    //     console.log("hunksWithSourceExpansion");
+    //     console.log(hunksWithSourceExpansion);
+    //     console.log("tokenize(hunksWithSourceExpansion, options)");
+    //     console.log(tokenize(hunksWithSourceExpansion, options));
+    //     return tokenize(hunksWithSourceExpansion, options)
+    // }, [hunksWithSourceExpansion]);
 
     useEffect(() => {
         fetch(`/api/changes/${changeId}`)
@@ -130,13 +132,17 @@ function ChangeDetail(props) {
                 };
                 setFiles([...filesLst]);
                 setLoading(false);
-                const text = formatLines(diffLines(CODE_A, CODE_B), {context: 3});
-                console.log(text)
-                const [fileDiff] = parseDiff(text, {nearbySequences: 'zip'});
-                console.log(fileDiff)
-                setTokens(tokenize(fileDiff.hunks));
-                console.log(tokens);
-                setDiff(fileDiff);
+                // const text = formatLines(diffLines(CODE_A, CODE_B), {context: 3});
+                // console.log(text)
+                // const [fileDiff] = parseDiff(text, {nearbySequences: 'zip'});
+                // console.log(fileDiff)
+                // console.log("hunksWithSourceExpansion");
+                // console.log(hunksWithSourceExpansion);
+                // console.log("tokenize(hunksWithSourceExpansion, options)");
+                // console.log(tokenize(hunksWithSourceExpansion, options));
+                // setTokens(tokenize(hunksWithSourceExpansion));
+                // console.log(tokens);
+                // setDiff(fileDiff);
                 // tokenize(fileDiff.hunks, options);
             })
             .catch(reqErr => console.error(reqErr))
@@ -225,12 +231,14 @@ function ChangeDetail(props) {
                         </Box>
 
                         <div>
-                            {hunks != null &&
-                                <Diff viewType="split" diffType={type} hunks={hunks}
-                                      tokens={tokens}>
-                                    {hunks => hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} />)}
-                                </Diff>
-                            }
+                            {/*{Object.keys(tokens).length > 0 &&*/}
+                            {/*    <Diff viewType="split" diffType={fileDiff.type} hunks={hunksWithSourceExpansion}*/}
+                            {/*          tokens={tokens}>*/}
+                            {/*        /!*{hunks => hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} />)}*!/*/}
+                            {/*        {(hunks) => hunks.reduce(renderHunk, [])}*/}
+                            {/*    </Diff>*/}
+                            {/*}*/}
+                            <DiffView hunks={fileDiff.hunks} oldSource={CODE_A} linesCount={linesCount} />
                         </div>
                     </div>
                 )}
