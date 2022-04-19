@@ -1,4 +1,4 @@
-package com.gherald.springboot.repository;
+package com.gherald.springboot.dao;
 
 import com.gherald.springboot.model.Change;
 import org.springframework.data.repository.CrudRepository;

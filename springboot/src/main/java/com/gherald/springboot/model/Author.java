@@ -4,12 +4,9 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class User {
+public class Author {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
     private Integer accountId;
 
     private String name;
@@ -18,16 +15,8 @@ public class User {
 
     private String username;
 
-    @ElementCollection
-    private List<String> tags;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<Change> changes;
 
     public Integer getAccountId() {
         return accountId;
@@ -61,11 +50,11 @@ public class User {
         this.username = username;
     }
 
-    public List<String> getTags() {
-        return tags;
+    public List<Change> getChanges() {
+        return changes;
     }
 
-    public void setTags(List<String> tags) {
-        this.tags = tags;
+    public void setChanges(List<Change> changes) {
+        this.changes = changes;
     }
 }
