@@ -71,6 +71,8 @@ public class ChangeController {
             List files = new ArrayList<>();
             File file = new File();
             file.setFilename("test/file");
+            file.setInsertions(6);
+            file.setDeletions(8);
             file.setCodeA("Code A");
             file.setCodeB("Code B");
             file.setChange(change);
@@ -87,8 +89,12 @@ public class ChangeController {
     }
 
     @GetMapping("/api/changes")
-    public Iterable<Change> getChanges() {
-        return changeRepository.findAll();
+    public List<ChangeDto> getChanges() {
+        List<ChangeDto> changes = new ArrayList<>();
+        for (Change change : changeRepository.findAll()) {
+            changes.add(convertToDto(change));
+        }
+        return changes;
     }
 
     @GetMapping("/api/changes/{id}")
@@ -131,10 +137,10 @@ public class ChangeController {
 //    }
 
     private ChangeDto convertToDto(Change change) {
-        ChangeDto changeDto = new ChangeDto(change.getId(), change.getProject(), change.getBranch(), change.getSubject(), change.getStatus(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber());
+        ChangeDto changeDto = new ChangeDto(change.getId(), change.getProject(), change.getBranch(), change.getSubject(), change.getStatus(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg());
         List<FileDto> files = new ArrayList<>();
         for (File file : change.getFiles()) {
-            FileDto fileDto = new FileDto(file.getFilename(), file.getCodeA(), file.getCodeB());
+            FileDto fileDto = new FileDto(file.getFilename(), file.getStatus(), file.getInsertions(), file.getDeletions(), file.getCodeA(), file.getCodeB());
             files.add(fileDto);
         }
         changeDto.setFiles(files);

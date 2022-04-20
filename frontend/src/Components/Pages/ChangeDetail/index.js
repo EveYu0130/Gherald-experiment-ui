@@ -1,15 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { useParams } from "react-router-dom";
-import { Box, Paper, Grid, Typography, List, ListItem, ListItemText, Table, TableBody, TableCell, TableContainer,  TableHead, TableRow } from '@mui/material';
-import {parseDiff, Diff, Hunk, useSourceExpansion} from 'react-diff-view';
-import {refractor} from 'refractor'
+import { useParams, useLocation } from "react-router-dom";
+import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField } from '@mui/material';
 import 'react-diff-view/style/index.css';
-// import text from './diff';
-import {diffLines, formatLines} from 'unidiff';
-import { CODE_A, CODE_B } from "./myInput";
-import tokenize from './tokenize';
-import DiffView from '../../Pages/DiffView';
+
+import FileDiff from "../../Molecules/FileDiff";
+import AuthorPopover from "../../Atoms/AuthorPopover";
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -49,19 +45,35 @@ const Spinner = styled.div`
   margin-left: 48%;
 `;
 
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: '#1A2027',
-    padding: '10px',
-    textAlign: 'center',
-    color: '#000000',
-}));
+function Item(props: BoxProps) {
+    const { sx, ...other } = props;
+    return (
+        <Box
+            sx={{
+                bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : '#fff'),
+                color: (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800'),
+                border: '1px solid',
+                borderColor: (theme) =>
+                    theme.palette.mode === 'dark' ? 'grey.800' : 'grey.300',
+                p: 1,
+                borderRadius: 2,
+                fontSize: '0.875rem',
+                fontWeight: '700',
+                ...sx,
+            }}
+            {...other}
+        />
+    );
+}
 
 function NewlineText(props) {
     const text = props.text;
-    return text.split('\n').map(str => <p>{str}</p>);
+    if (text) {
+        return (<p>{text}</p>);
+    } else {
+        return (<br />);
+    }
 }
-
-const EMPTY_HUNKS = [];
 
 
 function ChangeDetail(props) {
@@ -70,37 +82,6 @@ function ChangeDetail(props) {
     const [loading, setLoading] = useState(true);
     const [change, setChange] = useState({});
     const [files, setFiles] = useState([]);
-    // const [{type, hunks}, setDiff] = useState('');
-    // const [type, setDiffType] = useState('');
-    // const [hunks, setDiffHunks] = useState('');
-    // const [tokens, setTokens] = useState({});
-
-
-    const text = formatLines(diffLines(CODE_A, CODE_B), {context: 3});
-    console.log(text)
-    const [fileDiff] = parseDiff(text, {nearbySequences: 'zip'});
-    console.log(fileDiff)
-    const linesCount = CODE_A ? CODE_A.split('\n').length : 0;
-    // const options = {
-    //     highlight: true,
-    //     language: 'javascript',
-    //     refractor: refractor,
-    // };
-    //
-    // const [hunksWithSourceExpansion, expandCode] = useSourceExpansion(fileDiff.hunks, CODE_A);
-    // console.log(hunksWithSourceExpansion);
-    // const tokens = tokenize(hunksWithSourceExpansion);
-
-    // const tokens = useMemo(() => hunks.length > 0 ? tokenize(hunks, options) : [], [hunks]);
-
-
-    // const tokens = useMemo(() => {
-    //     console.log("hunksWithSourceExpansion");
-    //     console.log(hunksWithSourceExpansion);
-    //     console.log("tokenize(hunksWithSourceExpansion, options)");
-    //     console.log(tokenize(hunksWithSourceExpansion, options));
-    //     return tokenize(hunksWithSourceExpansion, options)
-    // }, [hunksWithSourceExpansion]);
 
     useEffect(() => {
         fetch(`/api/changes/${changeId}`)
@@ -112,38 +93,12 @@ function ChangeDetail(props) {
                     project: data.project,
                     branch: data.branch,
                     updated: data.updated,
-                    // submitter: "" || data.submitter.name,
-                    number: data._number,
-                    owner: "" || data.owner.name,
-                    commitMsg: data.revisions[Object.keys(data.revisions)[0]].commit.message
+                    number: data.number,
+                    author: data.author,
+                    commitMsg: data.commitMsg
                 });
-                return fetch(`/api/changes/${changeId}/files`)
-            })
-            .then(results => results.json())
-            .then(data => {
-                let filesLst = [];
-                for (const [key, value] of Object.entries(data)) {
-                    filesLst.push({
-                        filename: key,
-                        status: value.status ? value.status : "",
-                        lines_inserted: value.lines_inserted ? value.lines_inserted : 0,
-                        lines_deleted: value.lines_deleted ? value.lines_deleted : 0
-                    });
-                };
-                setFiles([...filesLst]);
+                setFiles(data.files);
                 setLoading(false);
-                // const text = formatLines(diffLines(CODE_A, CODE_B), {context: 3});
-                // console.log(text)
-                // const [fileDiff] = parseDiff(text, {nearbySequences: 'zip'});
-                // console.log(fileDiff)
-                // console.log("hunksWithSourceExpansion");
-                // console.log(hunksWithSourceExpansion);
-                // console.log("tokenize(hunksWithSourceExpansion, options)");
-                // console.log(tokenize(hunksWithSourceExpansion, options));
-                // setTokens(tokenize(hunksWithSourceExpansion));
-                // console.log(tokens);
-                // setDiff(fileDiff);
-                // tokenize(fileDiff.hunks, options);
             })
             .catch(reqErr => console.error(reqErr))
     }, [])
@@ -155,91 +110,77 @@ function ChangeDetail(props) {
                     <Spinner/>
                 ) : (
                     <div>
-                        <Box sx={{ width: '100%' }}>
-                            <Typography variant="h5" component="div"  text-align="left">
-                                {change.number}: {change.subject}
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                gap: 1,
+                                gridTemplateColumns: 'repeat(8, 1fr)',
+                                gridTemplateRows: 'auto',
+                                gridTemplateAreas: `"subject subject subject subject subject subject subject subject"
+                                    "created_title created_info created_info created_info . . . ."
+                                    "author_title author_info author_info author_info . . . ."
+                                    "repo_title repo_info repo_info repo_info . . . ."
+                                    "branch_title branch_info branch_info branch_info . . . ."
+                                    "msg msg msg msg . . . ."`,
+                            }}
+                        >
+                            {/*<Box sx={{ gridArea: 'header', bgcolor: 'primary.main' }}>Header</Box>*/}
+                            <Typography variant="h5" component="div"  text-align="left" sx={{ gridArea: 'subject' }}>
+                                {change.subject}
                             </Typography>
-                            <Grid container spacing={2} direction="row" margin='0px'>
-                                <Grid container columnSpacing={1} direction="column" margin='0px'>
-                                    <Grid container direction="row" spacing={1} margin='0px'>
-                                        <Grid item xs="auto">
-                                            <Item>Status</Item>
-                                        </Grid>
-                                        <Grid item xs="auto">
-                                            <Item>{change.status}</Item>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container direction="row" spacing={1} margin='0px'>
-                                        <Grid item xs="auto">
-                                            <Item>Updated</Item>
-                                        </Grid>
-                                        <Grid item xs="auto">
-                                            <Item>{change.updated}</Item>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container direction="row" spacing={1} margin='0px'>
-                                        <Grid item xs="auto">
-                                            <Item>Owner</Item>
-                                        </Grid>
-                                        <Grid item xs="auto">
-                                            <Item>{change.owner}</Item>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container direction="row" spacing={1} margin='0px'>
-                                        <Grid item xs="auto">
-                                            <Item>Repo | Branch</Item>
-                                        </Grid>
-                                        <Grid item xs="auto">
-                                            <Item>{change.project} | {change.branch}</Item>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                                <Grid item xs="auto">
-                                    <Item><div><NewlineText text={change.commitMsg} /></div></Item>
-                                </Grid>
-                            </Grid>
+                            <Typography sx={{ gridArea: 'created_title' }}>Created</Typography>
+                            <Item sx={{ gridArea: 'created_info' }}>{change.updated}</Item>
+                            <Typography sx={{ gridArea: 'author_title' }}>Author</Typography>
+                            <Item sx={{ gridArea: 'author_info' }}><AuthorPopover author={change.author} /></Item>
+                            <Typography sx={{ gridArea: 'repo_title' }}>Repo</Typography>
+                            <Item sx={{ gridArea: 'repo_info' }}>{change.project}</Item>
+                            <Typography sx={{ gridArea: 'branch_title' }}>Branch</Typography>
+                            <Item sx={{ gridArea: 'branch_info' }}>{change.branch}</Item>
+                            <Item sx={{ gridArea: 'msg'}}>
+                                <div>
+                                    {change.commitMsg.split('\n').map((str) => (
+                                        <NewlineText text={str} />
+                                    ))}
+                                </div>
+                            </Item>
                         </Box>
 
                         <Box sx={{ width: '100%' }} padding='20px 0px 0px 0px'>
-                            <TableContainer component={Paper}>
-                                <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>File</TableCell>
-                                            <TableCell align="right">Additions</TableCell>
-                                            <TableCell align="right">Deletions</TableCell>
-                                            <TableCell align="right">""</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {files.map((file) => (
-                                            <TableRow
-                                                key={file.filename}
-                                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                            >
-                                                <TableCell component="th" scope="row">
-                                                    {file.filename}
-                                                </TableCell>
-                                                <TableCell align="right">{file.status ? "" : file.lines_inserted}</TableCell>
-                                                <TableCell align="right">{file.status ? "" : file.lines_deleted}</TableCell>
-                                                <TableCell align="right">Detail</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
+                            <Box sx={{ flexGrow: 1 }}>
+                                <AppBar position="static" color='transparent'>
+                                    <Toolbar>
+                                        <Typography component="div" sx={{ width: '77%', flexShrink: 0 }}>
+                                            File
+                                        </Typography>
+                                        <Typography component="div" sx={{ width: '10%', flexShrink: 0 }}>
+                                            Additions
+                                        </Typography>
+                                        <Typography component="div" sx={{ width: '13%', flexShrink: 0 }}>
+                                            Deletions
+                                        </Typography>
+                                    </Toolbar>
+                                </AppBar>
+                            </Box>
+                            <div>
+                                {files.map((file) => (
+                                    <FileDiff file={file} />
+                                ))}
+                            </div>
                         </Box>
 
-                        <div>
-                            {/*{Object.keys(tokens).length > 0 &&*/}
-                            {/*    <Diff viewType="split" diffType={fileDiff.type} hunks={hunksWithSourceExpansion}*/}
-                            {/*          tokens={tokens}>*/}
-                            {/*        /!*{hunks => hunks.map(hunk => <Hunk key={hunk.content} hunk={hunk} />)}*!/*/}
-                            {/*        {(hunks) => hunks.reduce(renderHunk, [])}*/}
-                            {/*    </Diff>*/}
-                            {/*}*/}
-                            <DiffView hunks={fileDiff.hunks} oldSource={CODE_A} linesCount={linesCount} />
-                        </div>
+                        {/*<Box*/}
+                        {/*    component="form"*/}
+                        {/*    sx={{*/}
+                        {/*        '& > :not(style)': { m: 1, width: '25ch' },*/}
+                        {/*    }}*/}
+                        {/*    noValidate*/}
+                        {/*    autoComplete="off"*/}
+                        {/*>*/}
+                        {/*    <TextField id="outlined-basic" label="File/Path" variant="outlined" />*/}
+                        {/*    <TextField id="outlined-basic" label="Line" variant="outlined" />*/}
+                        {/*    /!*<TextField id="standard-basic" label="Standard" variant="standard" />*!/*/}
+                        {/*    <TextField fullWidth label="Comment" id="comment" />*/}
+                        {/*</Box>*/}
                     </div>
                 )}
             </div>

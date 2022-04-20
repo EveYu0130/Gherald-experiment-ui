@@ -16,8 +16,10 @@ public class ChangeDto {
     private Integer number;
     private List<FileDto> files;
     private AuthorDto author;
+    private String parent;
+    private String commitMsg;
 
-    public ChangeDto(String id, String project, String branch, String subject, String status, String created, String updated, Integer insertions, Integer deletions, Integer number) {
+    public ChangeDto(String id, String project, String branch, String subject, String status, String created, String updated, Integer insertions, Integer deletions, Integer number, String parent, String commitMsg) {
         this.id = id;
         this.project = project;
         this.branch = branch;
@@ -28,6 +30,8 @@ public class ChangeDto {
         this.insertions = insertions;
         this.deletions = deletions;
         this.number = number;
+        this.parent = parent;
+        this.commitMsg = commitMsg;
     }
 
     public void setFiles(List<FileDto> files) {
@@ -132,5 +136,21 @@ public class ChangeDto {
 
     public AuthorDto getAuthor() {
         return author;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public String getCommitMsg() {
+        return commitMsg;
+    }
+
+    public void setCommitMsg(String commitMsg) {
+        this.commitMsg = commitMsg;
     }
 }

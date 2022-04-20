@@ -30,6 +30,11 @@ public class Change {
 
     private Integer number;
 
+    private String parent;
+
+    @Column(columnDefinition = "LONGTEXT")
+    private String commitMsg;
+
     @OneToMany(mappedBy = "change", cascade = CascadeType.ALL)
     private List<File> files;
 
@@ -138,5 +143,21 @@ public class Change {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public String getCommitMsg() {
+        return commitMsg;
+    }
+
+    public void setCommitMsg(String commitMsg) {
+        this.commitMsg = commitMsg;
     }
 }

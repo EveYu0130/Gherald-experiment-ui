@@ -11,8 +11,16 @@ public class File {
 
     private String filename;
 
+    private String status;
+
+    private Integer insertions;
+
+    private Integer deletions;
+
+    @Column(columnDefinition = "LONGTEXT")
     private String codeA;
 
+    @Column(columnDefinition = "LONGTEXT")
     private String codeB;
 
     @ManyToOne
@@ -32,6 +40,30 @@ public class File {
 
     public void setFilename(String filename) {
         this.filename = filename;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Integer getInsertions() {
+        return insertions;
+    }
+
+    public void setInsertions(Integer insertions) {
+        this.insertions = insertions;
+    }
+
+    public Integer getDeletions() {
+        return deletions;
+    }
+
+    public void setDeletions(Integer deletions) {
+        this.deletions = deletions;
     }
 
     public String getCodeA() {
