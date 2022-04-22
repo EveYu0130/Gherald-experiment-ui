@@ -15,9 +15,9 @@ import 'react-diff-view/style/index.css';
 
 import FileDiff from "../../Molecules/FileDiff";
 import AuthorPopover from "../../Atoms/AuthorPopover";
-import ChangeDetail from "../ChangeDetail";
 import Button from "../../Atoms/Button";
 import Questionnaire from "../Questionnaire";
+import CodeInspectionForm from "../../Molecules/CodeInspectionForm";
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -184,6 +184,7 @@ function CodeReview(props) {
                                     "branch_title branch_info branch_info branch_info . . . ."
                                     "msg msg msg msg . . . ."`,
                                         }}
+                                        padding='20px 0px'
                                     >
                                         {/*<Box sx={{ gridArea: 'header', bgcolor: 'primary.main' }}>Header</Box>*/}
                                         <Typography variant="h5" component="div"  text-align="left" sx={{ gridArea: 'subject' }}>
@@ -206,7 +207,7 @@ function CodeReview(props) {
                                         </Item>
                                     </Box>
 
-                                    <Box sx={{ width: '100%' }} padding='20px 0px 0px 0px'>
+                                    <Box sx={{ width: '100%' }} padding='20px 0px'>
                                         <Box sx={{ flexGrow: 1 }}>
                                             <AppBar position="static" color='transparent'>
                                                 <Toolbar>
@@ -242,6 +243,9 @@ function CodeReview(props) {
                                     {/*    /!*<TextField id="standard-basic" label="Standard" variant="standard" />*!/*/}
                                     {/*    <TextField fullWidth label="Comment" id="comment" />*/}
                                     {/*</Box>*/}
+
+                                    <CodeInspectionForm files={files.slice(1).map(file => file.filename)}/>
+
                                     <Box sx={{ width: '100%', textAlign: 'center' }}>
                                         <StyledButton onClick={handleSubmit}>
                                             <ButtonLabel>Submit</ButtonLabel>

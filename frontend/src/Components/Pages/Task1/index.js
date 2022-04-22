@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import styled, {css, keyframes} from 'styled-components';
 import Button from '../../Atoms/Button';
-import {BrowserRouter as Router, Link, Route, Switch, useRouteMatch} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Switch, useHistory, useRouteMatch, Redirect} from 'react-router-dom';
 import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider } from '@mui/material';
-import Table from "../../Molecules/Table";
 import ChangeDetail from "../ChangeDetail";
-import FileDiff from "../../Molecules/FileDiff";
 import Task2 from "../Task2";
+import DnD from "../../Molecules/DnD";
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -115,6 +114,8 @@ function Task1() {
     const [loading, setLoading] = useState(true);
     const [changes, setChanges] = useState([]);
 
+    const { path, url } = useRouteMatch();
+
     useEffect(() => {
         fetch('/api/changes')
             .then(results => results.json())
@@ -123,8 +124,6 @@ function Task1() {
                 setChanges(data);
             })
     }, [])
-
-    const { path, url } = useRouteMatch();
 
     return (
         <Router>
@@ -151,12 +150,7 @@ function Task1() {
                                 <Spinner/>
                             ) : (
                                 <div style={{ width: '100%' }}>
-                                    {changes.map((change) => (
-                                        <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)' }}>
-                                            <Item><Link to={`${url}/${change.id}`}>{change.subject}</Link></Item>
-                                            <Item>Select Order</Item>
-                                        </Box>
-                                    ))}
+                                    {changes.length > 0 && <DnD changes={changes} baseUrl={url} />}
                                     <Box sx={{ width: '100%', textAlign: 'center' }}>
                                         <Link to="/task2">
                                             <StyledButton>

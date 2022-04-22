@@ -15,6 +15,7 @@
     "@thaddeusjiang/react-sortable-list": "^0.0.3",
     "axios": "^0.26.1",
     "react": "^17.0.0",
+    "react-beautiful-dnd": "^13.1.0",
     "react-diff-view": "2.4.4",
     "react-dom": "^17.0.0",
     "react-router-dom": "^5.3.0",
