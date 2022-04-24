@@ -147,7 +147,7 @@ function CodeReview(props) {
 
     const handleSubmit = (e) => {
         console.log('Submit');
-        e.preventDefault();
+        // e.preventDefault();
         if  (parseInt(changeIdx) === changeIds.length) {
             history.push(`/questionnaire`);
             console.log(history);
@@ -250,9 +250,11 @@ function CodeReview(props) {
                                         <StyledButton onClick={handleSubmit}>
                                             <ButtonLabel>Submit</ButtonLabel>
                                         </StyledButton>
+                                        {/*<Link to={{pathname: parseInt(changeIdx) === changeIds.length ? `/questionnaire` : `${baseUrl}/${parseInt(changeIdx)+1}`, state: { baseUrl: baseUrl, changeIds: changeIds }}}>*/}
                                         <StyledButton onClick={handleSubmit}>
                                             <ButtonLabel>Skip</ButtonLabel>
                                         </StyledButton>
+                                        {/*</Link>*/}
                                         {/*<Link to={{pathname: `${nextUrl}`, state: { baseUrl: baseUrl, changeIds: changeIds }}}>*/}
                                         {/*    <StyledButton>*/}
                                         {/*        <ButtonLabel>Submit</ButtonLabel>*/}
