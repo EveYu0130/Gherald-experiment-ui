@@ -31,7 +31,7 @@ public class ChangeController {
     private AuthorRepository authorRepository;
 
     @PostMapping("/api/changes/add")
-    public String addChange(@RequestParam String id) {
+    public String createChange(@RequestParam String id) {
         Change change = new Change();
         String uri = String.format("https://codereview.qt-project.org/changes/?q=%s+AND+project:qt/qtbase+AND+branch:dev&o=DETAILED_LABELS&o=ALL_REVISIONS&o=ALL_FILES&o=ALL_COMMITS&o=DETAILED_ACCOUNTS", id);
         RestTemplate restTemplate = new RestTemplate();
@@ -137,7 +137,7 @@ public class ChangeController {
 //    }
 
     private ChangeDto convertToDto(Change change) {
-        ChangeDto changeDto = new ChangeDto(change.getId(), change.getProject(), change.getBranch(), change.getSubject(), change.getStatus(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg());
+        ChangeDto changeDto = new ChangeDto(change.getId(), change.getProject(), change.getBranch(), change.getSubject(), change.getStatus(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg(), change.getRiskLevel());
         List<FileDto> files = new ArrayList<>();
         for (File file : change.getFiles()) {
             FileDto fileDto = new FileDto(file.getFilename(), file.getStatus(), file.getInsertions(), file.getDeletions(), file.getCodeA(), file.getCodeB());

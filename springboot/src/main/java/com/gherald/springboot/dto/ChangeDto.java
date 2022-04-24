@@ -18,8 +18,9 @@ public class ChangeDto {
     private AuthorDto author;
     private String parent;
     private String commitMsg;
+    private Integer riskLevel;
 
-    public ChangeDto(String id, String project, String branch, String subject, String status, String created, String updated, Integer insertions, Integer deletions, Integer number, String parent, String commitMsg) {
+    public ChangeDto(String id, String project, String branch, String subject, String status, String created, String updated, Integer insertions, Integer deletions, Integer number, String parent, String commitMsg, Integer riskLevel) {
         this.id = id;
         this.project = project;
         this.branch = branch;
@@ -32,6 +33,7 @@ public class ChangeDto {
         this.number = number;
         this.parent = parent;
         this.commitMsg = commitMsg;
+        this.riskLevel = riskLevel;
     }
 
     public void setFiles(List<FileDto> files) {
@@ -152,5 +154,13 @@ public class ChangeDto {
 
     public void setCommitMsg(String commitMsg) {
         this.commitMsg = commitMsg;
+    }
+
+    public Integer getRiskLevel() {
+        return riskLevel;
+    }
+
+    public void setRiskLevel(Integer riskLevel) {
+        this.riskLevel = riskLevel;
     }
 }

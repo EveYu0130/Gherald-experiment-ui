@@ -32,6 +32,8 @@ public class Change {
 
     private String parent;
 
+    private Integer riskLevel;
+
     @Column(columnDefinition = "LONGTEXT")
     private String commitMsg;
 
@@ -40,6 +42,9 @@ public class Change {
 
     @ManyToOne
     private Author author;
+
+    @ManyToMany
+    private List<Participant> participant;
 
     public String getId() {
         return id;
@@ -159,5 +164,21 @@ public class Change {
 
     public void setCommitMsg(String commitMsg) {
         this.commitMsg = commitMsg;
+    }
+
+    public Integer getRiskLevel() {
+        return riskLevel;
+    }
+
+    public void setRiskLevel(Integer riskLevel) {
+        this.riskLevel = riskLevel;
+    }
+
+    public List<Participant> getParticipant() {
+        return participant;
+    }
+
+    public void setParticipant(List<Participant> participant) {
+        this.participant = participant;
     }
 }

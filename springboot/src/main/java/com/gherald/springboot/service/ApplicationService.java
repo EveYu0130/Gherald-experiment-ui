@@ -1,50 +1,95 @@
-//package com.gherald.springboot.service;
-//
-//import com.gherald.springboot.dao.ChangeRepository;
-//import com.gherald.springboot.dao.FileRepository;
-//import com.gherald.springboot.model.Change;
-//import org.json.JSONException;
-//import org.json.JSONObject;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.client.RestTemplate;
-//
-//import javax.transaction.Transactional;
-//
-//@Service
-//public class ApplicationService {
-//
-//    @Autowired
-//    ChangeRepository changeRepository;
-//
-//    @Autowired
-//    FileRepository fileRepository;
-//
-//    @Transactional
-//    public Change createChange(String id) {
-//        Change change = new Change();
-//        String uri = String.format("https://codereview.qt-project.org/changes/?q=%s+AND+project:qt/qtbase+AND+branch:dev&o=DETAILED_LABELS&o=ALL_REVISIONS&o=ALL_FILES&o=ALL_COMMITS&o=DETAILED_ACCOUNTS", id);
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(uri, String.class);
-//        result = result.substring(6, (result.length() - 2));
-//        try {
-//            JSONObject jsonObject = new JSONObject(result);
-//            change.setId(id);
-//            change.setProject(jsonObject.getString("project"));
-//            change.setBranch(jsonObject.getString("branch"));
-//            change.setSubject(jsonObject.getString("subject"));
-//            change.setStatus(jsonObject.getString("status"));
-//            change.setCreated(jsonObject.getString("created"));
-//            change.setUpdated(jsonObject.getString("updated"));
-//            change.setInsertions(jsonObject.getInt("insertions"));
-//            change.setDeletions(jsonObject.getInt("deletions"));
-//            change.setNumber(jsonObject.getInt("_number"));
-//            changeRepository.save(change);
-//            System.out.println("OBJECT : "+jsonObject.toString());
-//        } catch (JSONException err) {
-//            System.out.println("Exception : "+err.toString());
-//        }
-//        System.out.println(result);
-//        return change;
-//    }
-//}
+package com.gherald.springboot.service;
+
+import com.gherald.springboot.dao.*;
+import com.gherald.springboot.dto.ChangeReviewDto;
+import com.gherald.springboot.dto.CodeInspectionDto;
+import com.gherald.springboot.model.Change;
+import com.gherald.springboot.model.ChangeReview;
+import com.gherald.springboot.model.CodeInspection;
+import com.gherald.springboot.model.Participant;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+@Service
+public class ApplicationService {
+
+    @Autowired
+    ChangeRepository changeRepository;
+
+    @Autowired
+    FileRepository fileRepository;
+
+    @Autowired
+    ParticipantRepository participantRepository;
+
+    @Autowired
+    CodeInspectionRepository codeInspectionRepository;
+
+    @Autowired
+    ChangeReviewRepository changeReviewRepository;
+
+    @Transactional
+    public Participant createParticipant() {
+        Participant participant = new Participant();
+//        participant.setId(id);
+        List<Change> changes = new ArrayList<>();
+        List<Integer> riskLevelList = Arrays.asList(1, 2, 3);
+        for (Integer riskLevel : riskLevelList) {
+            List<Change> changesByRiskLevel = changeRepository.findAllByRiskLevel(riskLevel);
+            Change randomChangeByRiskLevel = changesByRiskLevel.get(new Random().nextInt(changesByRiskLevel.size()));
+            List<Participant> participants = randomChangeByRiskLevel.getParticipant();
+            participants.add(participant);
+            randomChangeByRiskLevel.setParticipant(participants);
+            changes.add(randomChangeByRiskLevel);
+        }
+        participant.setChanges(changes);
+        participantRepository.save(participant);
+        return participant;
+    }
+
+    @Transactional
+    public Participant initiateReview(String id) {
+        Participant participant = participantRepository.findParticipantById(id);
+        for (Change change : participant.getChanges()) {
+            String changeId = change.getId();
+            ChangeReview changeReview = new ChangeReview();
+            changeReview.setChangeId(changeId);
+            changeReview.setParticipant(participant);
+            changeReviewRepository.save(changeReview);
+        }
+        return participant;
+    }
+
+    @Transactional
+    public Participant updateRiskLevel(Integer reviewId, Integer riskLevel) {
+        ChangeReview changeReview = changeReviewRepository.findChangeReviewById(reviewId);
+        changeReview.setRiskLevel(riskLevel);
+        changeReviewRepository.save(changeReview);
+        Participant participant = changeReview.getParticipant();
+        return participant;
+    }
+
+    @Transactional
+    public Participant createCodeInspection(Integer reviewId, List<CodeInspectionDto> codeInspections) {
+        ChangeReview changeReview = changeReviewRepository.findChangeReviewById(reviewId);
+        for (CodeInspectionDto codeInspectionDto : codeInspections) {
+            CodeInspection codeInspection = new CodeInspection();
+            codeInspection.setFile(codeInspectionDto.getFile());
+            codeInspection.setLine(codeInspectionDto.getLine());
+            codeInspection.setComment(codeInspectionDto.getComment());
+            codeInspection.setChangeReview(changeReview);
+            codeInspectionRepository.save(codeInspection);
+        }
+        Participant participant = changeReview.getParticipant();
+        return participant;
+    }
+}
