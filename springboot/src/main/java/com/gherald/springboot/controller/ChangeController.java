@@ -1,12 +1,22 @@
 package com.gherald.springboot.controller;
 
+import com.gherald.springboot.dao.FileRepository;
+import com.gherald.springboot.dao.AuthorRepository;
+import com.gherald.springboot.dto.ChangeDto;
+import com.gherald.springboot.dto.FileDto;
+import com.gherald.springboot.dto.AuthorDto;
 import com.gherald.springboot.model.Change;
-import com.gherald.springboot.repository.ChangeRepository;
+import com.gherald.springboot.dao.ChangeRepository;
+import com.gherald.springboot.model.File;
+import com.gherald.springboot.model.Author;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ChangeController {
@@ -14,8 +24,14 @@ public class ChangeController {
     @Autowired
     private ChangeRepository changeRepository;
 
+    @Autowired
+    private FileRepository fileDiffRepository;
+
+    @Autowired
+    private AuthorRepository authorRepository;
+
     @PostMapping("/api/changes/add")
-    public String addChange(@RequestParam String id) {
+    public String createChange(@RequestParam String id) {
         Change change = new Change();
         String uri = String.format("https://codereview.qt-project.org/changes/?q=%s+AND+project:qt/qtbase+AND+branch:dev&o=DETAILED_LABELS&o=ALL_REVISIONS&o=ALL_FILES&o=ALL_COMMITS&o=DETAILED_ACCOUNTS", id);
         RestTemplate restTemplate = new RestTemplate();
@@ -43,16 +59,27 @@ public class ChangeController {
 //            userRepository.save(submitter);
 //            change.setSubmitter(submitter);
 //
-//            JSONObject ownerObj = jsonObject.getJSONObject("owner");
-//            User owner = new User();
-//            owner.setAccountId(ownerObj.getInt("_account_id"));
-//            owner.setName(ownerObj.getString("name"));
-//            owner.setEmail(ownerObj.getString("email"));
-//            owner.setUsername(ownerObj.getString("username"));
-//            userRepository.save(owner);
-//            change.setOwner(owner);
+            JSONObject ownerObj = jsonObject.getJSONObject("owner");
+            Author author = new Author();
+            author.setAccountId(ownerObj.getInt("_account_id"));
+            author.setName(ownerObj.getString("name"));
+            author.setEmail(ownerObj.getString("email"));
+            author.setUsername(ownerObj.getString("username"));
+            authorRepository.save(author);
+            change.setAuthor(author);
 
+            List files = new ArrayList<>();
+            File file = new File();
+            file.setFilename("test/file");
+            file.setInsertions(6);
+            file.setDeletions(8);
+            file.setCodeA("Code A");
+            file.setCodeB("Code B");
+            file.setChange(change);
+            files.add(file);
+//            change.setFiles(files);
             changeRepository.save(change);
+            fileDiffRepository.save(file);
             System.out.println("OBJECT : "+jsonObject.toString());
         } catch (JSONException err) {
             System.out.println("Exception : "+err.toString());
@@ -62,20 +89,63 @@ public class ChangeController {
     }
 
     @GetMapping("/api/changes")
-    public Iterable<Change> getChanges() {
-        return changeRepository.findAll();
+    public List<ChangeDto> getChanges() {
+        List<ChangeDto> changes = new ArrayList<>();
+        for (Change change : changeRepository.findAll()) {
+            changes.add(convertToDto(change));
+        }
+        return changes;
     }
 
     @GetMapping("/api/changes/{id}")
-//    public Change getChangeById(@PathVariable String id) {
-//        return changeRepository.findChangeById(id);
+//    public ResponseEntity<ChangeDto> getChangeById(@PathVariable String id) {
+//        ChangeDto changeDto = convertToDto(changeRepository.findChangeById(id));
+//        return new ResponseEntity<ChangeDto>(changeDto, HttpStatus.OK);
 //    }
-    public String getChangeById(@PathVariable String id) {
-        String uri = String.format("https://codereview.qt-project.org/changes/?q=%s+AND+project:qt/qtbase+AND+branch:dev&o=DETAILED_LABELS&o=CURRENT_REVISION&o=ALL_FILES&o=CURRENT_COMMIT&o=DETAILED_ACCOUNTS", id);
+    public ChangeDto getChangeById(@PathVariable String id) {
+        ChangeDto changeDto = convertToDto(changeRepository.findChangeById(id));
+        return changeDto;
+    }
+//    public String getChangeById(@PathVariable String id) {
+//        String uri = String.format("https://codereview.qt-project.org/changes/?q=%s+AND+project:qt/qtbase+AND+branch:dev&o=DETAILED_LABELS&o=CURRENT_REVISION&o=ALL_FILES&o=CURRENT_COMMIT&o=DETAILED_ACCOUNTS", id);
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.getForObject(uri, String.class);
+//        result = result.substring(6, (result.length() - 2));
+////        JSONObject jsonObject = new JSONObject(result);
+//        return result;
+//    }
+
+    @GetMapping("/api/changes/{id}/files")
+    public String getChangeFilesById(@PathVariable String id) {
+        String uri = String.format("https://codereview.qt-project.org/changes/%s/revisions/1/files", id);
         RestTemplate restTemplate = new RestTemplate();
         String result = restTemplate.getForObject(uri, String.class);
-        result = result.substring(6, (result.length() - 2));
-//        JSONObject jsonObject = new JSONObject(result);
+        result = result.substring(5, (result.length() - 1));
         return result;
+    }
+
+//    @GetMapping("/api/changes/{id}/{file}/diff")
+//    public String getChangeFilesById(@PathVariable String id, @PathVariable String file) {
+//        String uri = String.format("https://codereview.qt-project.org/changes/%s/revisions/1/files/%s/diff" +
+//                "", id, file);
+//        RestTemplate restTemplate = new RestTemplate();
+//        String result = restTemplate.getForObject(uri, String.class);
+//        ResponseEntity<String> response
+//                = restTemplate.getForEntity(uri, String.class);
+//        result = result.substring(5, (result.length() - 1));
+//        return result;
+//    }
+
+    private ChangeDto convertToDto(Change change) {
+        ChangeDto changeDto = new ChangeDto(change.getId(), change.getProject(), change.getBranch(), change.getSubject(), change.getStatus(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg(), change.getRiskLevel());
+        List<FileDto> files = new ArrayList<>();
+        for (File file : change.getFiles()) {
+            FileDto fileDto = new FileDto(file.getFilename(), file.getStatus(), file.getInsertions(), file.getDeletions(), file.getCodeA(), file.getCodeB());
+            files.add(fileDto);
+        }
+        changeDto.setFiles(files);
+        AuthorDto authorDto = new AuthorDto(change.getAuthor().getAccountId(), change.getAuthor().getName(), change.getAuthor().getEmail(), change.getAuthor().getUsername());
+        changeDto.setAuthor(authorDto);
+        return changeDto;
     }
 }

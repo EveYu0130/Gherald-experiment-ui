@@ -80,7 +80,7 @@ function ChangeList() {
                 setLoading(false);
                 setChanges(data);
             })
-    })
+    }, [])
 
     const { path, url } = useRouteMatch();
 
