@@ -7,10 +7,10 @@ import java.util.List;
 
 public class ParticipantDto {
     private String id;
-    private List<String> changes;
+    private List<ChangeDto> changes;
     private List<ChangeReviewDto> changeReviews;
 
-    public ParticipantDto(String id, List<String> changes, List<ChangeReviewDto> changeReviews) {
+    public ParticipantDto(String id, List<ChangeDto> changes, List<ChangeReviewDto> changeReviews) {
         this.id = id;
         this.changes = changes;
         this.changeReviews = changeReviews;
@@ -24,11 +24,11 @@ public class ParticipantDto {
         this.id = id;
     }
 
-    public List<String> getChanges() {
+    public List<ChangeDto> getChanges() {
         return changes;
     }
 
-    public void setChanges(List<String> changes) {
+    public void setChanges(List<ChangeDto> changes) {
         this.changes = changes;
     }
 

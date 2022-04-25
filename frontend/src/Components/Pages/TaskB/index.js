@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import styled, {css, keyframes} from 'styled-components';
 import Button from '../../Atoms/Button';
-import {BrowserRouter as Router, Link, Route, Switch, useHistory, useRouteMatch, Redirect} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Switch, useRouteMatch} from 'react-router-dom';
 import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider } from '@mui/material';
+import Table from "../../Molecules/Table";
 import ChangeDetail from "../ChangeDetail";
-import Task2 from "../Task2";
-import DnD from "../../Molecules/DnD";
+import FileDiff from "../../Molecules/FileDiff";
+import CodeReview from "../CodeReview";
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -110,11 +111,9 @@ function Item(props: BoxProps) {
     );
 }
 
-function Task1() {
+function TaskB() {
     const [loading, setLoading] = useState(true);
     const [changes, setChanges] = useState([]);
-
-    const { path, url } = useRouteMatch();
 
     useEffect(() => {
         fetch('/api/changes')
@@ -125,12 +124,14 @@ function Task1() {
             })
     }, [])
 
+    const { path, url } = useRouteMatch();
+
     return (
         <Router>
             <Switch>
                 <Route exact path={path}>
                     <Wrapper>
-                        <Header>Task 1: Rank the Changes</Header>
+                        <Header>Task 2: Conduct Code Reviews</Header>
                         <Divider />
 
                         <Divider />
@@ -139,41 +140,27 @@ function Task1() {
                                 Task Description
                             </Typography>
                             <Typography component="div"  text-align="center">
-                                <p>Here you are provided with three code changes.</p>
-                                <p>In this task, you are expected to rank these changes based on your estimated risk levels.</p>
-                                <p>Please rank these changes in an ascending order (1=Most risky, 3=Least risky).</p>
+                                <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
+                                <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
+                                <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottome of the code review page.</p>
+                                <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
                             </Typography>
                         </Box>
 
-                        <div>
-                            {loading ? (
-                                <Spinner/>
-                            ) : (
-                                <div style={{ width: '100%' }}>
-                                    {changes.length > 0 && <DnD changes={changes} baseUrl={url} />}
-                                    <Box sx={{ width: '100%', textAlign: 'center' }}>
-                                        <Link to="/task2">
-                                            <StyledButton>
-                                                <ButtonLabel>Submit</ButtonLabel>
-                                            </StyledButton>
-                                        </Link>
-                                        <Link to="/task2">
-                                            <StyledButton>
-                                                <ButtonLabel>Skip</ButtonLabel>
-                                            </StyledButton>
-                                        </Link>
-                                    </Box>
-                                </div>
-                            )}
-                        </div>
+                        <Box sx={{ width: '100%', textAlign: 'center' }}>
+                            <Link to={{pathname: `${url}/1`, state: { baseUrl: url, changeIds: changes.map(change => change.id) }}}>
+                                <StyledButton>
+                                    <ButtonLabel>Ready</ButtonLabel>
+                                </StyledButton>
+                            </Link>
+                        </Box>
 
                     </Wrapper>
                 </Route>
-                <Route path={`${path}/:changeId`} component={ChangeDetail} />
-                <Route path={`/task2`} component={Task2} />
+                <Route path={`${path}/:changeIdx`} component={CodeReview} />
             </Switch>
         </Router>
     );
 }
 
-export default Task1;
+export default TaskB;

@@ -1,13 +1,7 @@
 package com.gherald.springboot.controller;
 
-import com.gherald.springboot.dao.ChangeRepository;
-import com.gherald.springboot.dto.ChangeReviewDto;
-import com.gherald.springboot.dto.CodeInspectionDto;
-import com.gherald.springboot.dto.ParticipantDto;
-import com.gherald.springboot.model.Change;
-import com.gherald.springboot.model.ChangeReview;
-import com.gherald.springboot.model.CodeInspection;
-import com.gherald.springboot.model.Participant;
+import com.gherald.springboot.dto.*;
+import com.gherald.springboot.model.*;
 import com.gherald.springboot.dao.ParticipantRepository;
 import com.gherald.springboot.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +40,7 @@ public class ParticipantController {
         return participants;
     }
 
-    @GetMapping("/api/participants/find/{id}")
+    @GetMapping("/api/participants/{id}")
     public ParticipantDto findParticipantById(@PathVariable String id) {
         return convertToDto(participantRepository.findParticipantById(id));
     }
@@ -64,9 +58,9 @@ public class ParticipantController {
     }
 
     private ParticipantDto convertToDto(Participant participant)  {
-        List<String> changeIds = new ArrayList<>();
+        List<ChangeDto> changes = new ArrayList<>();
         for (Change change : participant.getChanges()) {
-            changeIds.add(change.getId());
+            changes.add(convertToDto(change));
         }
         List<ChangeReviewDto> changeReviews = new ArrayList<>();
         if (participant.getChangeReviews() != null) {
@@ -74,8 +68,21 @@ public class ParticipantController {
                 changeReviews.add(convertToDto(changeReview));
             }
         }
-        ParticipantDto participantDto = new ParticipantDto(participant.getId(), changeIds, changeReviews);
+        ParticipantDto participantDto = new ParticipantDto(participant.getId(), changes, changeReviews);
         return participantDto;
+    }
+
+    public ChangeDto convertToDto(Change change) {
+        ChangeDto changeDto = new ChangeDto(change.getId(), change.getProject(), change.getBranch(), change.getSubject(), change.getStatus(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg(), change.getRiskLevel());
+        List<FileDto> files = new ArrayList<>();
+        for (File file : change.getFiles()) {
+            FileDto fileDto = new FileDto(file.getFilename(), file.getStatus(), file.getInsertions(), file.getDeletions(), file.getCodeA(), file.getCodeB());
+            files.add(fileDto);
+        }
+        changeDto.setFiles(files);
+        AuthorDto authorDto = new AuthorDto(change.getAuthor().getAccountId(), change.getAuthor().getName(), change.getAuthor().getEmail(), change.getAuthor().getUsername());
+        changeDto.setAuthor(authorDto);
+        return changeDto;
     }
 
     private ChangeReviewDto convertToDto(ChangeReview changeReview) {
