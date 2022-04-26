@@ -98,22 +98,10 @@ public class ChangeController {
     }
 
     @GetMapping("/api/changes/{id}")
-//    public ResponseEntity<ChangeDto> getChangeById(@PathVariable String id) {
-//        ChangeDto changeDto = convertToDto(changeRepository.findChangeById(id));
-//        return new ResponseEntity<ChangeDto>(changeDto, HttpStatus.OK);
-//    }
     public ChangeDto getChangeById(@PathVariable String id) {
         ChangeDto changeDto = convertToDto(changeRepository.findChangeById(id));
         return changeDto;
     }
-//    public String getChangeById(@PathVariable String id) {
-//        String uri = String.format("https://codereview.qt-project.org/changes/?q=%s+AND+project:qt/qtbase+AND+branch:dev&o=DETAILED_LABELS&o=CURRENT_REVISION&o=ALL_FILES&o=CURRENT_COMMIT&o=DETAILED_ACCOUNTS", id);
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(uri, String.class);
-//        result = result.substring(6, (result.length() - 2));
-////        JSONObject jsonObject = new JSONObject(result);
-//        return result;
-//    }
 
     @GetMapping("/api/changes/{id}/files")
     public String getChangeFilesById(@PathVariable String id) {
@@ -124,17 +112,6 @@ public class ChangeController {
         return result;
     }
 
-//    @GetMapping("/api/changes/{id}/{file}/diff")
-//    public String getChangeFilesById(@PathVariable String id, @PathVariable String file) {
-//        String uri = String.format("https://codereview.qt-project.org/changes/%s/revisions/1/files/%s/diff" +
-//                "", id, file);
-//        RestTemplate restTemplate = new RestTemplate();
-//        String result = restTemplate.getForObject(uri, String.class);
-//        ResponseEntity<String> response
-//                = restTemplate.getForEntity(uri, String.class);
-//        result = result.substring(5, (result.length() - 1));
-//        return result;
-//    }
 
     private ChangeDto convertToDto(Change change) {
         ChangeDto changeDto = new ChangeDto(change.getId(), change.getProject(), change.getBranch(), change.getSubject(), change.getStatus(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg(), change.getRiskLevel());

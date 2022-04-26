@@ -97,7 +97,7 @@ function MainPage() {
             </Box>
 
             <Box sx={{ width: '100%', textAlign: 'center' }}>
-                <Link to="/task1">
+                <Link to="/taskA">
                     <StyledButton>
                         <ButtonLabel>Start Experiment</ButtonLabel>
                     </StyledButton>

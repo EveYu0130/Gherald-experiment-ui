@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import styled, {css, keyframes} from 'styled-components';
 import Button from '../../Atoms/Button';
-import {BrowserRouter as Router, Link, Route, Switch, useRouteMatch} from 'react-router-dom';
+import {BrowserRouter as Router, Link, Route, Switch, useHistory, useRouteMatch, Redirect} from 'react-router-dom';
 import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider } from '@mui/material';
-import Table from "../../Molecules/Table";
 import ChangeDetail from "../ChangeDetail";
-import FileDiff from "../../Molecules/FileDiff";
-import CodeReview from "../CodeReview";
+import TaskB from "../TaskB";
+import DnD from "../../Molecules/DnD";
+import {useAuth} from "../../../auth";
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -111,56 +111,70 @@ function Item(props: BoxProps) {
     );
 }
 
-function Task2() {
+function TaskA() {
     const [loading, setLoading] = useState(true);
     const [changes, setChanges] = useState([]);
-
-    useEffect(() => {
-        fetch('/api/changes')
-            .then(results => results.json())
-            .then(data => {
-                setLoading(false);
-                setChanges(data);
-            })
-    }, [])
+    const [ready, setReady] = useState(false);
 
     const { path, url } = useRouteMatch();
 
+    let auth = useAuth();
+
+    useEffect(() => {
+        fetch(`/api/participants/${auth.user}`)
+            .then(results => results.json())
+            .then(data => {
+                setLoading(false);
+                setChanges(data.changeReviews);
+            })
+    }, [])
+
+    const handleReadyClick = () => {
+        setReady(true);
+    }
+
     return (
-        <Router>
-            <Switch>
-                <Route exact path={path}>
-                    <Wrapper>
-                        <Header>Task 2: Conduct Code Reviews</Header>
-                        <Divider />
+        <Switch>
+            <Route exact path={path}>
+                <Wrapper>
+                    <Header>Task 1: Rank the Changes</Header>
+                    <Divider />
 
-                        <Divider />
-                        <Box sx={{ width: '100%' }} padding='20px'>
-                            <Typography variant="h6" component="div"  text-align="center">
-                                Task Description
-                            </Typography>
-                            <Typography component="div"  text-align="center">
-                                <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
-                                <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
-                                <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottome of the code review page.</p>
-                                <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
-                            </Typography>
-                        </Box>
+                    <Divider />
+                    <Box sx={{ width: '100%' }} padding='20px'>
+                        <Typography variant="h6" component="div"  text-align="center">
+                            Task Description
+                        </Typography>
+                        <Typography component="div"  text-align="center">
+                            <p>Here you are provided with three code changes.</p>
+                            <p>In this task, you are expected to rank these changes based on your estimated risk levels.</p>
+                            <p>Please rank these changes in an ascending order (1=Most risky, 3=Least risky).</p>
+                            <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
+                        </Typography>
+                    </Box>
 
+                    {!ready ? (
                         <Box sx={{ width: '100%', textAlign: 'center' }}>
-                            <Link to={{pathname: `${url}/1`, state: { baseUrl: url, changeIds: changes.map(change => change.id) }}}>
-                                <StyledButton>
-                                    <ButtonLabel>Ready</ButtonLabel>
-                                </StyledButton>
-                            </Link>
+                            <StyledButton onClick={handleReadyClick}>
+                                <ButtonLabel>Ready</ButtonLabel>
+                            </StyledButton>
                         </Box>
-
-                    </Wrapper>
-                </Route>
-                <Route path={`${path}/:changeIdx`} component={CodeReview} />
-            </Switch>
-        </Router>
+                    ) : (
+                        <div>
+                            {loading ? (
+                                <Spinner/>
+                            ) : (
+                                <div style={{ width: '100%' }}>
+                                    {changes.length > 0 && <DnD changes={changes} baseUrl={url} />}
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </Wrapper>
+            </Route>
+            <Route path={`${path}/:changeId`} component={ChangeDetail} />
+        </Switch>
     );
 }
 
-export default Task2;
+export default TaskA;

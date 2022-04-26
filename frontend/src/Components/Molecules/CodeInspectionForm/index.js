@@ -3,6 +3,33 @@ import {AppBar, Box, TextField, Toolbar, Typography, MenuItem, Select, IconButto
 import DynamicTable from "../DynamicTable";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import {Link, useHistory} from "react-router-dom";
+import styled from "styled-components";
+import Button from "../../Atoms/Button";
+
+const StyledButton = styled(Button)`
+  color: #fff;
+  flex-shrink: 0;
+  padding: 8px 16px;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 200px;
+  margin: 2% 1%;
+  text-align: center;
+
+  @media (max-width: 375px) {
+    height: 52px;
+  }
+
+  &:disabled {
+    opacity: 0.65; 
+    cursor: not-allowed;
+  }
+`;
+
+const ButtonLabel = styled.label`
+  margin-left: 5px;
+`;
 
 const AddButton = props => {
     console.log("AddButton", props);
@@ -46,14 +73,6 @@ const TableSelectInput = props => {
     </Select>);
 };
 
-const TableTextInput = props => {
-    console.log("TableInput", props);
-    const { column, row, cell, updateData } = props;
-    const onChange = e => updateData(row.index, column.id, e.target.value);
-    return <TextField variant="standard" value={cell.value} onChange={onChange} />;
-    // return <input type="number" value={cell.value} onChange={onChange} />;
-};
-
 const TableInput = props => {
     console.log("TableInput", props);
     const { column, row, cell, updateData } = props;
@@ -62,7 +81,19 @@ const TableInput = props => {
     // return <input type="number" value={cell.value} onChange={onChange} />;
 };
 
-function CodeInspectionForm(props) {
+function CodeInspectionForm({ files, reviewIdx, reviews, baseUrl }) {
+    const initialData = [
+        {
+            control: null,
+            file: null,
+            line: null,
+            comment: null
+        }
+    ];
+    const reviewId = reviews[reviewIdx-1].reviewId
+    const [data, setData] = useState(initialData);
+    const history = useHistory();
+
     const columns = useMemo(
         () => [
             {
@@ -89,22 +120,6 @@ function CodeInspectionForm(props) {
         []
     );
 
-    const initialData = [
-        {
-            control: null,
-            file: "file1",
-            line: 2,
-            comment: "test comment"
-        },
-        {
-            control: null,
-            file: "file2",
-            line: 20,
-            comment: "test comment2"
-        }
-    ];
-    const [data, setData] = useState(initialData);
-
     const updateData = (rowIndex, columnID, value) => {
         setData(oldData =>
             oldData.map((row, index) => {
@@ -129,8 +144,34 @@ function CodeInspectionForm(props) {
 
     const addData = () => setData(old => [...old, { control: null, file: null, line: null, comment: null }]);
 
+    const handleSubmit = (e) => {
+        console.log('Submit');
+        e.preventDefault();
+        console.log(data);
+        fetch('/api/code-review', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({id: reviewId, codeInspections: data.map(({file, line, comment}) => ({file, line, comment}))})
+        }).then(response => {
+            if  (parseInt(reviewIdx) === reviews.length) {
+                history.push(`/questionnaire`);
+                console.log(history);
+            } else {
+                history.push({
+                    pathname: `${baseUrl}/${parseInt(reviewIdx)+1}`,
+                    state: { baseUrl: baseUrl, reviews: reviews }
+                });
+            }
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
+        });
+    }
+
     return (
-        <Box sx={{ width: '100%'}} padding='20px 0px'>
+        <Box sx={{ width: '100%'}} padding='20px 0px' component="form" onSubmit={handleSubmit}>
             <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
                 <AppBar position="static" color='transparent'>
                     <Toolbar>
@@ -140,7 +181,20 @@ function CodeInspectionForm(props) {
                     </Toolbar>
                 </AppBar>
             </Box>
-            <DynamicTable columns={columns} data={data} updateData={updateData} deleteData={deleteData} addData={addData} selectOptions={props.files}/>
+            <DynamicTable columns={columns} data={data} updateData={updateData} deleteData={deleteData} addData={addData} selectOptions={files}/>
+            <Box sx={{ width: '100%', textAlign: 'center' }}>
+                <StyledButton type="submit"
+                              fullWidth
+                              variant="contained"
+                              sx={{ mt: 3, mb: 2 }}>
+                    <ButtonLabel>Submit</ButtonLabel>
+                </StyledButton>
+                <Link to={{pathname: parseInt(reviewIdx) === reviews.length ? `/questionnaire` : `${baseUrl}/${parseInt(reviewIdx)+1}`, state: { baseUrl: baseUrl, reviews: reviews }}} style={{ textDecoration: 'none' }}>
+                    <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                        <ButtonLabel>Skip</ButtonLabel>
+                    </StyledButton>
+                </Link>
+            </Box>
         </Box>
     )
 

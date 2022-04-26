@@ -1,24 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
+import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import PrivateRoute from "./privateRoute";
+import MainPage from "./Components/Pages/MainPage";
+import Login from "./Components/Pages/Login";
+import ParticipantList from "./Components/Pages/ParticipantList";
+import ChangeList from "./Components/Pages/ChangeList";
+import TaskA from "./Components/Pages/TaskA";
+import TaskB from "./Components/Pages/TaskB";
+import Questionnaire from "./Components/Pages/Questionnaire";
+import React from "react";
+import {ProvideAuth} from "./auth";
+import CodeReview from "./Components/Pages/CodeReview";
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <ProvideAuth>
+          <BrowserRouter>
+              <Switch>
+                  <PrivateRoute exact path="/" component={MainPage} />
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/participants" component={ParticipantList}>
+                  </Route>
+                  <Route exact path="/changes" component={ChangeList}>
+                  </Route>
+                  <PrivateRoute path="/taskA" component={TaskA}>
+                  </PrivateRoute>
+                  <PrivateRoute path="/taskB" component={TaskB}>
+                  </PrivateRoute>
+                  <PrivateRoute exact path="/questionnaire" component={Questionnaire}>
+                  </PrivateRoute>
+              </Switch>
+          </BrowserRouter>
+      </ProvideAuth>
   );
 }
 

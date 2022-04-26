@@ -40,18 +40,6 @@ public class ApplicationService {
     @Transactional
     public Participant createParticipant() {
         Participant participant = new Participant();
-//        participant.setId(id);
-        List<Change> changes = new ArrayList<>();
-        List<Integer> riskLevelList = Arrays.asList(1, 2, 3);
-        for (Integer riskLevel : riskLevelList) {
-            List<Change> changesByRiskLevel = changeRepository.findAllByRiskLevel(riskLevel);
-            Change randomChangeByRiskLevel = changesByRiskLevel.get(new Random().nextInt(changesByRiskLevel.size()));
-            List<Participant> participants = randomChangeByRiskLevel.getParticipant();
-            participants.add(participant);
-            randomChangeByRiskLevel.setParticipant(participants);
-            changes.add(randomChangeByRiskLevel);
-        }
-        participant.setChanges(changes);
         participantRepository.save(participant);
         return participant;
     }
@@ -59,27 +47,38 @@ public class ApplicationService {
     @Transactional
     public Participant initiateReview(String id) {
         Participant participant = participantRepository.findParticipantById(id);
-        for (Change change : participant.getChanges()) {
-            String changeId = change.getId();
+        List<Integer> riskLevelList = Arrays.asList(1, 2, 3);
+        for (Integer riskLevel : riskLevelList) {
+            List<Change> changesByRiskLevel = changeRepository.findAllByRiskLevel(riskLevel);
+            Change randomChangeByRiskLevel = changesByRiskLevel.get(new Random().nextInt(changesByRiskLevel.size()));
             ChangeReview changeReview = new ChangeReview();
-            changeReview.setChangeId(changeId);
+            changeReview.setChange(randomChangeByRiskLevel);
             changeReview.setParticipant(participant);
             changeReviewRepository.save(changeReview);
         }
         return participant;
     }
 
+//    @Transactional
+//    public Participant updateRiskLevel(Integer reviewId, Integer riskLevel) {
+//        ChangeReview changeReview = changeReviewRepository.findChangeReviewById(reviewId);
+//        changeReview.setRiskLevel(riskLevel);
+//        changeReviewRepository.save(changeReview);
+//        Participant participant = changeReview.getParticipant();
+//        return participant;
+//    }
+
     @Transactional
-    public Participant updateRiskLevel(Integer reviewId, Integer riskLevel) {
-        ChangeReview changeReview = changeReviewRepository.findChangeReviewById(reviewId);
-        changeReview.setRiskLevel(riskLevel);
-        changeReviewRepository.save(changeReview);
-        Participant participant = changeReview.getParticipant();
-        return participant;
+    public void updateRiskLevel(List<ChangeReviewDto> changeReviews) {
+        for (ChangeReviewDto changeReviewDto : changeReviews) {
+            ChangeReview changeReview = changeReviewRepository.findChangeReviewById(changeReviewDto.getId());
+            changeReview.setRiskLevel(changeReviewDto.getRiskLevel());
+            changeReviewRepository.save(changeReview);
+        }
     }
 
     @Transactional
-    public Participant createCodeInspection(Integer reviewId, List<CodeInspectionDto> codeInspections) {
+    public ChangeReview createCodeInspection(Integer reviewId, List<CodeInspectionDto> codeInspections) {
         ChangeReview changeReview = changeReviewRepository.findChangeReviewById(reviewId);
         for (CodeInspectionDto codeInspectionDto : codeInspections) {
             CodeInspection codeInspection = new CodeInspection();
@@ -89,7 +88,6 @@ public class ApplicationService {
             codeInspection.setChangeReview(changeReview);
             codeInspectionRepository.save(codeInspection);
         }
-        Participant participant = changeReview.getParticipant();
-        return participant;
+        return changeReview;
     }
 }

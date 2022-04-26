@@ -13,9 +13,6 @@ public class Participant {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
-    @ManyToMany(mappedBy = "participant", cascade = CascadeType.ALL)
-    private List<Change> changes;
-
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     private List<ChangeReview> changeReviews;
 
@@ -25,14 +22,6 @@ public class Participant {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public List<Change> getChanges() {
-        return changes;
-    }
-
-    public void setChanges(List<Change> changes) {
-        this.changes = changes;
     }
 
     public List<ChangeReview> getChangeReviews() {

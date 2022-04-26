@@ -10,14 +10,27 @@ import {
     useRouteMatch,
     useHistory
 } from "react-router-dom";
-import {Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider} from '@mui/material';
+import {
+    Box,
+    Paper,
+    Grid,
+    Typography,
+    AppBar,
+    Toolbar,
+    TextField,
+    Divider,
+    Avatar,
+    IconButton,
+    CardActions
+} from '@mui/material';
 import 'react-diff-view/style/index.css';
 
 import FileDiff from "../../Molecules/FileDiff";
 import AuthorPopover from "../../Atoms/AuthorPopover";
 import Button from "../../Atoms/Button";
-import Questionnaire from "../Questionnaire";
 import CodeInspectionForm from "../../Molecules/CodeInspectionForm";
+import DifferenceIcon from '@mui/icons-material/Difference';
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -113,11 +126,10 @@ function NewlineText(props) {
 
 
 function CodeReview(props) {
-    const { changeIdx } = useParams();
+    const { reviewIdx } = useParams();
     const location = useLocation()
-    const { baseUrl, changeIds } = location.state
-    const changeId = changeIds[changeIdx-1]
-    // const nextUrl = (parseInt(changeIdx) === changeIds.length) ? `/questionnaire` : `${baseUrl}/${parseInt(changeIdx)+1}`
+    const { baseUrl, reviews } = location.state
+    const changeId = reviews[reviewIdx-1].changeId
 
     const [loading, setLoading] = useState(true);
     const [change, setChange] = useState({});
@@ -137,142 +149,158 @@ function CodeReview(props) {
                     updated: data.updated,
                     number: data.number,
                     author: data.author,
-                    commitMsg: data.commitMsg
+                    commitMsg: data.commitMsg,
+                    parent: data.parent,
+                    insertions: data.insertions,
+                    deletions: data.deletions
                 });
                 setFiles(data.files);
                 setLoading(false);
             })
             .catch(reqErr => console.error(reqErr))
-    }, [props.match.params.changeIdx])
+    }, [props.match.params.reviewIdx])
 
-    const handleSubmit = (e) => {
-        console.log('Submit');
+    // const handleSubmit = (e) => {
+    //     console.log('Submit');
+    //     // e.preventDefault();
+    //     if  (parseInt(changeIdx) === changeIds.length) {
+    //         history.push(`/questionnaire`);
+    //         console.log(history);
+    //     } else {
+    //         history.push({
+    //             pathname: `${baseUrl}/${parseInt(changeIdx)+1}`,
+    //             state: { baseUrl: baseUrl, changeIds: changeIds }
+    //         });
+    //     }
+    // }
+
+    const handleOpenWindow = (e) => {
         e.preventDefault();
-        if  (parseInt(changeIdx) === changeIds.length) {
-            history.push(`/questionnaire`);
-            console.log(history);
-        } else {
-            history.push({
-                pathname: `${baseUrl}/${parseInt(changeIdx)+1}`,
-                state: { baseUrl: baseUrl, changeIds: changeIds }
-            });
-        }
+        const url = `https://github.com/${change.project}/tree/${change.parent}`;
+        window.open(url);
     }
 
-    const { path } = useRouteMatch();
-
     return (
-        <Router>
-            <Switch>
-                <Route exact path={path}>
-                    <Wrapper>
-                        <div>
-                            {loading ? (
-                                <Spinner/>
-                            ) : (
-                                <div>
-                                    <Box
-                                        sx={{
-                                            display: 'grid',
-                                            gap: 1,
-                                            gridTemplateColumns: 'repeat(8, 1fr)',
-                                            gridTemplateRows: 'auto',
-                                            gridTemplateAreas: `"subject subject subject subject subject subject subject subject"
+        <Wrapper>
+            <div>
+                {loading ? (
+                    <Spinner/>
+                ) : (
+                    <div>
+                        <Box
+                            sx={{
+                                display: 'grid',
+                                gap: 1,
+                                gridTemplateColumns: 'repeat(8, 1fr)',
+                                gridTemplateRows: 'auto',
+                                gridTemplateAreas: `"subject subject subject subject subject subject subject subject"
                                     "created_title created_info created_info created_info . . . ."
                                     "author_title author_info author_info author_info . . . ."
                                     "repo_title repo_info repo_info repo_info . . . ."
                                     "branch_title branch_info branch_info branch_info . . . ."
                                     "msg msg msg msg . . . ."`,
-                                        }}
-                                        padding='20px 0px'
-                                    >
-                                        {/*<Box sx={{ gridArea: 'header', bgcolor: 'primary.main' }}>Header</Box>*/}
-                                        <Typography variant="h5" component="div"  text-align="left" sx={{ gridArea: 'subject' }}>
-                                            Change {changeIdx}: {change.subject}
-                                        </Typography>
-                                        <Typography sx={{ gridArea: 'created_title' }}>Created</Typography>
-                                        <Item sx={{ gridArea: 'created_info' }}>{change.updated}</Item>
-                                        <Typography sx={{ gridArea: 'author_title' }}>Author</Typography>
-                                        <Item sx={{ gridArea: 'author_info' }}><AuthorPopover author={change.author} /></Item>
-                                        <Typography sx={{ gridArea: 'repo_title' }}>Repo</Typography>
-                                        <Item sx={{ gridArea: 'repo_info' }}>{change.project}</Item>
-                                        <Typography sx={{ gridArea: 'branch_title' }}>Branch</Typography>
-                                        <Item sx={{ gridArea: 'branch_info' }}>{change.branch}</Item>
-                                        <Item sx={{ gridArea: 'msg'}}>
-                                            <div>
-                                                {change.commitMsg.split('\n').map((str) => (
-                                                    <NewlineText text={str} />
-                                                ))}
-                                            </div>
-                                        </Item>
-                                    </Box>
-
-                                    <Box sx={{ width: '100%' }} padding='20px 0px'>
-                                        <Box sx={{ flexGrow: 1 }}>
-                                            <AppBar position="static" color='transparent'>
-                                                <Toolbar>
-                                                    <Typography component="div" sx={{ width: '77%', flexShrink: 0 }}>
-                                                        File
-                                                    </Typography>
-                                                    <Typography component="div" sx={{ width: '10%', flexShrink: 0 }}>
-                                                        Additions
-                                                    </Typography>
-                                                    <Typography component="div" sx={{ width: '13%', flexShrink: 0 }}>
-                                                        Deletions
-                                                    </Typography>
-                                                </Toolbar>
-                                            </AppBar>
-                                        </Box>
-                                        <div>
-                                            {files.map((file) => (
-                                                <FileDiff file={file} />
-                                            ))}
-                                        </div>
-                                    </Box>
-
-                                    {/*<Box*/}
-                                    {/*    component="form"*/}
-                                    {/*    sx={{*/}
-                                    {/*        '& > :not(style)': { m: 1, width: '25ch' },*/}
-                                    {/*    }}*/}
-                                    {/*    noValidate*/}
-                                    {/*    autoComplete="off"*/}
-                                    {/*>*/}
-                                    {/*    <TextField id="outlined-basic" label="File/Path" variant="outlined" />*/}
-                                    {/*    <TextField id="outlined-basic" label="Line" variant="outlined" />*/}
-                                    {/*    /!*<TextField id="standard-basic" label="Standard" variant="standard" />*!/*/}
-                                    {/*    <TextField fullWidth label="Comment" id="comment" />*/}
-                                    {/*</Box>*/}
-
-                                    <CodeInspectionForm files={files.slice(1).map(file => file.filename)}/>
-
-                                    <Box sx={{ width: '100%', textAlign: 'center' }}>
-                                        <StyledButton onClick={handleSubmit}>
-                                            <ButtonLabel>Submit</ButtonLabel>
-                                        </StyledButton>
-                                        <StyledButton onClick={handleSubmit}>
-                                            <ButtonLabel>Skip</ButtonLabel>
-                                        </StyledButton>
-                                        {/*<Link to={{pathname: `${nextUrl}`, state: { baseUrl: baseUrl, changeIds: changeIds }}}>*/}
-                                        {/*    <StyledButton>*/}
-                                        {/*        <ButtonLabel>Submit</ButtonLabel>*/}
-                                        {/*    </StyledButton>*/}
-                                        {/*</Link>*/}
-                                        {/*<Link to={{pathname: `${nextUrl}`, state: { baseUrl: baseUrl, changeIds: changeIds }}}>*/}
-                                        {/*    <StyledButton>*/}
-                                        {/*        <ButtonLabel>Skip</ButtonLabel>*/}
-                                        {/*    </StyledButton>*/}
-                                        {/*</Link>*/}
-                                    </Box>
+                            }}
+                            padding='20px 0px'
+                        >
+                            {/*<Box sx={{ gridArea: 'header', bgcolor: 'primary.main' }}>Header</Box>*/}
+                            <Typography variant="h5" component="div"  text-align="left" sx={{ gridArea: 'subject' }}>
+                                Change {reviewIdx}: {change.subject}
+                            </Typography>
+                            <Typography sx={{ gridArea: 'created_title' }}>Created</Typography>
+                            <Item sx={{ gridArea: 'created_info' }}>{change.updated}</Item>
+                            <Typography sx={{ gridArea: 'author_title' }}>Author</Typography>
+                            <Item sx={{ gridArea: 'author_info' }}><AuthorPopover author={change.author} /></Item>
+                            <Typography sx={{ gridArea: 'repo_title' }}>Repo</Typography>
+                            <Item sx={{ gridArea: 'repo_info' }}>{change.project}</Item>
+                            <Typography sx={{ gridArea: 'branch_title' }}>Branch</Typography>
+                            <Item sx={{ gridArea: 'branch_info' }}>{change.branch}</Item>
+                            <Item sx={{ gridArea: 'msg'}}>
+                                <div>
+                                    {change.commitMsg.split('\n').map((str) => (
+                                        <NewlineText text={str} />
+                                    ))}
                                 </div>
-                            )}
-                        </div>
-                    </Wrapper>
-                </Route>
-                <Route path={`${baseUrl}/:changeIdx`} component={CodeReview} />
-                <Route path={`/questionnaire`} component={Questionnaire} />
-            </Switch>
-        </Router>
+                            </Item>
+                        </Box>
+
+                        <Box sx={{ width: '100%' }} padding='20px 0px'>
+                            <Box
+                                sx={{
+                                    width: '100%',
+                                    display: 'grid',
+                                    gridAutoFlow: 'column',
+                                    gap: 1,
+                                }}
+                                padding='5px 10px'
+                            >
+                                {/*<Box sx={{*/}
+                                {/*    // width: '30%',*/}
+                                {/*    display: 'grid',*/}
+                                {/*    gridAutoFlow: 'column',*/}
+                                {/*    gap: 1,}} justify="flex-start">*/}
+                                {/*    <DifferenceIcon xs="auto" align='left' fontSize="small" />*/}
+                                {/*    <Typography xs="auto" align='left'>*/}
+                                {/*        {files.length - 1} {files.length > 2 ? "files" : "file"} with {change.insertions} insertions and {change.deletions} deletions*/}
+                                {/*    </Typography>*/}
+                                {/*</Box>*/}
+
+                                {/*<Box sx={{*/}
+                                {/*    // width: '30%',*/}
+                                {/*    display: 'grid',*/}
+                                {/*    gridAutoFlow: 'column',*/}
+                                {/*    gap: 1,}} xs="auto">*/}
+                                {/*    <Typography variant="button" xs="auto" align='right'>*/}
+                                {/*        /!*parent {change.parent.substring(0,7)}*!/*/}
+                                {/*        source code*/}
+                                {/*    </Typography>*/}
+                                {/*    /!*<IconButton aria-label="Example">*!/*/}
+                                {/*    /!*    <OpenInNewIcon xs="auto" align='right' fontSize="small" />*!/*/}
+                                {/*    /!*</IconButton>*!/*/}
+                                {/*</Box>*/}
+                                <div onClick={handleOpenWindow} align='right'>
+                                    <Typography variant="button" xs="auto">
+                                        {/*parent {change.parent.substring(0,7)}*/}
+                                        source code
+                                    </Typography>
+                                    <IconButton aria-label="open" size="small">
+                                        <OpenInNewIcon />
+                                    </IconButton>
+                                </div>
+
+                            </Box>
+                            {/*<Box sx={{ width: '100%', textAlign: 'center' }}>*/}
+                            {/*    <DifferenceIcon fontSize="small" />*/}
+                            {/*    <Typography>*/}
+                            {/*        {files.length - 1} {files.length > 2 ? "files" : "file"} with {change.insertions} insertions and {change.deletions} deletions*/}
+                            {/*    </Typography>*/}
+                            {/*</Box>*/}
+                            <Box sx={{ flexGrow: 1 }}>
+                                <AppBar position="static" color='transparent'>
+                                    <Toolbar>
+                                        <Typography component="div" sx={{ width: '77%', flexShrink: 0 }}>
+                                            File
+                                        </Typography>
+                                        <Typography component="div" sx={{ width: '10%', flexShrink: 0 }}>
+                                            Additions
+                                        </Typography>
+                                        <Typography component="div" sx={{ width: '13%', flexShrink: 0 }}>
+                                            Deletions
+                                        </Typography>
+                                    </Toolbar>
+                                </AppBar>
+                            </Box>
+                            <div>
+                                {files.map((file) => (
+                                    <FileDiff file={file} />
+                                ))}
+                            </div>
+                        </Box>
+
+                        <CodeInspectionForm files={files.slice(1).map(file => file.filename)} reviewIdx={reviewIdx} reviews={reviews} baseUrl={baseUrl}/>
+                    </div>
+                )}
+            </div>
+        </Wrapper>
     );
 }
 
