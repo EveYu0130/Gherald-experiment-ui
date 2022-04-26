@@ -43,8 +43,8 @@ public class Change {
     @ManyToOne
     private Author author;
 
-    @ManyToMany
-    private List<Participant> participant;
+    @OneToMany(mappedBy = "change", cascade = CascadeType.ALL)
+    private List<ChangeReview> reviews;
 
     public String getId() {
         return id;
@@ -174,11 +174,11 @@ public class Change {
         this.riskLevel = riskLevel;
     }
 
-    public List<Participant> getParticipant() {
-        return participant;
+    public List<ChangeReview> getReviews() {
+        return reviews;
     }
 
-    public void setParticipant(List<Participant> participant) {
-        this.participant = participant;
+    public void setReviews(List<ChangeReview> reviews) {
+        this.reviews = reviews;
     }
 }

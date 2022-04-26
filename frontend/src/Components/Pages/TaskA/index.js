@@ -6,6 +6,7 @@ import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider } fro
 import ChangeDetail from "../ChangeDetail";
 import TaskB from "../TaskB";
 import DnD from "../../Molecules/DnD";
+import {useAuth} from "../../../auth";
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -117,12 +118,14 @@ function TaskA() {
 
     const { path, url } = useRouteMatch();
 
+    let auth = useAuth();
+
     useEffect(() => {
-        fetch('/api/changes')
+        fetch(`/api/participants/${auth.user}`)
             .then(results => results.json())
             .then(data => {
                 setLoading(false);
-                setChanges(data);
+                setChanges(data.changeReviews);
             })
     }, [])
 
@@ -131,62 +134,46 @@ function TaskA() {
     }
 
     return (
-        <Router>
-            <Switch>
-                <Route exact path={path}>
-                    <Wrapper>
-                        <Header>Task 1: Rank the Changes</Header>
-                        <Divider />
+        <Switch>
+            <Route exact path={path}>
+                <Wrapper>
+                    <Header>Task 1: Rank the Changes</Header>
+                    <Divider />
 
-                        <Divider />
-                        <Box sx={{ width: '100%' }} padding='20px'>
-                            <Typography variant="h6" component="div"  text-align="center">
-                                Task Description
-                            </Typography>
-                            <Typography component="div"  text-align="center">
-                                <p>Here you are provided with three code changes.</p>
-                                <p>In this task, you are expected to rank these changes based on your estimated risk levels.</p>
-                                <p>Please rank these changes in an ascending order (1=Most risky, 3=Least risky).</p>
-                                <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
-                            </Typography>
+                    <Divider />
+                    <Box sx={{ width: '100%' }} padding='20px'>
+                        <Typography variant="h6" component="div"  text-align="center">
+                            Task Description
+                        </Typography>
+                        <Typography component="div"  text-align="center">
+                            <p>Here you are provided with three code changes.</p>
+                            <p>In this task, you are expected to rank these changes based on your estimated risk levels.</p>
+                            <p>Please rank these changes in an ascending order (1=Most risky, 3=Least risky).</p>
+                            <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
+                        </Typography>
+                    </Box>
+
+                    {!ready ? (
+                        <Box sx={{ width: '100%', textAlign: 'center' }}>
+                            <StyledButton onClick={handleReadyClick}>
+                                <ButtonLabel>Ready</ButtonLabel>
+                            </StyledButton>
                         </Box>
-
-                        {!ready &&
-                            <Box sx={{ width: '100%', textAlign: 'center' }}>
-                                <StyledButton onClick={handleReadyClick}>
-                                    <ButtonLabel>Ready</ButtonLabel>
-                                </StyledButton>
-                            </Box>
-                        }
-
+                    ) : (
                         <div>
                             {loading ? (
                                 <Spinner/>
                             ) : (
                                 <div style={{ width: '100%' }}>
                                     {changes.length > 0 && <DnD changes={changes} baseUrl={url} />}
-                                    <Box sx={{ width: '100%', textAlign: 'center' }}>
-                                        <Link to="/taskB">
-                                            <StyledButton>
-                                                <ButtonLabel>Submit</ButtonLabel>
-                                            </StyledButton>
-                                        </Link>
-                                        <Link to="/taskB">
-                                            <StyledButton>
-                                                <ButtonLabel>Skip</ButtonLabel>
-                                            </StyledButton>
-                                        </Link>
-                                    </Box>
                                 </div>
                             )}
                         </div>
-
-                    </Wrapper>
-                </Route>
-                <Route path={`${path}/:changeId`} component={ChangeDetail} />
-                <Route path={`/taskB`} component={TaskB} />
-            </Switch>
-        </Router>
+                    )}
+                </Wrapper>
+            </Route>
+            <Route path={`${path}/:changeId`} component={ChangeDetail} />
+        </Switch>
     );
 }
 

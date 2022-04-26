@@ -7,13 +7,13 @@ import java.util.List;
 
 public class ChangeReviewDto {
     private Integer id;
-    private String changeId;
+    private ChangeDto change;
     private Integer riskLevel;
     private List<CodeInspectionDto> codeInspections;
 
-    public ChangeReviewDto(Integer id, String changeId, Integer riskLevel, List<CodeInspectionDto> codeInspections) {
+    public ChangeReviewDto(Integer id, ChangeDto change, Integer riskLevel, List<CodeInspectionDto> codeInspections) {
         this.id = id;
-        this.changeId = changeId;
+        this.change = change;
         this.riskLevel = riskLevel;
         this.codeInspections = codeInspections;
     }
@@ -26,12 +26,12 @@ public class ChangeReviewDto {
         this.id = id;
     }
 
-    public String getChangeId() {
-        return changeId;
+    public ChangeDto getChange() {
+        return change;
     }
 
-    public void setChangeId(String changeId) {
-        this.changeId = changeId;
+    public void setChange(ChangeDto change) {
+        this.change = change;
     }
 
     public Integer getRiskLevel() {

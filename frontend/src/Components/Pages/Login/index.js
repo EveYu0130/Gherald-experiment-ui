@@ -57,13 +57,15 @@ function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = new FormData(e.currentTarget);
-        auth.signin(() => {
-            history.replace(from);
-        });
+        auth.signin(data.get('id'));
         console.log({
             id: data.get('id')
         });
     };
+
+    if (auth.user) {
+        history.replace(from);
+    }
 
     return (
         <ThemeProvider theme={theme}>

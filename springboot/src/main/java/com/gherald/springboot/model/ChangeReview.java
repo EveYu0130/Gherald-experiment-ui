@@ -11,7 +11,8 @@ public class ChangeReview {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    private String changeId;
+    @ManyToOne
+    private Change change;
 
     @ManyToOne
     private Participant participant;
@@ -29,12 +30,12 @@ public class ChangeReview {
         this.id = id;
     }
 
-    public String getChangeId() {
-        return changeId;
+    public Change getChange() {
+        return change;
     }
 
-    public void setChangeId(String changeId) {
-        this.changeId = changeId;
+    public void setChange(Change change) {
+        this.change = change;
     }
 
     public Participant getParticipant() {

@@ -45,34 +45,38 @@ public class ParticipantController {
         return convertToDto(participantRepository.findParticipantById(id));
     }
 
+//    @PostMapping("/api/risk-assessment")
+//    public ParticipantDto updateRiskLevel(@RequestParam Integer reviewId, @RequestParam Integer riskLevel) {
+//        Participant participant = applicationService.updateRiskLevel(reviewId, riskLevel);
+//        return convertToDto(participant);
+//    }
+
     @PostMapping("/api/risk-assessment")
-    public ParticipantDto updateRiskLevel(@RequestParam Integer reviewId, @RequestParam Integer riskLevel) {
-        Participant participant = applicationService.updateRiskLevel(reviewId, riskLevel);
-        return convertToDto(participant);
+    public void updateRiskLevel(@RequestBody List<ChangeReviewDto> changeReviews) {
+        applicationService.updateRiskLevel(changeReviews);
     }
 
     @PostMapping("/api/code-review")
-    public ParticipantDto createCodeInspection(@RequestBody ChangeReviewDto changeReview) {
-        Participant participant = applicationService.createCodeInspection(changeReview.getId(), changeReview.getCodeInspections());
-        return convertToDto(participant);
+    public ChangeReviewDto createCodeInspection(@RequestBody ChangeReviewDto changeReviewDto) {
+        ChangeReview changeReview = applicationService.createCodeInspection(changeReviewDto.getId(), changeReviewDto.getCodeInspections());
+        return convertToDto(changeReview);
     }
 
     private ParticipantDto convertToDto(Participant participant)  {
-        List<ChangeDto> changes = new ArrayList<>();
-        for (Change change : participant.getChanges()) {
-            changes.add(convertToDto(change));
-        }
         List<ChangeReviewDto> changeReviews = new ArrayList<>();
         if (participant.getChangeReviews() != null) {
             for (ChangeReview changeReview : participant.getChangeReviews()) {
                 changeReviews.add(convertToDto(changeReview));
             }
         }
-        ParticipantDto participantDto = new ParticipantDto(participant.getId(), changes, changeReviews);
+        ParticipantDto participantDto = new ParticipantDto(participant.getId(), changeReviews);
         return participantDto;
     }
 
     public ChangeDto convertToDto(Change change) {
+        if (change == null) {
+            return null;
+        }
         ChangeDto changeDto = new ChangeDto(change.getId(), change.getProject(), change.getBranch(), change.getSubject(), change.getStatus(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg(), change.getRiskLevel());
         List<FileDto> files = new ArrayList<>();
         for (File file : change.getFiles()) {
@@ -86,14 +90,15 @@ public class ParticipantController {
     }
 
     private ChangeReviewDto convertToDto(ChangeReview changeReview) {
-        Integer riskLevel = (changeReview.getRiskLevel() == null) ? 0 : changeReview.getRiskLevel();
+        Integer riskLevel = (changeReview.getRiskLevel() == null) ? null : changeReview.getRiskLevel();
+        ChangeDto change = convertToDto(changeReview.getChange());
         List<CodeInspectionDto> codeInspections = new ArrayList<>();
         if (changeReview.getCodeInspections() != null) {
             for (CodeInspection codeInspection : changeReview.getCodeInspections()) {
                 codeInspections.add(convertToDto(codeInspection));
             }
         }
-        ChangeReviewDto changeReviewDto = new ChangeReviewDto(changeReview.getId(), changeReview.getChangeId(), riskLevel, codeInspections);
+        ChangeReviewDto changeReviewDto = new ChangeReviewDto(changeReview.getId(), change, riskLevel, codeInspections);
         return changeReviewDto;
     }
 

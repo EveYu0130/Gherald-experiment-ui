@@ -1,15 +1,16 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { Auth } from "./auth";
+import {useAuth} from "./auth";
 
 
 const PrivateRoute = ({component: Component, ...rest}) => {
+    let auth = useAuth();
     return (
         // Show the component only when the user is logged in
         // Otherwise, redirect the user to /signin page
         <Route {...rest}
             render={({ location }) => (
-                Auth.isAuthenticated ? (
+                auth.user ? (
                     <Component />
                 ) : (
                     <Redirect

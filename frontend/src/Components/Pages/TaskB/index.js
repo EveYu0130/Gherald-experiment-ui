@@ -7,6 +7,7 @@ import Table from "../../Molecules/Table";
 import ChangeDetail from "../ChangeDetail";
 import FileDiff from "../../Molecules/FileDiff";
 import CodeReview from "../CodeReview";
+import {useAuth} from "../../../auth";
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -113,53 +114,52 @@ function Item(props: BoxProps) {
 
 function TaskB() {
     const [loading, setLoading] = useState(true);
-    const [changes, setChanges] = useState([]);
+    const [reviews, setReviews] = useState([]);
+    let auth = useAuth();
 
     useEffect(() => {
-        fetch('/api/changes')
+        fetch(`/api/participants/${auth.user}`)
             .then(results => results.json())
             .then(data => {
                 setLoading(false);
-                setChanges(data);
+                setReviews(data.changeReviews);
             })
     }, [])
 
     const { path, url } = useRouteMatch();
 
     return (
-        <Router>
-            <Switch>
-                <Route exact path={path}>
-                    <Wrapper>
-                        <Header>Task 2: Conduct Code Reviews</Header>
-                        <Divider />
+        <Switch>
+            <Route exact path={path}>
+                <Wrapper>
+                    <Header>Task 2: Conduct Code Reviews</Header>
+                    <Divider />
 
-                        <Divider />
-                        <Box sx={{ width: '100%' }} padding='20px'>
-                            <Typography variant="h6" component="div"  text-align="center">
-                                Task Description
-                            </Typography>
-                            <Typography component="div"  text-align="center">
-                                <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
-                                <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
-                                <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottome of the code review page.</p>
-                                <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
-                            </Typography>
-                        </Box>
+                    <Divider />
+                    <Box sx={{ width: '100%' }} padding='20px'>
+                        <Typography variant="h6" component="div"  text-align="center">
+                            Task Description
+                        </Typography>
+                        <Typography component="div"  text-align="center">
+                            <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
+                            <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
+                            <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottome of the code review page.</p>
+                            <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
+                        </Typography>
+                    </Box>
 
-                        <Box sx={{ width: '100%', textAlign: 'center' }}>
-                            <Link to={{pathname: `${url}/1`, state: { baseUrl: url, changeIds: changes.map(change => change.id) }}}>
-                                <StyledButton>
-                                    <ButtonLabel>Ready</ButtonLabel>
-                                </StyledButton>
-                            </Link>
-                        </Box>
+                    <Box sx={{ width: '100%', textAlign: 'center' }}>
+                        <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}}>
+                            <StyledButton>
+                                <ButtonLabel>Ready</ButtonLabel>
+                            </StyledButton>
+                        </Link>
+                    </Box>
 
-                    </Wrapper>
-                </Route>
-                <Route path={`${path}/:changeIdx`} component={CodeReview} />
-            </Switch>
-        </Router>
+                </Wrapper>
+            </Route>
+            <Route path={`${path}/:reviewIdx`} component={CodeReview} />
+        </Switch>
     );
 }
 

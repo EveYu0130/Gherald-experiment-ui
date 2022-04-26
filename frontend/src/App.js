@@ -10,6 +10,7 @@ import TaskB from "./Components/Pages/TaskB";
 import Questionnaire from "./Components/Pages/Questionnaire";
 import React from "react";
 import {ProvideAuth} from "./auth";
+import CodeReview from "./Components/Pages/CodeReview";
 
 
 
@@ -24,9 +25,9 @@ function App() {
                   </Route>
                   <Route exact path="/changes" component={ChangeList}>
                   </Route>
-                  <PrivateRoute exact path="/taskA" component={TaskA}>
+                  <PrivateRoute path="/taskA" component={TaskA}>
                   </PrivateRoute>
-                  <PrivateRoute exact path="/taskB" component={TaskB}>
+                  <PrivateRoute path="/taskB" component={TaskB}>
                   </PrivateRoute>
                   <PrivateRoute exact path="/questionnaire" component={Questionnaire}>
                   </PrivateRoute>

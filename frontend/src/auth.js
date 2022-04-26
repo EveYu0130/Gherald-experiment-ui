@@ -1,16 +1,15 @@
 import React, { createContext, useContext, useState } from "react";
 
-export const Auth = {
-    isAuthenticated: false,
-    signin(cb) {
-        Auth.isAuthenticated = true;
-        setTimeout(cb, 100);
-    },
-    signout(cb) {
-        Auth.isAuthenticated = false;
-        setTimeout(cb, 100);
-    }
-};
+// export const Auth = {
+//     isAuthenticated: false,
+//     signin(cb) {
+//         Auth.isAuthenticated = true;
+//         setTimeout(cb, 100);
+//     },
+//     signout(cb) {
+//         Auth.isAuthenticated = false;
+//     }
+// };
 
 const authContext = createContext();
 
@@ -26,18 +25,22 @@ export const useAuth = () => {
 function useProvideAuth() {
     const [user, setUser] = useState(null);
 
-    const signin = cb => {
-        return Auth.signin(() => {
-            setUser("user");
-            cb();
+    const signin = (userId) => {
+        fetch(`/api/participants/${userId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+        }).then(response => {
+            setUser(userId);
+            console.log(response);
+        }).catch(error => {
+            console.log(error);
         });
     };
 
-    const signout = cb => {
-        return Auth.signout(() => {
-            setUser(null);
-            cb();
-        });
+    const signout = () => {
+        setUser(null);
     };
 
     return {
