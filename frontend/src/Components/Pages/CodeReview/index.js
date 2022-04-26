@@ -262,6 +262,9 @@ function CodeReview(props) {
                                         {/*parent {change.parent.substring(0,7)}*/}
                                         source code
                                     </Typography>
+                                    <IconButton aria-label="open" size="small">
+                                        <OpenInNewIcon />
+                                    </IconButton>
                                 </div>
 
                             </Box>
