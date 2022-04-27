@@ -33,7 +33,7 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import GheraldReport from "../../Molecules/GheraldReport";
 
 
-function Item(props: BoxProps) {
+function Item(props) {
     const { sx, ...other } = props;
     return (
         <Box

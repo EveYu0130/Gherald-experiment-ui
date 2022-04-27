@@ -51,7 +51,7 @@ const useStyles = makeStyles({
     })
 });
 
-function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
+function LinearProgressWithLabel(props) {
     const classes = useStyles({ props });
 
     return (

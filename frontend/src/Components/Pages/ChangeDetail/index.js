@@ -55,7 +55,7 @@ const Wrapper = styled.div`
     height: 100%;
 `;
 
-function Item(props: BoxProps) {
+function Item(props) {
     const { sx, ...other } = props;
     return (
         <Box
