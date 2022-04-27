@@ -21,116 +21,17 @@ import {
     Divider,
     Avatar,
     IconButton,
-    CardActions, Container, CssBaseline, RadioGroup, FormControlLabel, Radio, Checkbox, CardContent, Card, Button
+    CardActions, Container, CssBaseline, RadioGroup, FormControlLabel, Radio, Checkbox, CardContent, Card, Button, CircularProgress
 } from '@mui/material';
 import 'react-diff-view/style/index.css';
 
 import FileDiff from "../../Molecules/FileDiff";
 import AuthorPopover from "../../Atoms/AuthorPopover";
 import CodeInspectionForm from "../../Molecules/CodeInspectionForm";
-import DifferenceIcon from '@mui/icons-material/Difference';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
-import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import { makeStyles } from '@mui/styles';
+import GheraldReport from "../../Molecules/GheraldReport";
 
-
-const spin = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`;
-
-const spinAnimation = css`
-  ${spin} 1s infinite linear
-`;
-
-const Spinner = styled.div`
-  pointer-events: all;
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  border: 5px solid
-    rgba(255, 255, 255, 0.2);
-  border-top-color: #43D1AF;
-  border-right-color: #43D1AF;
-  animation: ${spinAnimation};
-  transition: border-top-color 0.5s linear, border-right-color 0.5s linear;
-  margin-left: 48%;
-`;
-
-const StyledButton = styled(Button)`
-  color: #fff;
-  flex-shrink: 0;
-  padding: 8px 16px;
-  justify-content: center;
-  margin-bottom: 10px;
-  width: 200px;
-  margin: 2% 1%;
-  text-align: center;
-
-  @media (max-width: 375px) {
-    height: 52px;
-  }
-
-  &:disabled {
-    opacity: 0.65; 
-    cursor: not-allowed;
-  }
-`;
-
-const ButtonLabel = styled.label`
-  margin-left: 5px;
-`;
-function change(value) {
-    return gradient(value/100,'#ffab91','#dd2c00');
-}
-
-function gradient(t,start,end) {
-    return t>=0.5 ? linear(start,end,(t-.5)*2) : linear(start,end,t*2);
-}
-
-function linear(s,e,x) {
-    let r = byteLinear(s[1]+s[2], e[1]+e[2], x);
-    let g = byteLinear(s[3]+s[4], e[3]+e[4], x);
-    let b = byteLinear(s[5]+s[6], e[5]+e[6], x);
-    return "#" + r + g + b;
-}
-
-// a,b are hex values from 00 to FF; x is real number in range 0..1
-function byteLinear(a,b,x) {
-    let y = (('0x'+a)*(1-x) + ('0x'+b)*x)|0;
-    return y.toString(16).padStart(2,'0') // hex output
-}
-
-const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
-    height: 10,
-    borderRadius: 5,
-    [`&.${linearProgressClasses.colorPrimary}`]: {
-        backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
-    },
-    [`& .${linearProgressClasses.bar}`]: {
-        borderRadius: 5,
-    },
-}));
-
-
-
-const useStyles = makeStyles({
-    root: {
-        height: 10,
-        borderRadius: 5
-    },
-    bar: ({ props }) => ({
-        borderRadius: 5,
-        // background: `linear-gradient(90deg, #ffab91 ${100 - props.value}%, #dd2c00 100%)`
-        background: `linear-gradient(90deg, #fbe9e7 ${100 - props.value}%, ${change(props.value)} 100%)`
-
-    })
-});
 
 function Item(props: BoxProps) {
     const { sx, ...other } = props;
@@ -163,23 +64,6 @@ function NewlineText(props) {
 }
 
 const theme = createTheme();
-
-function LinearProgressWithLabel(props: LinearProgressProps & { value: number }) {
-    const classes = useStyles({ props });
-
-    return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ width: '100%', mr: 1 }}>
-                <BorderLinearProgress classes={{ root: classes.root, bar: classes.bar }} variant="determinate" {...props} />
-            </Box>
-            <Box sx={{ minWidth: 35 }}>
-                <Typography variant="body2" color="text.secondary">{`${Math.round(
-                    props.value,
-                )}%`}</Typography>
-            </Box>
-        </Box>
-    );
-}
 
 function CodeReview(props) {
     const { reviewIdx } = useParams();
@@ -228,7 +112,9 @@ function CodeReview(props) {
                 <CssBaseline />
                 <div>
                     {loading ? (
-                        <Spinner/>
+                        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
+                            <CircularProgress size={100} />
+                        </Box>
                     ) : (
                         <div>
                             <Box
@@ -268,55 +154,7 @@ function CodeReview(props) {
                                 </Item>
                             </Box>
 
-                            <Box sx={{ width: '50%' }} padding='20px 0px'>
-                                <Card sx={{ minWidth: 275 }}>
-                                    <CardContent>
-                                        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                            Change:
-                                        </Typography>
-                                        <Typography variant="h5" component="div">
-                                            test
-                                        </Typography>
-                                        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                            adjective
-                                        </Typography>
-                                        <Typography variant="body2">
-                                            well meaning and kindly.
-                                            <br />
-                                            {'"a benevolent smile"'}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Link to={`${baseUrl}/${change.id}`} style={{ textDecoration: 'none' }}>
-                                            <Button size="small">Learn More</Button>
-                                        </Link>
-                                    </CardActions>
-                                </Card>
-                                <Grid container spacing={2}>
-                                    <Grid item xs={4}>
-                                        <Typography>Riskiness</Typography>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                        <LinearProgressWithLabel value={100} theme={theme}/>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Typography>Risk Indicators:</Typography>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <Typography>Size</Typography>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                        <LinearProgressWithLabel value={90} theme={theme}/>
-                                    </Grid>
-                                    <Grid item xs={4}>
-                                        <Typography>Author experience</Typography>
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                        <LinearProgressWithLabel value={65} theme={theme}/>
-                                    </Grid>
-                                </Grid>
-                                {/*<LinearProgressWithLabel value={50} theme={theme}/>*/}
-                            </Box>
+                            <GheraldReport />
 
                             <Box sx={{ width: '100%' }} padding='20px 0px'>
                                 <Box

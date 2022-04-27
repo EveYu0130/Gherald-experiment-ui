@@ -39,7 +39,7 @@ const Header = styled.h1`
     padding: 20px 0;
     font-weight: 300 bold;
     text-align: center;
-    color: #43D1AF;
+    // color: #43D1AF;
     margin: -16px -16px 16px -16px;
     // width: 20%;
 `;
@@ -75,33 +75,6 @@ const StyledButton = styled(Button)`
 
 const ButtonLabel = styled.label`
   margin-left: 5px;
-`;
-
-const spin = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`;
-
-const spinAnimation = css`
-  ${spin} 1s infinite linear
-`;
-
-const Spinner = styled.div`
-  pointer-events: all;
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  border: 5px solid
-    rgba(255, 255, 255, 0.2);
-  border-top-color: #43D1AF;
-  border-right-color: #43D1AF;
-  animation: ${spinAnimation};
-  transition: border-top-color 0.5s linear, border-right-color 0.5s linear;
-  margin-left: 48%;
 `;
 
 
@@ -150,28 +123,30 @@ function TaskB() {
                 <ThemeProvider theme={theme}>
                     <Container component="main" maxWidth="xl">
                         <CssBaseline />
-                        <Header>Task 2: Conduct Code Reviews</Header>
-                        <Divider />
+                        <Box sx={{ width: '100%' }} padding='5%'>
+                            <Header>Task B: Conduct Code Reviews</Header>
+                            <Divider />
 
-                        <Divider />
-                        <Box sx={{ width: '100%' }} padding='20px'>
-                            <Typography variant="h6" component="div"  text-align="center">
-                                Task Description
-                            </Typography>
-                            <Typography component="div"  text-align="center">
-                                <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
-                                <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
-                                <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottome of the code review page.</p>
-                                <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
-                            </Typography>
-                        </Box>
+                            <Divider />
+                            <Box sx={{ width: '100%' }} padding='20px'>
+                                <Typography variant="h6" component="div"  text-align="center">
+                                    Task Description
+                                </Typography>
+                                <Typography component="div"  text-align="center">
+                                    <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
+                                    <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
+                                    <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottom of the code review page.</p>
+                                    <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
+                                </Typography>
+                            </Box>
 
-                        <Box sx={{ width: '100%', textAlign: 'center' }}>
-                            <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}} style={{ textDecoration: 'none' }}>
-                                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                    <ButtonLabel>Ready</ButtonLabel>
-                                </StyledButton>
-                            </Link>
+                            <Box sx={{ width: '100%', textAlign: 'center' }}>
+                                <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}} style={{ textDecoration: 'none' }}>
+                                    <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                                        <ButtonLabel>Ready</ButtonLabel>
+                                    </StyledButton>
+                                </Link>
+                            </Box>
                         </Box>
                     </Container>
                 </ThemeProvider>

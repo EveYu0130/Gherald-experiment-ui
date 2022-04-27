@@ -32,7 +32,9 @@ function useProvideAuth() {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         }).then(response => {
-            setUser(userId);
+            if (response.status === 200) {
+                setUser(userId);
+            }
             console.log(response);
         }).catch(error => {
             console.log(error);

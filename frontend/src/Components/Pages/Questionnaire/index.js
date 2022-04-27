@@ -7,6 +7,16 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useAuth} from "../../../auth";
 import {useHistory} from "react-router-dom";
 
+const Header = styled.h1`
+    // background: #43D1AF;
+    padding: 20px 0;
+    font-weight: 300 bold;
+    text-align: center;
+    // color: #43D1AF;
+    margin: -16px -16px 16px -16px;
+    // width: 20%;
+`;
+
 const StyledButton = styled(Button)`
   color: #fff;
   flex-shrink: 0;
@@ -72,7 +82,7 @@ function Questionnaire() {
             body: JSON.stringify({...state, participantId: auth.user})
         }).then(response => {
             if  (response.status === 200) {
-                history.push(`/`);
+                history.push(`/end`);
                 console.log(history);
             }
             console.log(response);
@@ -85,20 +95,17 @@ function Questionnaire() {
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="lg">
                 <CssBaseline />
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
+                <Box sx={{ width: '100%' }} padding='5%'>
                     {/*<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>*/}
                     {/*    <LockOutlinedIcon />*/}
                     {/*</Avatar>*/}
-                    <Typography component="h1" variant="h5">
-                        Post-Experiment Questionnaire
-                    </Typography>
+                    <Header>Post-Experiment Questionnaire</Header>
+                    {/*<Typography component="h1" variant="h5">*/}
+                    {/*    Post-Experiment Questionnaire*/}
+                    {/*</Typography>*/}
+                    <Divider />
+
+                    <Divider />
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>

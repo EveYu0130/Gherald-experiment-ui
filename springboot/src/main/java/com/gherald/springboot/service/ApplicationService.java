@@ -94,17 +94,19 @@ public class ApplicationService {
 
     @Transactional
     public void createQuestionnaire(QuestionnaireDto questionnaireDto) {
-        Participant participant = participantRepository.findParticipantById(questionnaireDto.getParticipantId());
-        Questionnaire questionnaire = new Questionnaire();
-        questionnaire.setUnderstandability(questionnaireDto.getUnderstandability());
-        questionnaire.setDifficulty(questionnaireDto.getDifficulty());
-        questionnaire.setFitness(questionnaireDto.getFitness());
-        questionnaire.setUsability(questionnaireDto.getUsability());
-        questionnaire.setOtherTool(questionnaireDto.getOtherTool());
-        questionnaire.setProblem(questionnaireDto.getProblem());
-        questionnaire.setFeedback(questionnaireDto.getFeedback());
-        questionnaire.setAllowInterview(questionnaireDto.getAllowInterview());
-        questionnaire.setParticipant(participant);
-        questionnaireRepository.save(questionnaire);
+        if (questionnaireRepository.findQuestionnaireByParticipantId(questionnaireDto.getParticipantId()) == null) {
+            Participant participant = participantRepository.findParticipantById(questionnaireDto.getParticipantId());
+            Questionnaire questionnaire = new Questionnaire();
+            questionnaire.setUnderstandability(questionnaireDto.getUnderstandability());
+            questionnaire.setDifficulty(questionnaireDto.getDifficulty());
+            questionnaire.setFitness(questionnaireDto.getFitness());
+            questionnaire.setUsability(questionnaireDto.getUsability());
+            questionnaire.setOtherTool(questionnaireDto.getOtherTool());
+            questionnaire.setProblem(questionnaireDto.getProblem());
+            questionnaire.setFeedback(questionnaireDto.getFeedback());
+            questionnaire.setAllowInterview(questionnaireDto.getAllowInterview());
+            questionnaire.setParticipant(participant);
+            questionnaireRepository.save(questionnaire);
+        }
     }
 }

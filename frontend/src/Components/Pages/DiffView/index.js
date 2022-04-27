@@ -8,7 +8,7 @@ import ExpandIcon from '@mui/icons-material/Expand';
 
 const getWidgets = hunks => {
     const changes = hunks.reduce((result, {changes}) => [...result, ...changes], []);
-    const warning = changes.filter(({type}) => Math.random() < 0.5 && (type === "insert" || type === "delete"));
+    const warning = changes.filter(({type}) => Math.random() < 0.3 && (type === "insert" || type === "delete"));
     return warning.reduce(
         (widgets, change) => {
             const changeKey = getChangeKey(change);

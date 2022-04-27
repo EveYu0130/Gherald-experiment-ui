@@ -11,6 +11,7 @@ import Questionnaire from "./Components/Pages/Questionnaire";
 import React from "react";
 import {ProvideAuth} from "./auth";
 import CodeReview from "./Components/Pages/CodeReview";
+import EndPage from "./Components/Pages/EndPage";
 
 
 
@@ -30,6 +31,8 @@ function App() {
                   <PrivateRoute path="/taskB" component={TaskB}>
                   </PrivateRoute>
                   <PrivateRoute exact path="/questionnaire" component={Questionnaire}>
+                  </PrivateRoute>
+                  <PrivateRoute exact path="/end" component={EndPage}>
                   </PrivateRoute>
               </Switch>
           </BrowserRouter>

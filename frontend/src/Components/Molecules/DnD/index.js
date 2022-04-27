@@ -84,7 +84,7 @@ function DnD({ changes, baseUrl }) {
         <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="changes">
                 {(provided) => (
-                    <Box className="changes" {...provided.droppableProps} ref={provided.innerRef} component="form" onSubmit={handleSubmit}>
+                    <Box className="changes" sx={{ backgroundColor: 'grey.200', p: 2 }} {...provided.droppableProps} ref={provided.innerRef} component="form" onSubmit={handleSubmit}>
                         {changeList.map(({id, change}, index) => {
                             return (
                                 <Draggable key={change.id} draggableId={change.id} index={index}>
@@ -92,7 +92,7 @@ function DnD({ changes, baseUrl }) {
                                         // <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                         //     <Item><Link to={`${baseUrl}/${id}`}>{subject}</Link></Item>
                                         // </Box>
-                                        <Card sx={{ minWidth: 275 }} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                        <Card sx={{ minWidth: 275, m: 2 }} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                             <CardContent>
                                                 {/*<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>*/}
                                                 {/*    Change:*/}

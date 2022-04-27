@@ -22,6 +22,7 @@ export default function AuthorPopover({author}) {
                 aria-haspopup="true"
                 onMouseEnter={handlePopoverOpen}
                 onMouseLeave={handlePopoverClose}
+                sx = {{ fontSize: '0.875rem', fontWeight: '700' }}
             >
                 {author.name}
             </Typography>
