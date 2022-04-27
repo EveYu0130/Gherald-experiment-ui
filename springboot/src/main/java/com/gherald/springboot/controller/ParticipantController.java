@@ -62,6 +62,11 @@ public class ParticipantController {
         return convertToDto(changeReview);
     }
 
+    @PostMapping("/api/questionnaire")
+    public void createQuestionnaire(@RequestBody QuestionnaireDto questionnaireDto) {
+        applicationService.createQuestionnaire(questionnaireDto);
+    }
+
     private ParticipantDto convertToDto(Participant participant)  {
         List<ChangeReviewDto> changeReviews = new ArrayList<>();
         if (participant.getChangeReviews() != null) {

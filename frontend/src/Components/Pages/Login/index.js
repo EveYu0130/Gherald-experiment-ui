@@ -7,44 +7,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useAuth } from "../../../auth";
 
-const Wrapper = styled.div`
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border-radius: 8px;
-    background: #f4f7f8;
-    // text-align: center;
-    padding: 5% 5%;
-    height: 100%;
-`;
-
-const spin = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`;
-
-const spinAnimation = css`
-  ${spin} 1s infinite linear
-`;
-
-const Spinner = styled.div`
-  pointer-events: all;
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  border: 5px solid
-    rgba(255, 255, 255, 0.2);
-  border-top-color: #43D1AF;
-  border-right-color: #43D1AF;
-  animation: ${spinAnimation};
-  transition: border-top-color 0.5s linear, border-right-color 0.5s linear;
-  margin-left: 48%;
-`;
-
 const theme = createTheme();
 
 function Login() {
@@ -73,7 +35,7 @@ function Login() {
                 <CssBaseline />
                 <Box
                     sx={{
-                        marginTop: 8,
+                        marginTop: 20,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',

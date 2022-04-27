@@ -1,11 +1,48 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { useParams, useLocation } from "react-router-dom";
-import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField } from '@mui/material';
+import {useParams, useLocation, Link, useHistory} from "react-router-dom";
+import {
+    Box,
+    Paper,
+    Grid,
+    Typography,
+    AppBar,
+    Toolbar,
+    TextField,
+    CircularProgress,
+    Button,
+    IconButton
+} from '@mui/material';
 import 'react-diff-view/style/index.css';
 
 import FileDiff from "../../Molecules/FileDiff";
 import AuthorPopover from "../../Atoms/AuthorPopover";
+import GheraldReport from "../../Molecules/GheraldReport";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+
+const StyledButton = styled(Button)`
+  color: #fff;
+  flex-shrink: 0;
+  padding: 8px 16px;
+  justify-content: center;
+  margin-bottom: 10px;
+  width: 200px;
+  margin: 2% 1%;
+  text-align: center;
+
+  @media (max-width: 375px) {
+    height: 52px;
+  }
+
+  &:disabled {
+    opacity: 0.65; 
+    cursor: not-allowed;
+  }
+`;
+
+const ButtonLabel = styled.label`
+  margin-left: 5px;
+`;
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -18,34 +55,7 @@ const Wrapper = styled.div`
     height: 100%;
 `;
 
-const spin = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`;
-
-const spinAnimation = css`
-  ${spin} 1s infinite linear
-`;
-
-const Spinner = styled.div`
-  pointer-events: all;
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  border: 5px solid
-    rgba(255, 255, 255, 0.2);
-  border-top-color: #43D1AF;
-  border-right-color: #43D1AF;
-  animation: ${spinAnimation};
-  transition: border-top-color 0.5s linear, border-right-color 0.5s linear;
-  margin-left: 48%;
-`;
-
-function Item(props: BoxProps) {
+function Item(props) {
     const { sx, ...other } = props;
     return (
         <Box
@@ -83,6 +93,8 @@ function ChangeDetail(props) {
     const [change, setChange] = useState({});
     const [files, setFiles] = useState([]);
 
+    const history = useHistory();
+
     useEffect(() => {
         fetch(`/api/changes/${changeId}`)
             .then(results => results.json())
@@ -95,7 +107,10 @@ function ChangeDetail(props) {
                     updated: data.updated,
                     number: data.number,
                     author: data.author,
-                    commitMsg: data.commitMsg
+                    commitMsg: data.commitMsg,
+                    parent: data.parent,
+                    insertions: data.insertions,
+                    deletions: data.deletions
                 });
                 setFiles(data.files);
                 setLoading(false);
@@ -103,11 +118,19 @@ function ChangeDetail(props) {
             .catch(reqErr => console.error(reqErr))
     }, [])
 
+    const handleOpenWindow = (e) => {
+        e.preventDefault();
+        const url = `https://github.com/${change.project}/tree/${change.parent}`;
+        window.open(url);
+    }
+
     return (
         <Wrapper>
             <div>
                 {loading ? (
-                    <Spinner/>
+                    <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
+                        <CircularProgress size={100} />
+                    </Box>
                 ) : (
                     <div>
                         <Box
@@ -123,13 +146,16 @@ function ChangeDetail(props) {
                                     "branch_title branch_info branch_info branch_info . . . ."
                                     "msg msg msg msg . . . ."`,
                             }}
+                            padding='20px 0px'
                         >
                             {/*<Box sx={{ gridArea: 'header', bgcolor: 'primary.main' }}>Header</Box>*/}
-                            <Typography variant="h5" component="div"  text-align="left" sx={{ gridArea: 'subject' }}>
-                                {change.subject}
-                            </Typography>
+                            <Box sx={{ gridArea: 'subject' }} padding='20px 0px'>
+                                <Typography variant="h5" component="div"  text-align="left">
+                                    {change.subject}
+                                </Typography>
+                            </Box>
                             <Typography sx={{ gridArea: 'created_title' }}>Created</Typography>
-                            <Item sx={{ gridArea: 'created_info' }}>{change.updated}</Item>
+                            <Item sx={{ gridArea: 'created_info' }}>{change.updated.substring(0,19)}</Item>
                             <Typography sx={{ gridArea: 'author_title' }}>Author</Typography>
                             <Item sx={{ gridArea: 'author_info' }}><AuthorPopover author={change.author} /></Item>
                             <Typography sx={{ gridArea: 'repo_title' }}>Repo</Typography>
@@ -145,7 +171,28 @@ function ChangeDetail(props) {
                             </Item>
                         </Box>
 
-                        <Box sx={{ width: '100%' }} padding='20px 0px 0px 0px'>
+                        <GheraldReport />
+
+                        <Box sx={{ width: '100%' }} padding='20px 0px'>
+                            <Box
+                                sx={{
+                                    width: '100%',
+                                    display: 'grid',
+                                    gridAutoFlow: 'column',
+                                    gap: 1,
+                                }}
+                                padding='5px 10px'
+                            >
+                                <div onClick={handleOpenWindow} align='right'>
+                                    <Typography variant="button" xs="auto">
+                                        source code
+                                    </Typography>
+                                    <IconButton aria-label="open" size="small">
+                                        <OpenInNewIcon />
+                                    </IconButton>
+                                </div>
+
+                            </Box>
                             <Box sx={{ flexGrow: 1 }}>
                                 <AppBar position="static" color='transparent'>
                                     <Toolbar>
@@ -166,6 +213,15 @@ function ChangeDetail(props) {
                                     <FileDiff file={file} />
                                 ))}
                             </div>
+                        </Box>
+
+                        <Box sx={{ width: '100%', textAlign: 'center' }}>
+                            <StyledButton fullWidth
+                                          variant="contained"
+                                          sx={{ mt: 3, mb: 2 }}
+                                          onClick={history.goBack}>
+                                <ButtonLabel>Back</ButtonLabel>
+                            </StyledButton>
                         </Box>
 
                         {/*<Box*/}

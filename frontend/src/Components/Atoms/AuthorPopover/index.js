@@ -5,8 +5,8 @@ import Typography from '@mui/material/Typography';
 export default function AuthorPopover({author}) {
     const [anchorEl, setAnchorEl] = useState(null);
 
-    const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
+    const handlePopoverOpen = (e) => {
+        setAnchorEl(e.currentTarget);
     };
 
     const handlePopoverClose = () => {
@@ -22,6 +22,7 @@ export default function AuthorPopover({author}) {
                 aria-haspopup="true"
                 onMouseEnter={handlePopoverOpen}
                 onMouseLeave={handlePopoverClose}
+                sx = {{ fontSize: '0.875rem', fontWeight: '700' }}
             >
                 {author.name}
             </Typography>

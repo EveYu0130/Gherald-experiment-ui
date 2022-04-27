@@ -16,6 +16,9 @@ public class Participant {
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     private List<ChangeReview> changeReviews;
 
+    @OneToOne(mappedBy = "participant", cascade = CascadeType.ALL)
+    private Questionnaire questionnaire;
+
     public String getId() {
         return id;
     }
@@ -30,5 +33,13 @@ public class Participant {
 
     public void setChangeReviews(List<ChangeReview> changeReviews) {
         this.changeReviews = changeReviews;
+    }
+
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
     }
 }

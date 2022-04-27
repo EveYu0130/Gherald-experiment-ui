@@ -1,40 +1,25 @@
 import React, {useEffect, useState} from 'react';
-import styled, {css, keyframes} from 'styled-components';
-import Button from '../../Atoms/Button';
-import {BrowserRouter as Router, Link, Route, Switch, useRouteMatch} from 'react-router-dom';
-import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider } from '@mui/material';
-import Table from "../../Molecules/Table";
-import ChangeDetail from "../ChangeDetail";
-import FileDiff from "../../Molecules/FileDiff";
-import CodeReview from "../CodeReview";
+import styled from 'styled-components';
+import {
+    Box,
+    Typography,
+    Divider,
+    Container,
+    CssBaseline,
+    Button,
+    CircularProgress
+} from '@mui/material';
 import {useAuth} from "../../../auth";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import CodeReview from "../../Molecules/CodeReview";
 
-const Wrapper = styled.div`
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border-radius: 8px;
-    background: #f4f7f8;
-    // text-align: center;
-    padding: 5% 5%;
-    height: 100%;
-`;
 
 const Header = styled.h1`
     // background: #43D1AF;
     padding: 20px 0;
     font-weight: 300 bold;
     text-align: center;
-    color: #43D1AF;
-    margin: -16px -16px 16px -16px;
-    // width: 20%;
-`;
-
-const Text = styled.h3`
-    // background: #43D1AF;
-    padding: 20px 0;
-    font-weight: 300;
-    text-align: center;
+    // color: #43D1AF;
     margin: -16px -16px 16px -16px;
     // width: 20%;
 `;
@@ -63,58 +48,14 @@ const ButtonLabel = styled.label`
   margin-left: 5px;
 `;
 
-const spin = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-`;
 
-const spinAnimation = css`
-  ${spin} 1s infinite linear
-`;
-
-const Spinner = styled.div`
-  pointer-events: all;
-  border-radius: 50%;
-  width: 64px;
-  height: 64px;
-  border: 5px solid
-    rgba(255, 255, 255, 0.2);
-  border-top-color: #43D1AF;
-  border-right-color: #43D1AF;
-  animation: ${spinAnimation};
-  transition: border-top-color 0.5s linear, border-right-color 0.5s linear;
-  margin-left: 48%;
-`;
-
-
-function Item(props: BoxProps) {
-    const { sx, ...other } = props;
-    return (
-        <Box
-            sx={{
-                bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : '#fff'),
-                color: (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800'),
-                border: '1px solid',
-                borderColor: (theme) =>
-                    theme.palette.mode === 'dark' ? 'grey.800' : 'grey.300',
-                p: 1,
-                borderRadius: 2,
-                fontSize: '0.875rem',
-                fontWeight: '700',
-                ...sx,
-            }}
-            {...other}
-        />
-    );
-}
+const theme = createTheme();
 
 function TaskB() {
     const [loading, setLoading] = useState(true);
     const [reviews, setReviews] = useState([]);
+    const [ready, setReady] = useState(false);
+
     let auth = useAuth();
 
     useEffect(() => {
@@ -126,13 +67,16 @@ function TaskB() {
             })
     }, [])
 
-    const { path, url } = useRouteMatch();
+    const handleReadyClick = () => {
+        setReady(true);
+    }
 
     return (
-        <Switch>
-            <Route exact path={path}>
-                <Wrapper>
-                    <Header>Task 2: Conduct Code Reviews</Header>
+        <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xl">
+                <CssBaseline />
+                <Box sx={{ width: '100%' }} padding='5%'>
+                    <Header>Task B: Conduct Code Reviews</Header>
                     <Divider />
 
                     <Divider />
@@ -143,23 +87,42 @@ function TaskB() {
                         <Typography component="div"  text-align="center">
                             <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
                             <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
-                            <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottome of the code review page.</p>
-                            <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
+                            <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottom of the code review page.</p>
+                            {!ready && <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>}
                         </Typography>
                     </Box>
 
-                    <Box sx={{ width: '100%', textAlign: 'center' }}>
-                        <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}}>
-                            <StyledButton>
+                    {/*<Box sx={{ width: '100%', textAlign: 'center' }}>*/}
+                    {/*    <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}} style={{ textDecoration: 'none' }}>*/}
+                    {/*        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>*/}
+                    {/*            <ButtonLabel>Ready</ButtonLabel>*/}
+                    {/*        </StyledButton>*/}
+                    {/*    </Link>*/}
+                    {/*</Box>*/}
+
+                    {!ready ? (
+                        <Box sx={{ width: '100%', textAlign: 'center' }}>
+                            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
                                 <ButtonLabel>Ready</ButtonLabel>
                             </StyledButton>
-                        </Link>
-                    </Box>
-
-                </Wrapper>
-            </Route>
-            <Route path={`${path}/:reviewIdx`} component={CodeReview} />
-        </Switch>
+                        </Box>
+                    ) : (
+                        <div>
+                            {loading ? (
+                                <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
+                                    <CircularProgress size={100} />
+                                </Box>
+                            ) : (
+                                <CodeReview reviews={reviews} />
+                                // <div style={{ width: '100%' }}>
+                                //     {reviews.length > 0 && <HorizontalLinearStepper data={reviews} />}
+                                // </div>
+                            )}
+                        </div>
+                    )}
+                </Box>
+            </Container>
+        </ThemeProvider>
     );
 }
 
