@@ -1,19 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from '../../Atoms/Button';
 import { Link } from 'react-router-dom';
-import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider } from '@mui/material';
+import {Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider, Container, CssBaseline,  Button} from '@mui/material';
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 
-const Wrapper = styled.div`
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    border-radius: 8px;
-    background: #f4f7f8;
-    // text-align: center;
-    padding: 5% 5%;
-    height: 100%;
-`;
 
 const Header = styled.h1`
     // background: #43D1AF;
@@ -58,53 +48,57 @@ const ButtonLabel = styled.label`
   margin-left: 5px;
 `;
 
+const theme = createTheme();
+
 function MainPage() {
     return (
-        <Wrapper>
-            <Header>Get started with the experiment</Header>
-            {/*<Typography variant="h1" component="div"  text-align="center">*/}
-            {/*    Get started with the experiment*/}
-            {/*</Typography>*/}
-            <Text>Thanks for your time. You can start the experiment by clicking  on the "Start Experiment" button on the bottom of this page.</Text>
-            <Divider />
-            <Box sx={{ width: '100%' }} padding='20px'>
-                <Typography variant="h6" component="div"  text-align="center">
-                    About the experiment
-                </Typography>
-                <Typography component="div"  text-align="center">
-                    ......
-                </Typography>
-            </Box>
+        <ThemeProvider theme={theme}>
+            <Container component="main" maxWidth="xl">
+                <CssBaseline />
+                <Header>Get started with the experiment</Header>
+                {/*<Typography variant="h1" component="div"  text-align="center">*/}
+                {/*    Get started with the experiment*/}
+                {/*</Typography>*/}
+                <Text>Thanks for your time. You can start the experiment by clicking  on the "Start Experiment" button on the bottom of this page.</Text>
+                <Divider />
+                <Box sx={{ width: '100%' }} padding='20px'>
+                    <Typography variant="h6" component="div"  text-align="center">
+                        About the experiment
+                    </Typography>
+                    <Typography component="div"  text-align="center">
+                        ......
+                    </Typography>
+                </Box>
 
-            <Divider />
-            <Box sx={{ width: '100%' }} padding='20px'>
-                <Typography variant="h6" component="div"  text-align="center">
-                    Your Tasks in a Glance
-                </Typography>
-                <Typography component="div"  text-align="center">
-                    ......
-                </Typography>
-            </Box>
+                <Divider />
+                <Box sx={{ width: '100%' }} padding='20px'>
+                    <Typography variant="h6" component="div"  text-align="center">
+                        Your Tasks in a Glance
+                    </Typography>
+                    <Typography component="div"  text-align="center">
+                        ......
+                    </Typography>
+                </Box>
 
-            <Divider />
-            <Box sx={{ width: '100%' }} padding='20px'>
-                <Typography variant="h6" component="div"  text-align="center">
-                    Practice the Tasks
-                </Typography>
-                <Typography component="div"  text-align="center">
-                    ......
-                </Typography>
-            </Box>
+                <Divider />
+                <Box sx={{ width: '100%' }} padding='20px'>
+                    <Typography variant="h6" component="div"  text-align="center">
+                        Practice the Tasks
+                    </Typography>
+                    <Typography component="div"  text-align="center">
+                        ......
+                    </Typography>
+                </Box>
 
-            <Box sx={{ width: '100%', textAlign: 'center' }}>
-                <Link to="/taskA">
-                    <StyledButton>
-                        <ButtonLabel>Start Experiment</ButtonLabel>
-                    </StyledButton>
-                </Link>
-            </Box>
-
-        </Wrapper>
+                <Box sx={{ width: '100%', textAlign: 'center' }}>
+                    <Link to="/taskA" style={{ textDecoration: 'none' }}>
+                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            <ButtonLabel>Start Experiment</ButtonLabel>
+                        </StyledButton>
+                    </Link>
+                </Box>
+            </Container>
+        </ThemeProvider>
     );
 }
 

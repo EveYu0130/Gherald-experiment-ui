@@ -1,13 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import styled, {css, keyframes} from 'styled-components';
-import Button from '../../Atoms/Button';
 import {BrowserRouter as Router, Link, Route, Switch, useRouteMatch} from 'react-router-dom';
-import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider } from '@mui/material';
+import {
+    Box,
+    Paper,
+    Grid,
+    Typography,
+    AppBar,
+    Toolbar,
+    TextField,
+    Divider,
+    Container,
+    CssBaseline,
+    Avatar,
+    Button
+} from '@mui/material';
 import Table from "../../Molecules/Table";
 import ChangeDetail from "../ChangeDetail";
 import FileDiff from "../../Molecules/FileDiff";
 import CodeReview from "../CodeReview";
 import {useAuth} from "../../../auth";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 const Wrapper = styled.div`
     box-sizing: border-box;
@@ -112,6 +126,8 @@ function Item(props: BoxProps) {
     );
 }
 
+const theme = createTheme();
+
 function TaskB() {
     const [loading, setLoading] = useState(true);
     const [reviews, setReviews] = useState([]);
@@ -131,32 +147,34 @@ function TaskB() {
     return (
         <Switch>
             <Route exact path={path}>
-                <Wrapper>
-                    <Header>Task 2: Conduct Code Reviews</Header>
-                    <Divider />
+                <ThemeProvider theme={theme}>
+                    <Container component="main" maxWidth="xl">
+                        <CssBaseline />
+                        <Header>Task 2: Conduct Code Reviews</Header>
+                        <Divider />
 
-                    <Divider />
-                    <Box sx={{ width: '100%' }} padding='20px'>
-                        <Typography variant="h6" component="div"  text-align="center">
-                            Task Description
-                        </Typography>
-                        <Typography component="div"  text-align="center">
-                            <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
-                            <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
-                            <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottome of the code review page.</p>
-                            <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
-                        </Typography>
-                    </Box>
+                        <Divider />
+                        <Box sx={{ width: '100%' }} padding='20px'>
+                            <Typography variant="h6" component="div"  text-align="center">
+                                Task Description
+                            </Typography>
+                            <Typography component="div"  text-align="center">
+                                <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
+                                <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
+                                <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottome of the code review page.</p>
+                                <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
+                            </Typography>
+                        </Box>
 
-                    <Box sx={{ width: '100%', textAlign: 'center' }}>
-                        <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}}>
-                            <StyledButton>
-                                <ButtonLabel>Ready</ButtonLabel>
-                            </StyledButton>
-                        </Link>
-                    </Box>
-
-                </Wrapper>
+                        <Box sx={{ width: '100%', textAlign: 'center' }}>
+                            <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}} style={{ textDecoration: 'none' }}>
+                                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                                    <ButtonLabel>Ready</ButtonLabel>
+                                </StyledButton>
+                            </Link>
+                        </Box>
+                    </Container>
+                </ThemeProvider>
             </Route>
             <Route path={`${path}/:reviewIdx`} component={CodeReview} />
         </Switch>

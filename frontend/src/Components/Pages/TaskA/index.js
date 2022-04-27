@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styled, {css, keyframes} from 'styled-components';
-import Button from '../../Atoms/Button';
 import {BrowserRouter as Router, Link, Route, Switch, useHistory, useRouteMatch, Redirect} from 'react-router-dom';
-import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider } from '@mui/material';
+import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider, Button } from '@mui/material';
 import ChangeDetail from "../ChangeDetail";
 import TaskB from "../TaskB";
 import DnD from "../../Molecules/DnD";
@@ -155,7 +154,7 @@ function TaskA() {
 
                     {!ready ? (
                         <Box sx={{ width: '100%', textAlign: 'center' }}>
-                            <StyledButton onClick={handleReadyClick}>
+                            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
                                 <ButtonLabel>Ready</ButtonLabel>
                             </StyledButton>
                         </Box>

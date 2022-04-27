@@ -1,25 +1,45 @@
-import {Diff, Decoration, Hunk, withSourceExpansion} from 'react-diff-view';
+import {Diff, Decoration, Hunk, withSourceExpansion, getChangeKey} from 'react-diff-view';
 import tokenize from '../ChangeDetail/tokenize';
-import {IconButton, Typography, Box} from "@mui/material";
+import {IconButton, Typography, Box, Alert} from "@mui/material";
 import React from "react";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import UnfoldMoreIcon from '@mui/icons-material/UnfoldMore';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandIcon from '@mui/icons-material/Expand';
+
+const getWidgets = hunks => {
+    const changes = hunks.reduce((result, {changes}) => [...result, ...changes], []);
+    const warning = changes.filter(({type}) => Math.random() < 0.5 && (type === "insert" || type === "delete"));
+    return warning.reduce(
+        (widgets, change) => {
+            const changeKey = getChangeKey(change);
+
+            return {
+                ...widgets,
+                [changeKey]: <Alert severity="warning">This line in change is risky — check it out!</Alert>
+            };
+        },
+        {}
+    );
+};
 
 const UnfoldCollapsed = ({previousHunk, currentHunk, onClick}) => {
     const start = previousHunk ? previousHunk.oldStart + previousHunk.oldLines : 1;
     const end = currentHunk.oldStart;
 
     return (
-        <div>
-            <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
-                <ExpandIcon />
-            </IconButton>
-        </div>
-        // <div onClick={() => onClick(start, end)}>
-        //     Expand all
+        // <div>
+        //     <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
+        //         <ExpandIcon />
+        //     </IconButton>
         // </div>
+        <Decoration>
+            <Box sx={{ width: '100%', textAlign: 'center' }}>
+                <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
+                    <ExpandIcon />
+                    <Typography variant="button" color="text.secondary">Expand all</Typography>
+                </IconButton>
+            </Box>
+        </Decoration>
     );
 };
 
@@ -31,13 +51,18 @@ const ExpandUp = ({previousHunk, currentHunk, onClick}) => {
     }
 
     return (
-        <div>
-            <IconButton aria-label="expand-up" size="small" onClick={() => onClick(start, end)}>
-                <ExpandLessIcon />
-            </IconButton>
-        </div>
-        // <div onClick={() => onClick(start, end)}>
-        //     Expand Up
+        <Decoration>
+            <Box sx={{ width: '100%', textAlign: 'center' }}>
+                <IconButton aria-label="expand-up" size="small" onClick={() => onClick(start, end)}>
+                    <ExpandLessIcon />
+                    <Typography variant="button" color="text.secondary">Expand up</Typography>
+                </IconButton>
+            </Box>
+        </Decoration>
+        // <div>
+        //     <IconButton aria-label="expand-up" size="small" onClick={() => onClick(start, end)}>
+        //         <ExpandLessIcon />
+        //     </IconButton>
         // </div>
     );
 };
@@ -47,13 +72,18 @@ const ExpandDown = ({currentHunk, linesCount, onClick}) => {
     const end = start + 15 < linesCount ? start + 15 : linesCount;
 
     return (
-        <div>
-            <IconButton aria-label="expand-down" size="small" onClick={() => onClick(start, end)}>
-                <ExpandMoreIcon />
-            </IconButton>
-        </div>
-        // <div onClick={() => onClick(start, end)}>
-        //     Expand down
+        <Decoration>
+            <Box sx={{ width: '100%', textAlign: 'center' }}>
+                <IconButton aria-label="expand-down" size="small" onClick={() => onClick(start, end)}>
+                    <ExpandMoreIcon />
+                    <Typography variant="button" color="text.secondary">Expand down</Typography>
+                </IconButton>
+            </Box>
+        </Decoration>
+        // <div>
+        //     <IconButton aria-label="expand-down" size="small" onClick={() => onClick(start, end)}>
+        //         <ExpandMoreIcon />
+        //     </IconButton>
         // </div>
     );
 };
@@ -63,13 +93,18 @@ const UnfoldStub = ({currentHunk, linesCount, onClick}) => {
     const end = linesCount;
 
     return (
-        <div>
-            <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
-                <ExpandIcon />
-            </IconButton>
-        </div>
-        // <div onClick={() => onClick(start, end)}>
-        //     Expand all
+        <Decoration>
+            <Box sx={{ width: '100%', textAlign: 'center' }}>
+                <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
+                    <ExpandIcon />
+                    <Typography variant="button" color="text.secondary">Expand all</Typography>
+                </IconButton>
+            </Box>
+        </Decoration>
+        // <div>
+        //     <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
+        //         <ExpandIcon />
+        //     </IconButton>
         // </div>
     );
 };
@@ -133,7 +168,7 @@ const DiffView = ({hunks, onExpandRange, linesCount}) => {
     };
 
     return (
-        <Diff hunks={hunks} diffType="modify" viewType="split" tokens={tokenize(hunks)}>
+        <Diff hunks={hunks} diffType="modify" viewType="split" tokens={tokenize(hunks)} widgets={getWidgets(hunks)}>
             {hunks => hunks.reduce(renderHunk, [])}
         </Diff>
     );
