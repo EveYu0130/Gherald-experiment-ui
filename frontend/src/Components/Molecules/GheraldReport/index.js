@@ -92,7 +92,7 @@ const theme = createTheme();
 function GheraldReport() {
 
     return (
-        <Box sx={{ width: '50%' }} padding='20px 0px'>
+        <Box sx={{ width: '50%' }} padding='20px'>
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
                     <Typography variant="h6" component="div" sx={{ fontWeight: '700' }}>

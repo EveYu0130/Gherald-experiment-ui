@@ -58,17 +58,17 @@ function Questionnaire() {
     let auth = useAuth();
     const history = useHistory();
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e) => {
         setState({
             ...state,
-            [event.target.name]: event.target.value,
+            [e.target.name]: e.target.value,
         });
     };
 
-    const handleCheckChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleCheckChange = (e) => {
         setState({
             ...state,
-            [event.target.name]: event.target.checked,
+            [e.target.name]: e.target.checked,
         });
     };
 

@@ -1,5 +1,5 @@
 import './App.css';
-import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 import PrivateRoute from "./privateRoute";
 import MainPage from "./Components/Pages/MainPage";
 import Login from "./Components/Pages/Login";
@@ -10,7 +10,6 @@ import TaskB from "./Components/Pages/TaskB";
 import Questionnaire from "./Components/Pages/Questionnaire";
 import React from "react";
 import {ProvideAuth} from "./auth";
-import CodeReview from "./Components/Pages/CodeReview";
 import EndPage from "./Components/Pages/EndPage";
 
 
@@ -28,7 +27,7 @@ function App() {
                   </Route>
                   <PrivateRoute path="/taskA" component={TaskA}>
                   </PrivateRoute>
-                  <PrivateRoute path="/taskB" component={TaskB}>
+                  <PrivateRoute exact path="/taskB" component={TaskB}>
                   </PrivateRoute>
                   <PrivateRoute exact path="/questionnaire" component={Questionnaire}>
                   </PrivateRoute>
