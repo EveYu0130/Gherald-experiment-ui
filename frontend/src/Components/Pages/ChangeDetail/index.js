@@ -155,7 +155,7 @@ function ChangeDetail(props) {
                                 </Typography>
                             </Box>
                             <Typography sx={{ gridArea: 'created_title' }}>Created</Typography>
-                            <Item sx={{ gridArea: 'created_info' }}>{change.updated}</Item>
+                            <Item sx={{ gridArea: 'created_info' }}>{change.updated.substring(0,19)}</Item>
                             <Typography sx={{ gridArea: 'author_title' }}>Author</Typography>
                             <Item sx={{ gridArea: 'author_info' }}><AuthorPopover author={change.author} /></Item>
                             <Typography sx={{ gridArea: 'repo_title' }}>Repo</Typography>

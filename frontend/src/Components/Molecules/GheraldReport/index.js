@@ -4,6 +4,7 @@ import styled from "styled-components";
 import LinearProgress, {linearProgressClasses} from "@mui/material/LinearProgress";
 import {makeStyles} from "@mui/styles";
 import {createTheme} from "@mui/material/styles";
+import {useEffect} from "react";
 
 function change(value) {
     return gradient(value/100,'#ffab91','#dd2c00');
@@ -67,6 +68,25 @@ function LinearProgressWithLabel(props: LinearProgressProps & { value: number })
     );
 }
 
+function ProgressWithLabel({ value, theme }) {
+    const [progress, setProgress] = React.useState(0);
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            if (progress < value) {
+                setProgress((prevProgress) => (value > prevProgress ? prevProgress + 1 : value));
+            }
+        }, 10);
+        return () => {
+            clearInterval(timer);
+        };
+    }, [])
+
+    return (
+        <LinearProgressWithLabel value={progress} theme={theme} />
+    );
+}
+
 const theme = createTheme();
 
 function GheraldReport() {
@@ -89,19 +109,19 @@ function GheraldReport() {
                             <Typography variant="body2">Size</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <LinearProgressWithLabel value={99} theme={theme}/>
+                            <ProgressWithLabel value={99} theme={theme}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography variant="body2">Author prior changes</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <LinearProgressWithLabel value={70} theme={theme}/>
+                            <ProgressWithLabel value={70} theme={theme}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography variant="body2"># of developers</Typography>
                         </Grid>
                         <Grid item xs={8}>
-                            <LinearProgressWithLabel value={55} theme={theme}/>
+                            <ProgressWithLabel value={55} theme={theme}/>
                         </Grid>
                     </Grid>
                 </CardContent>
