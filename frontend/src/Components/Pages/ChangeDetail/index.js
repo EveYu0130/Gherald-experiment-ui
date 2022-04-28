@@ -146,7 +146,7 @@ function ChangeDetail(props) {
                                     "branch_title branch_info branch_info branch_info . . . ."
                                     "msg msg msg msg . . . ."`,
                             }}
-                            padding='20px 0px'
+                            padding='20px'
                         >
                             {/*<Box sx={{ gridArea: 'header', bgcolor: 'primary.main' }}>Header</Box>*/}
                             <Box sx={{ gridArea: 'subject' }} padding='20px 0px'>
@@ -173,7 +173,7 @@ function ChangeDetail(props) {
 
                         <GheraldReport />
 
-                        <Box sx={{ width: '100%' }} padding='20px 0px'>
+                        <Box sx={{ width: '100%' }} padding='20px'>
                             <Box
                                 sx={{
                                     width: '100%',

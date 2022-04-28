@@ -11,6 +11,8 @@ import Questionnaire from "./Components/Pages/Questionnaire";
 import React from "react";
 import {ProvideAuth} from "./auth";
 import EndPage from "./Components/Pages/EndPage";
+import ChangeDetail from "./Components/Pages/ChangeDetail";
+import Practice from "./Components/Pages/Practice";
 
 
 
@@ -23,8 +25,8 @@ function App() {
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/participants" component={ParticipantList}>
                   </Route>
-                  <Route exact path="/changes" component={ChangeList}>
-                  </Route>
+                  {/*<Route exact path="/changes" component={ChangeList}>*/}
+                  {/*</Route>*/}
                   <PrivateRoute path="/taskA" component={TaskA}>
                   </PrivateRoute>
                   <PrivateRoute exact path="/taskB" component={TaskB}>
@@ -32,6 +34,10 @@ function App() {
                   <PrivateRoute exact path="/questionnaire" component={Questionnaire}>
                   </PrivateRoute>
                   <PrivateRoute exact path="/end" component={EndPage}>
+                  </PrivateRoute>
+                  <PrivateRoute path="/practice" component={Practice}>
+                  </PrivateRoute>
+                  <PrivateRoute path="/changes/:changeId" component={ChangeDetail}>
                   </PrivateRoute>
               </Switch>
           </BrowserRouter>

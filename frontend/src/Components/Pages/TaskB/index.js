@@ -12,6 +12,7 @@ import {
 import {useAuth} from "../../../auth";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import CodeReview from "../../Molecules/CodeReview";
+import {useLocation} from "react-router-dom";
 
 
 const Header = styled.h1`
@@ -55,6 +56,8 @@ function TaskB() {
     const [loading, setLoading] = useState(true);
     const [reviews, setReviews] = useState([]);
     const [ready, setReady] = useState(false);
+    let location = useLocation();
+    let { practice } = location.state || false;
 
     let auth = useAuth();
 
@@ -113,7 +116,7 @@ function TaskB() {
                                     <CircularProgress size={100} />
                                 </Box>
                             ) : (
-                                <CodeReview reviews={reviews} />
+                                <CodeReview reviews={reviews} practice={practice} />
                                 // <div style={{ width: '100%' }}>
                                 //     {reviews.length > 0 && <HorizontalLinearStepper data={reviews} />}
                                 // </div>

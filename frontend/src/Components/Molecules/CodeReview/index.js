@@ -27,7 +27,7 @@ const StyledButton = styled(Button)`
   }
 `;
 
-function CodeReview({ reviews }) {
+function CodeReview({ reviews, practice }) {
     const [activeStep, setActiveStep] = React.useState(0);
     const { id, change } = reviews[activeStep];
 
@@ -70,30 +70,48 @@ function CodeReview({ reviews }) {
     const handleNext = () => {
         console.log('Submit');
         console.log(data);
-        fetch('/api/code-review', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({id, codeInspections: data.map(({file, line, comment}) => ({file, line, comment}))})
-        }).then(response => {
-            if  (response.status === 200) {
-                if (activeStep === reviews.length - 1) {
-                    history.push(`/questionnaire`);
-                    console.log(history);
-                } else {
-                    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-                }
+        if (practice) {
+            if (activeStep === reviews.length - 1) {
+                history.push({
+                    pathname: '/',
+                    state: { practiced: true }
+                });
+            } else {
+                setActiveStep((prevActiveStep) => prevActiveStep + 1);
             }
-            console.log(response);
-        }).catch(error => {
-            console.log(error);
-        });
+        } else {
+            fetch('/api/code-review', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({id, codeInspections: data.map(({file, line, comment}) => ({file, line, comment}))})
+            }).then(response => {
+                if  (response.status === 200) {
+                    if (activeStep === reviews.length - 1) {
+                        history.push(`/questionnaire`);
+                        console.log(history);
+                    } else {
+                        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+                    }
+                }
+                console.log(response);
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     };
 
     const handleSkip = () => {
         if (activeStep === reviews.length - 1) {
-            history.push(`/questionnaire`);
+            if (practice) {
+                history.push({
+                    pathname: '/',
+                    state: { practiced: true }
+                });
+            } else {
+                history.push(`/questionnaire`);
+            }
             console.log(history);
         } else {
             setActiveStep((prevActiveStep) => prevActiveStep + 1);

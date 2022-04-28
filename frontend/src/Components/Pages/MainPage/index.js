@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import {Link, useHistory, useLocation} from 'react-router-dom';
 import {
     Box,
     Paper,
@@ -66,6 +66,14 @@ const ButtonLabel = styled.label`
 const theme = createTheme();
 
 function MainPage() {
+    let location = useLocation();
+    let { practiced } = location.state || false;
+    const history = useHistory();
+
+    const handleStartClick = () => {
+        history.push(`/taskA`);
+    }
+
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" padding='5%'>
@@ -89,7 +97,7 @@ function MainPage() {
                                 <br />
                                 Please feel free to play around with the practice task to get familiar with the experiment workflow and UI.
                                 <br />
-                                You can start the experiment by clicking on the "Start Experiment" button on the bottom of this page.
+                                You can start the experiment by clicking on the <b>Start Experiment</b> button on the bottom of this page.
                             </Typography>
                         </Box>
                     </Box>
@@ -144,16 +152,20 @@ function MainPage() {
                             <Card sx={{ minWidth: 275}}>
                                 <CardContent>
                                     <Typography variant="subtitle1" paragraph>
-                                        Here you can practice the tasks to get familiar with the experiment workflow and functionalities.
+                                        We highly suggest you to practice the tasks before you start the experiment.
+                                        <br />
+                                        This will help you get familiar with the experiment workflow and UI.
                                         <br />
                                         There is no time limitation for practice tasks.
+                                        <br />
+                                        You can start practice tasks by clicking on the <b>Start Practice</b> button on the bottom of this page.
                                         {/*<br />*/}
                                         {/*The provided changes in the practice task will be different than the ones in the actual experiment but the task settings and UI will be exactly the same.*/}
                                     </Typography>
                                 </CardContent>
-                                <CardActions>
-                                    <Button>Practice</Button>
-                                </CardActions>
+                                {/*<CardActions>*/}
+                                {/*    <Button>Practice</Button>*/}
+                                {/*</CardActions>*/}
                                 {/*<CardActions>*/}
                                 {/*    <Link style={{ textDecoration: 'none' }}>*/}
                                 {/*        <Button>Practice</Button>*/}
@@ -166,11 +178,16 @@ function MainPage() {
                     <Divider />
 
                     <Box sx={{ width: '100%', textAlign: 'center' }}>
-                        <Link to="/taskA" style={{ textDecoration: 'none' }}>
+                        <Link to="/practice/taskA" style={{ textDecoration: 'none' }}>
                             <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                <ButtonLabel>Start Experiment</ButtonLabel>
+                                <ButtonLabel>Start Practice</ButtonLabel>
                             </StyledButton>
                         </Link>
+                    </Box>
+                    <Box sx={{ width: '100%', textAlign: 'center' }}>
+                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleStartClick} disabled={!practiced}>
+                            <ButtonLabel>Start Experiment</ButtonLabel>
+                        </StyledButton>
                     </Box>
                 </Box>
             </Container>
