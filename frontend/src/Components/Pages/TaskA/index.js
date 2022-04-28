@@ -18,6 +18,7 @@ import ChangeDetail from "../ChangeDetail";
 import DnD from "../../Molecules/DnD";
 import {useAuth} from "../../../auth";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
+import practice from "../Practice";
 
 const Header = styled.h1`
     // background: #43D1AF;
@@ -55,12 +56,10 @@ const ButtonLabel = styled.label`
 
 const theme = createTheme();
 
-function TaskA() {
+function TaskA(props) {
     const [loading, setLoading] = useState(true);
     const [changes, setChanges] = useState([]);
     const [ready, setReady] = useState(false);
-
-    const { path, url } = useRouteMatch();
 
     let auth = useAuth();
 
@@ -78,53 +77,48 @@ function TaskA() {
     }
 
     return (
-        <Switch>
-            <Route exact path={path}>
-                <ThemeProvider theme={theme}>
-                    <Container component="main" padding='5%'>
-                        <CssBaseline />
-                        <Box sx={{ width: '100%' }} padding='5%'>
-                            <Header>Task A: Rank the Changes</Header>
-                            <Divider />
+        <ThemeProvider theme={theme}>
+            <Container component="main" padding='5%'>
+                <CssBaseline />
+                <Box sx={{ width: '100%' }} padding='5%'>
+                    <Header>Task A: Rank the Changes</Header>
+                    <Divider />
 
-                            <Divider />
-                            <Box sx={{ width: '100%' }} padding='20px'>
-                                <Typography variant="h6" component="div"  text-align="center">
-                                    Task Description
-                                </Typography>
-                                <Typography component="div"  text-align="center">
-                                    <p>Here you are provided with three code changes.</p>
-                                    <p>In this task, you are expected to rank these changes based on your estimated risk levels.</p>
-                                    <p>Please rank these changes in an ascending order (1=Most risky, 3=Least risky).</p>
-                                    {!ready && <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>}
-                                </Typography>
-                            </Box>
+                    <Divider />
+                    <Box sx={{ width: '100%' }} padding='20px'>
+                        <Typography variant="h6" component="div"  text-align="center">
+                            Task Description
+                        </Typography>
+                        <Typography component="div"  text-align="center">
+                            <p>Here you are provided with three code changes.</p>
+                            <p>In this task, you are expected to rank these changes based on your estimated risk levels.</p>
+                            <p>Please rank these changes in an ascending order (1=Most risky, 3=Least risky).</p>
+                            {!ready && <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>}
+                        </Typography>
+                    </Box>
 
-                            {!ready ? (
-                                <Box sx={{ width: '100%', textAlign: 'center' }}>
-                                    <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
-                                        <ButtonLabel>Ready</ButtonLabel>
-                                    </StyledButton>
+                    {!ready ? (
+                        <Box sx={{ width: '100%', textAlign: 'center' }}>
+                            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
+                                <ButtonLabel>Ready</ButtonLabel>
+                            </StyledButton>
+                        </Box>
+                    ) : (
+                        <div>
+                            {loading ? (
+                                <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
+                                    <CircularProgress size={100} />
                                 </Box>
                             ) : (
-                                <div>
-                                    {loading ? (
-                                        <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
-                                            <CircularProgress size={100} />
-                                        </Box>
-                                    ) : (
-                                        <div style={{ width: '100%' }}>
-                                            {changes.length > 0 && <DnD changes={changes} baseUrl={url} />}
-                                        </div>
-                                    )}
+                                <div style={{ width: '100%' }}>
+                                    {changes.length > 0 && <DnD changes={changes} practice={props.practice ? true : false}/>}
                                 </div>
                             )}
-                        </Box>
-                    </Container>
-                </ThemeProvider>
-            </Route>
-            <Route path={`${path}/:changeId`} component={ChangeDetail} />
-        </Switch>
+                        </div>
+                    )}
+                </Box>
+            </Container>
+        </ThemeProvider>
     );
 }
 

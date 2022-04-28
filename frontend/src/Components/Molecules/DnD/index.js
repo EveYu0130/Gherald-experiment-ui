@@ -60,7 +60,7 @@ const icons = [
     (<Looks3Icon sx={{ color: 'primary.main', fontSize: '50px' }} />)
 ]
 
-function DnD({ changes, baseUrl }) {
+function DnD({ changes, practice }) {
     const [changeList, updateChangeList] = useState(changes);
     const history = useHistory();
 
@@ -76,18 +76,25 @@ function DnD({ changes, baseUrl }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('/api/risk-assessment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(changeList)
-        }).then(response => {
-            history.push('/taskB')
-            console.log(response);
-        }).catch(error => {
-            console.log(error);
-        });
+        if (practice) {
+            history.push({
+                pathname: '/practice/taskB',
+                state: { practice: true }
+            });
+        } else {
+            fetch('/api/risk-assessment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(changeList)
+            }).then(response => {
+                history.push('/taskB')
+                console.log(response);
+            }).catch(error => {
+                console.log(error);
+            });
+        }
     };
 
     return (
@@ -111,7 +118,7 @@ function DnD({ changes, baseUrl }) {
                     //         <Item>xs=6 md=4</Item>
                     //     </Grid>
                     // </Grid>
-                    <Box className="changes" sx={{ backgroundColor: 'grey.200', p: 2 }} {...provided.droppableProps} ref={provided.innerRef} component="form" onSubmit={handleSubmit}>
+                    <Box className="changes" sx={{ backgroundColor: 'grey.200', p: 2 }} {...provided.droppableProps} ref={provided.innerRef}>
                         {changeList.map(({id, change}, index) => {
                             return (
                                 <Grid container alignItems="center" spacing={2}>
@@ -145,7 +152,7 @@ function DnD({ changes, baseUrl }) {
                                                             {/*</Typography>*/}
                                                         </CardContent>
                                                         <CardActions>
-                                                            <Link to={`${baseUrl}/${change.id}`} target="_blank" style={{ textDecoration: 'none' }}>
+                                                            <Link to={`/changes/${change.id}`} target="_blank" style={{ textDecoration: 'none' }}>
                                                                 <Button size="small">Learn More</Button>
                                                             </Link>
                                                         </CardActions>
@@ -162,13 +169,13 @@ function DnD({ changes, baseUrl }) {
                 )}
             </Droppable>
             <Box sx={{ width: '100%', textAlign: 'center' }}>
-                <StyledButton type="submit"
-                              fullWidth
+                <StyledButton fullWidth
                               variant="contained"
-                              sx={{ mt: 3, mb: 2 }}>
+                              sx={{ mt: 3, mb: 2 }}
+                              onClick={handleSubmit}>
                     <ButtonLabel>Submit</ButtonLabel>
                 </StyledButton>
-                <Link to="/taskB" style={{ textDecoration: 'none' }}>
+                <Link to={{pathname: practice ? "/practice/taskB" : "/taskB", state: { practice: practice }}} style={{ textDecoration: 'none' }}>
                     <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         <ButtonLabel>Skip</ButtonLabel>
                     </StyledButton>
