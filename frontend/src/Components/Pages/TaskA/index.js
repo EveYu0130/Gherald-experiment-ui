@@ -96,7 +96,7 @@ function TaskA() {
                                     <p>Here you are provided with three code changes.</p>
                                     <p>In this task, you are expected to rank these changes based on your estimated risk levels.</p>
                                     <p>Please rank these changes in an ascending order (1=Most risky, 3=Least risky).</p>
-                                    <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>
+                                    {!ready && <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>}
                                 </Typography>
                             </Box>
 
