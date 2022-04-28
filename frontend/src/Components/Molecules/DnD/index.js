@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {Link, useHistory} from "react-router-dom";
-import { Box, Card, CardActions, CardContent, Button, Typography } from "@mui/material";
+import {Box, Card, CardActions, CardContent, Button, Typography, Grid, Avatar} from "@mui/material";
 import styled from "styled-components";
+import LooksOneIcon from '@mui/icons-material/LooksOne';
+import LooksTwoIcon from '@mui/icons-material/LooksTwo';
+import Looks3Icon from '@mui/icons-material/Looks3';
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 
 
 const StyledButton = styled(Button)`
@@ -29,7 +33,7 @@ const ButtonLabel = styled.label`
   margin-left: 5px;
 `;
 
-function Item(props: BoxProps) {
+function Item(props) {
     const { sx, ...other } = props;
     return (
         <Box
@@ -49,6 +53,12 @@ function Item(props: BoxProps) {
         />
     );
 }
+
+const icons = [
+    (<LooksOneIcon sx={{ color: 'primary.main', fontSize: '50px' }} />),
+    (<LooksTwoIcon sx={{ color: 'primary.main', fontSize: '50px' }} />),
+    (<Looks3Icon sx={{ color: 'primary.main', fontSize: '50px' }} />)
+]
 
 function DnD({ changes, baseUrl }) {
     const [changeList, updateChangeList] = useState(changes);
@@ -84,58 +94,86 @@ function DnD({ changes, baseUrl }) {
         <DragDropContext onDragEnd={handleOnDragEnd}>
             <Droppable droppableId="changes">
                 {(provided) => (
+                    // <Grid container spacing={2}>
+                    //     <Grid container xs={2}>
+                    //         <Grid
+                    //             container
+                    //             direction="column"
+                    //             justifyContent="flex-start"
+                    //             alignItems="flex-start"
+                    //         >
+                    //             <Item>xs=6 md=4</Item>
+                    //             <Item>xs=6 md=4</Item>
+                    //             <Item>xs=6 md=4</Item>
+                    //         </Grid>
+                    //     </Grid>
+                    //     <Grid item xs={10}>
+                    //         <Item>xs=6 md=4</Item>
+                    //     </Grid>
+                    // </Grid>
                     <Box className="changes" sx={{ backgroundColor: 'grey.200', p: 2 }} {...provided.droppableProps} ref={provided.innerRef} component="form" onSubmit={handleSubmit}>
                         {changeList.map(({id, change}, index) => {
                             return (
-                                <Draggable key={change.id} draggableId={change.id} index={index}>
-                                    {(provided) => (
-                                        // <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                        //     <Item><Link to={`${baseUrl}/${id}`}>{subject}</Link></Item>
-                                        // </Box>
-                                        <Card sx={{ minWidth: 275, m: 2 }} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                            <CardContent>
-                                                {/*<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>*/}
-                                                {/*    Change:*/}
-                                                {/*</Typography>*/}
-                                                <Typography variant="h6" component="div">
-                                                    {change.subject}
-                                                </Typography>
-                                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                                    {change.project}
-                                                </Typography>
-                                                {/*<Typography variant="body2">*/}
-                                                {/*    well meaning and kindly.*/}
-                                                {/*    <br />*/}
-                                                {/*    {'"a benevolent smile"'}*/}
-                                                {/*</Typography>*/}
-                                            </CardContent>
-                                            <CardActions>
-                                                <Link to={`${baseUrl}/${change.id}`} style={{ textDecoration: 'none' }}>
-                                                    <Button size="small">Learn More</Button>
-                                                </Link>
-                                            </CardActions>
-                                        </Card>
-                                    )}
-                                </Draggable>
+                                <Grid container alignItems="center" spacing={2}>
+                                    <Grid item xs={2}>
+                                        <Box sx={{ width: '100%' }} textAlign="center">
+                                            {icons[index]}
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={10}>
+                                        <Box>
+                                            <Draggable key={change.id} draggableId={change.id} index={index}>
+                                                {(provided) => (
+                                                    // <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                    //     <Item><Link to={`${baseUrl}/${id}`}>{subject}</Link></Item>
+                                                    // </Box>
+                                                    <Card sx={{ minWidth: 275, m: 2 }} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                        <CardContent>
+                                                            {/*<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>*/}
+                                                            {/*    Change:*/}
+                                                            {/*</Typography>*/}
+                                                            <Typography variant="h6" component="div">
+                                                                {change.subject}
+                                                            </Typography>
+                                                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                                                {change.project}
+                                                            </Typography>
+                                                            {/*<Typography variant="body2">*/}
+                                                            {/*    well meaning and kindly.*/}
+                                                            {/*    <br />*/}
+                                                            {/*    {'"a benevolent smile"'}*/}
+                                                            {/*</Typography>*/}
+                                                        </CardContent>
+                                                        <CardActions>
+                                                            <Link to={`${baseUrl}/${change.id}`} style={{ textDecoration: 'none' }}>
+                                                                <Button size="small">Learn More</Button>
+                                                            </Link>
+                                                        </CardActions>
+                                                    </Card>
+                                                )}
+                                            </Draggable>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
                             );
                         })}
                         {provided.placeholder}
-                        <Box sx={{ width: '100%', textAlign: 'center' }}>
-                            <StyledButton type="submit"
-                                          fullWidth
-                                          variant="contained"
-                                          sx={{ mt: 3, mb: 2 }}>
-                                <ButtonLabel>Submit</ButtonLabel>
-                            </StyledButton>
-                            <Link to="/taskB" style={{ textDecoration: 'none' }}>
-                                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                    <ButtonLabel>Skip</ButtonLabel>
-                                </StyledButton>
-                            </Link>
-                        </Box>
                     </Box>
                 )}
             </Droppable>
+            <Box sx={{ width: '100%', textAlign: 'center' }}>
+                <StyledButton type="submit"
+                              fullWidth
+                              variant="contained"
+                              sx={{ mt: 3, mb: 2 }}>
+                    <ButtonLabel>Submit</ButtonLabel>
+                </StyledButton>
+                <Link to="/taskB" style={{ textDecoration: 'none' }}>
+                    <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                        <ButtonLabel>Skip</ButtonLabel>
+                    </StyledButton>
+                </Link>
+            </Box>
         </DragDropContext>
     );
 }
