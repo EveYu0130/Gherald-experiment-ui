@@ -145,7 +145,7 @@ function DnD({ changes, baseUrl }) {
                                                             {/*</Typography>*/}
                                                         </CardContent>
                                                         <CardActions>
-                                                            <Link to={`${baseUrl}/${change.id}`} style={{ textDecoration: 'none' }}>
+                                                            <Link to={`${baseUrl}/${change.id}`} target="_blank" style={{ textDecoration: 'none' }}>
                                                                 <Button size="small">Learn More</Button>
                                                             </Link>
                                                         </CardActions>
