@@ -110,7 +110,7 @@ function Questionnaire() {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <Typography>
-                                    How well do you understand the provided code changes?
+                                    1. How well do you think you understood the provided source code changes?
                                 </Typography>
                                 <RadioGroup
                                     row
@@ -118,14 +118,14 @@ function Questionnaire() {
                                     value={state.understandability}
                                     onChange={handleChange}
                                 >
-                                    <FormControlLabel value="Barely understand" control={<Radio />} label="Barely understand" />
-                                    <FormControlLabel value="Half understand" control={<Radio />} label="Half understand" />
-                                    <FormControlLabel value="Mostly understand" control={<Radio />} label="Mostly understand" />
+                                    <FormControlLabel value="Very well" control={<Radio />} label="Mostly understand" />
+                                    <FormControlLabel value="Somewhat" control={<Radio />} label="Half understand" />
+                                    <FormControlLabel value="Barely" control={<Radio />} label="Barely understand" />
                                 </RadioGroup>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    How difficult were the tasks?
+                                    2. How difficult did you find the assigned tasks?
                                 </Typography>
                                 <RadioGroup
                                     row
@@ -134,13 +134,13 @@ function Questionnaire() {
                                     onChange={handleChange}
                                 >
                                     <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
-                                    <FormControlLabel value="Average" control={<Radio />} label="Average" />
+                                    <FormControlLabel value="Moderate" control={<Radio />} label="Average" />
                                     <FormControlLabel value="Hard" control={<Radio />} label="Hard" />
                                 </RadioGroup>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    How did you feel during the experiment?
+                                    3. How would you describe your enthusiasm and energy level during the experiment?
                                 </Typography>
                                 <RadioGroup
                                     row
@@ -148,14 +148,14 @@ function Questionnaire() {
                                     value={state.fitness}
                                     onChange={handleChange}
                                 >
-                                    <FormControlLabel value="Very tired" control={<Radio />} label="Very tired" />
-                                    <FormControlLabel value="OK" control={<Radio />} label="OK" />
-                                    <FormControlLabel value="Very energetic" control={<Radio />} label="Very energetic" />
+                                    <FormControlLabel value="High" control={<Radio />} label="Very energetic" />
+                                    <FormControlLabel value="Moderate" control={<Radio />} label="OK" />
+                                    <FormControlLabel value="Low" control={<Radio />} label="Very tired" />
                                 </RadioGroup>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    How useful the provided tool is to help you with your experimental tasks?
+                                    4. How useful did you find the information provided by the tool?
                                 </Typography>
                                 <RadioGroup
                                     row
@@ -164,13 +164,13 @@ function Questionnaire() {
                                     onChange={handleChange}
                                 >
                                     <FormControlLabel value="Very useful" control={<Radio />} label="Very useful" />
-                                    <FormControlLabel value="Somewhat useful" control={<Radio />} label="Somewhat useful" />
-                                    <FormControlLabel value="Useless" control={<Radio />} label="Useless" />
+                                    <FormControlLabel value="Moderately useful" control={<Radio />} label="Somewhat useful" />
+                                    <FormControlLabel value="Not useful" control={<Radio />} label="Useless" />
                                 </RadioGroup>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    Did you use any other tools (CLI/IDE) during the experiment?
+                                    5. What, if any, additional tools or information sources did you use during the experiment to help in your decision making?
                                 </Typography>
                                 <TextField
                                     required
@@ -185,7 +185,7 @@ function Questionnaire() {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    Did you encounter any problem during the experiment?
+                                    6. What, if any, problems did you encounter during the experiment?
                                 </Typography>
                                 <TextField
                                     required
@@ -200,7 +200,7 @@ function Questionnaire() {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    Do you have any feedback about the experiment/provided tool?
+                                    7. Do you have any additional comments or feedback on the tasks you performed and the information you were provided with?
                                 </Typography>
                                 <TextField
                                     required
@@ -217,7 +217,7 @@ function Questionnaire() {
                                     control={
                                         <Checkbox name="allowInterview" color="primary" checked={state.allowInterview} onChange={handleCheckChange} />
                                     }
-                                    label="I can be contacted for a follow up interview."
+                                    label="I am happy to be contacted by the research team for a follow-up interview."
                                 />
                             </Grid>
                         </Grid>

@@ -215,14 +215,14 @@ function ChangeDetail(props) {
                             </div>
                         </Box>
 
-                        <Box sx={{ width: '100%', textAlign: 'center' }}>
-                            <StyledButton fullWidth
-                                          variant="contained"
-                                          sx={{ mt: 3, mb: 2 }}
-                                          onClick={history.goBack}>
-                                <ButtonLabel>Back</ButtonLabel>
-                            </StyledButton>
-                        </Box>
+                        {/*<Box sx={{ width: '100%', textAlign: 'center' }}>*/}
+                        {/*    <StyledButton fullWidth*/}
+                        {/*                  variant="contained"*/}
+                        {/*                  sx={{ mt: 3, mb: 2 }}*/}
+                        {/*                  onClick={history.goBack}>*/}
+                        {/*        <ButtonLabel>Back</ButtonLabel>*/}
+                        {/*    </StyledButton>*/}
+                        {/*</Box>*/}
 
                         {/*<Box*/}
                         {/*    component="form"*/}

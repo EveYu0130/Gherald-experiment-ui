@@ -88,10 +88,14 @@ function TaskB() {
                             Task Description
                         </Typography>
                         <Typography component="div"  text-align="center">
-                            <p>Here you will be provided with the same set of code changes as in previous task for review.</p>
-                            <p>The changes is provided in the order you have declared in the pre-experiment questionnaire.</p>
-                            <p>In this task, you are expected to identify defects in each code change and log them in a code inspection report at the bottom of the code review page.</p>
-                            {!ready && <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>}
+                            <p>
+                                In this task, you will be provided with the same three sets of changes that you saw in task A.
+                                Taking each set one at a time, your job will be to identify as many defects in the commit as you can, and then log them (file name, line number, description of defect) in a code inspection form at the bottom of the web page.
+                            </p>
+                            <p>
+                                Please focus on identifying *only* functional defects; please ignore any other flaws you might notice in the code, such as those relating to style or documentation.
+                            </p>
+                            {!ready && <p>To start the task, click on the <b>I'm ready for Task B</b> button below.</p>}
                         </Typography>
                     </Box>
 

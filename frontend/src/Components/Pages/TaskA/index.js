@@ -89,12 +89,36 @@ function TaskA(props) {
                         <Typography variant="h6" component="div"  text-align="center">
                             Task Description
                         </Typography>
-                        <Typography component="div"  text-align="center">
-                            <p>Here you are provided with three code changes.</p>
-                            <p>In this task, you are expected to rank these changes based on your estimated risk levels.</p>
-                            <p>Please rank these changes in an ascending order (1=Most risky, 3=Least risky).</p>
-                            {!ready && <p>Once you are prepared, click on <b>Ready</b> and the task will begin.</p>}
-                        </Typography>
+                        {!ready ? (
+                            <Typography component="div"  text-align="center">
+                                <p>
+                                    You will be provided with three sets of code changes to an existing software system (i.e., proposed commits).
+                                    Your job is to rank the changes from most to least risky, where we defined risk as "likelihood of a defect in the code that will need to be fixed later".
+                                </p>
+                                <p>
+                                    To perform the ranking, just drag and drop the changes to the order you think is right, with the most risky change at the top.
+                                </p>
+                                <p>
+                                    To start the task, click on the <b>I'm ready for Task A</b> button below.
+                                </p>
+                            </Typography>
+                        ) : (
+                            <Typography component="div"  text-align="center">
+                                <p>
+                                    Below are three sets of code changes to an existing software systems (i.e., proposed commits).
+                                    Your task is to rearrange the ranking below by the amount of risk you perceive in the changes.  (1 = Most risky, 3 = Least risky).
+                                </p>
+                                <p>
+                                    You can examine the details of each change by clicking on the <b>Learn more</b> button.
+                                </p>
+                                <p>
+                                    Once you are happy with your ranking, click on the <b>Submit</b> button.
+                                </p>
+                                <p>
+                                    If you feel unable to make a meaningful evaluation, you can click on the <b>Skip</b> button instead, and we'll advance you to the next one.
+                                </p>
+                            </Typography>
+                        )}
                     </Box>
 
                     {!ready ? (

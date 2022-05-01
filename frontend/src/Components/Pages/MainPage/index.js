@@ -79,7 +79,7 @@ function MainPage() {
             <Container component="main" padding='5%'>
                 <CssBaseline />
                 <Box sx={{ width: '100%' }} padding='5%'>
-                    <Header>Get started with the experiment</Header>
+                    <Header>Welcome to our experiment on code review</Header>
                     <Divider />
 
                     <Divider />
@@ -89,15 +89,31 @@ function MainPage() {
                         </Typography>
                         <Box padding='20px'>
                             <Typography variant="subtitle1" paragraph>
-                                Thanks for your participation!
-                                <br />
-                                In this experiment, you are expected to complete two tasks. More detailed are provided in the section below.
-                                <br />
-                                Each task will be timed and you can pause the timer at any time during the task.
-                                <br />
-                                Please feel free to play around with the practice task to get familiar with the experiment workflow and UI.
-                                <br />
-                                You can start the experiment by clicking on the <b>Start Experiment</b> button on the bottom of this page.
+                                <p>
+                                    Thanks for your participation!
+                                </p>
+                                <p>
+                                    In this experiment, we're going to ask you to complete two tasks that relate to code review.
+                                    We'll be using examples code commits taken from real-world systems and asking you to evaluate them in different ways.
+                                </p>
+                                <p>
+                                    The tasks will be timed.
+                                    The timer can be paused if you get a phone call or want to grab a coffee.
+                                    However, please do not pause the timer if you are actively working on the task.
+                                </p>
+                                <p>
+                                    We are aware that it may be possible for you to access the actual historic code reviews performed by the systems' original developers.
+                                    We respectfully ask you *not* to do this, so that we can evaluate our research ideas without bias.
+                                    However, you are free to use other tools or information sources that you normally use during code reviews.
+                                </p>
+                                <p>
+                                    You will have the opportunity to do a warm-up example for each task; see the <b>Start Practice</b> button below.
+                                    These exercises will give you some familiarity with the task workflow, the UI, and the design of the experiment.
+                                    The practise exercises will not be timed or evaluated by us.
+                                </p>
+                                <p>
+                                    Once you're comfortable that you understand what you're being asked to do, you can begin the experiment by clicking on the <b>Start Experiment</b> button below.
+                                </p>
                             </Typography>
                         </Box>
                     </Box>
@@ -115,11 +131,11 @@ function MainPage() {
                                             Task A
                                         </Typography>
                                         <Typography variant="subtitle1" color="text.secondary">
-                                            Rank the Changes
+                                            Rank the changes by risk
                                         </Typography>
                                         <Typography variant="subtitle1" paragraph>
-                                            In this task, you will be provided with three code changes.
-                                            You will be expected to rank these changes based on your estimated risk levels.
+                                            In this task, you will be provided with three sets of code changes (i.e., proposed commits to an existing software system).
+                                            Your job is to rank the changes from most to least risky, where we define risk as "the likelihood of a defect in the code that will need to be fixed later".
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -134,8 +150,8 @@ function MainPage() {
                                             Conduct Code Reviews
                                         </Typography>
                                         <Typography variant="subtitle1" paragraph>
-                                            In this task, you will be provided with the same set of code changes as task A.
-                                            You will be expected to identify defects in each code change and log them in a code inspection report at the bottom of the code review page.
+                                            In this task, you will be provided with the same three sets of changes that you saw in the first task.
+                                            Your job will be to identify all of the defects in the commit and log them (file name, line number, description of defect) in a report.
                                         </Typography>
                                     </CardContent>
                                 </Card>
@@ -152,15 +168,23 @@ function MainPage() {
                             <Card sx={{ minWidth: 275}}>
                                 <CardContent>
                                     <Typography variant="subtitle1" paragraph>
-                                        We highly suggest you to practice the tasks before you start the experiment.
-                                        <br />
-                                        This will help you get familiar with the experiment workflow and UI.
-                                        <br />
-                                        There is no time limitation for practice tasks.
-                                        <br />
-                                        You can start practice tasks by clicking on the <b>Start Practice</b> button on the bottom of this page.
-                                        {/*<br />*/}
-                                        {/*The provided changes in the practice task will be different than the ones in the actual experiment but the task settings and UI will be exactly the same.*/}
+                                        <p>
+                                            Before you start the real experiment, you'll be able to do a practice round of each task.
+                                            This will give you some experience with the workflow of the task, the UI, and the problem space.
+                                            We will not evaluate the results of the practice tasks, so take your time.
+                                        </p>
+                                        <p>
+                                            Click on the <b>Start practice</b> button below to give it a try.
+                                            Once you have completed the practice, the <b>Start experiment</b> button will be enabled and you'll be able to go on to the actual experiment.
+                                        </p>
+                                        <p>
+                                            Note that while we are timing your responses, don't think of this as a race.
+                                            Take the time you feel that you need to do the task to your satisfaction.
+                                        </p>
+                                        <p>
+                                            Also, if you get a phone call or otherwise need to take a short break for some reason, please click on the "Pause" button.
+                                            However, please do *not* pause if you're actively thinking about the task.
+                                        </p>
                                     </Typography>
                                 </CardContent>
                                 {/*<CardActions>*/}
