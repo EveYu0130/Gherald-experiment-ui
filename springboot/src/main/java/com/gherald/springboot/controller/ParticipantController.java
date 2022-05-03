@@ -20,8 +20,8 @@ public class ParticipantController {
     private ApplicationService applicationService;
 
     @PostMapping("/api/participants/add")
-    public ParticipantDto createParticipant() {
-        Participant participant = applicationService.createParticipant();
+    public ParticipantDto createParticipant(@RequestParam String tool) {
+        Participant participant = applicationService.createParticipant(tool);
         return convertToDto(participant);
     }
 
@@ -74,7 +74,7 @@ public class ParticipantController {
                 changeReviews.add(convertToDto(changeReview));
             }
         }
-        ParticipantDto participantDto = new ParticipantDto(participant.getId(), changeReviews);
+        ParticipantDto participantDto = new ParticipantDto(participant.getId(), participant.getTool(), changeReviews);
         return participantDto;
     }
 

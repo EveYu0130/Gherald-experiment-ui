@@ -13,6 +13,7 @@ import {useAuth} from "../../../auth";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import CodeReview from "../../Molecules/CodeReview";
 import {useLocation} from "react-router-dom";
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 
 
 const Header = styled.h1`
@@ -56,6 +57,8 @@ function TaskB() {
     const [loading, setLoading] = useState(true);
     const [reviews, setReviews] = useState([]);
     const [ready, setReady] = useState(false);
+    const [pause, setPause] = useState(false);
+
     let location = useLocation();
     let { practice } = location.state || false;
 
@@ -72,6 +75,14 @@ function TaskB() {
 
     const handleReadyClick = () => {
         setReady(true);
+    }
+
+    const handlePauseClick = () => {
+        setPause(true);
+    }
+
+    const handleResumeClick = () => {
+        setPause(false);
     }
 
     return (
@@ -120,10 +131,24 @@ function TaskB() {
                                     <CircularProgress size={100} />
                                 </Box>
                             ) : (
-                                <CodeReview reviews={reviews} practice={practice} />
-                                // <div style={{ width: '100%' }}>
-                                //     {reviews.length > 0 && <HorizontalLinearStepper data={reviews} />}
-                                // </div>
+                                <div style={{ width: '100%' }}>
+                                    {!practice &&
+                                        <Box sx={{ width: '100%', textAlign: 'center' }}>
+                                            {pause ? (
+                                                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>
+                                                    <AccessAlarmsIcon />
+                                                    <ButtonLabel>Resume</ButtonLabel>
+                                                </StyledButton>
+                                            ) : (
+                                                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>
+                                                    <AccessAlarmsIcon />
+                                                    <ButtonLabel>Pause</ButtonLabel>
+                                                </StyledButton>
+                                            )}
+                                        </Box>
+                                    }
+                                    <CodeReview reviews={reviews} practice={practice} />
+                                </div>
                             )}
                         </div>
                     )}

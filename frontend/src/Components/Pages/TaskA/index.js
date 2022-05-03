@@ -18,7 +18,7 @@ import ChangeDetail from "../ChangeDetail";
 import DnD from "../../Molecules/DnD";
 import {useAuth} from "../../../auth";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import practice from "../Practice";
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 
 const Header = styled.h1`
     // background: #43D1AF;
@@ -134,9 +134,7 @@ function TaskA(props) {
                                     <CircularProgress size={100} />
                                 </Box>
                             ) : (
-                                <div style={{ width: '100%' }}>
-                                    {changes.length > 0 && <DnD changes={changes} practice={props.practice ? true : false}/>}
-                                </div>
+                                <DnD changes={changes} practice={props.practice ? true : false}/>
                             )}
                         </div>
                     )}

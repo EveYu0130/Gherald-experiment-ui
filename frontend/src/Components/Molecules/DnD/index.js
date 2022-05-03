@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {Link, useHistory} from "react-router-dom";
 import {Box, Card, CardActions, CardContent, Button, Typography, Grid, Avatar} from "@mui/material";
@@ -7,6 +7,7 @@ import LooksOneIcon from '@mui/icons-material/LooksOne';
 import LooksTwoIcon from '@mui/icons-material/LooksTwo';
 import Looks3Icon from '@mui/icons-material/Looks3';
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 
 
 const StyledButton = styled(Button)`
@@ -63,6 +64,20 @@ const icons = [
 function DnD({ changes, practice }) {
     const [changeList, updateChangeList] = useState(changes);
     const history = useHistory();
+    const [pause, setPause] = useState(false);
+    const [seconds, setSeconds] = useState(0);
+
+    useEffect(() => {
+        let interval = null;
+        if (!pause) {
+            interval = setInterval(() => {
+                setSeconds(seconds => seconds + 1);
+            }, 1000);
+        } else if (seconds > 0) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [pause, seconds])
 
     const handleOnDragEnd = (result) => {
         console.log(result)
@@ -97,91 +112,118 @@ function DnD({ changes, practice }) {
         }
     };
 
+    const handlePauseClick = () => {
+        console.log(seconds);
+        setPause(true);
+    }
+
+    const handleResumeClick = () => {
+        console.log(seconds);
+        setPause(false);
+    }
+
     return (
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-            <Droppable droppableId="changes">
-                {(provided) => (
-                    // <Grid container spacing={2}>
-                    //     <Grid container xs={2}>
-                    //         <Grid
-                    //             container
-                    //             direction="column"
-                    //             justifyContent="flex-start"
-                    //             alignItems="flex-start"
-                    //         >
-                    //             <Item>xs=6 md=4</Item>
-                    //             <Item>xs=6 md=4</Item>
-                    //             <Item>xs=6 md=4</Item>
-                    //         </Grid>
-                    //     </Grid>
-                    //     <Grid item xs={10}>
-                    //         <Item>xs=6 md=4</Item>
-                    //     </Grid>
-                    // </Grid>
-                    <Box className="changes" sx={{ backgroundColor: 'grey.200', p: 2 }} {...provided.droppableProps} ref={provided.innerRef}>
-                        {changeList.map(({id, change}, index) => {
-                            return (
-                                <Grid container alignItems="center" spacing={2}>
-                                    <Grid item xs={2}>
-                                        <Box sx={{ width: '100%' }} textAlign="center">
-                                            {icons[index]}
-                                        </Box>
+        <div style={{ width: '100%' }}>
+            {!practice &&
+                <Box sx={{ width: '100%', textAlign: 'center' }}>
+                    {pause ? (
+                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>
+                            <AccessAlarmsIcon />
+                            <ButtonLabel>Resume</ButtonLabel>
+                        </StyledButton>
+                    ) : (
+                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>
+                            <AccessAlarmsIcon />
+                            <ButtonLabel>Pause</ButtonLabel>
+                        </StyledButton>
+                    )}
+                </Box>
+            }
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+                <Droppable droppableId="changes">
+                    {(provided) => (
+                        // <Grid container spacing={2}>
+                        //     <Grid container xs={2}>
+                        //         <Grid
+                        //             container
+                        //             direction="column"
+                        //             justifyContent="flex-start"
+                        //             alignItems="flex-start"
+                        //         >
+                        //             <Item>xs=6 md=4</Item>
+                        //             <Item>xs=6 md=4</Item>
+                        //             <Item>xs=6 md=4</Item>
+                        //         </Grid>
+                        //     </Grid>
+                        //     <Grid item xs={10}>
+                        //         <Item>xs=6 md=4</Item>
+                        //     </Grid>
+                        // </Grid>
+                        <Box className="changes" sx={{ backgroundColor: 'grey.200', p: 2 }} {...provided.droppableProps} ref={provided.innerRef}>
+                            {changeList.map(({id, change}, index) => {
+                                return (
+                                    <Grid container alignItems="center" spacing={2}>
+                                        <Grid item xs={2}>
+                                            <Box sx={{ width: '100%' }} textAlign="center">
+                                                {icons[index]}
+                                            </Box>
+                                        </Grid>
+                                        <Grid item xs={10}>
+                                            <Box>
+                                                <Draggable key={change.id} draggableId={change.id} index={index}>
+                                                    {(provided) => (
+                                                        // <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                        //     <Item><Link to={`${baseUrl}/${id}`}>{subject}</Link></Item>
+                                                        // </Box>
+                                                        <Card sx={{ minWidth: 275, m: 2 }} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                            <CardContent>
+                                                                {/*<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>*/}
+                                                                {/*    Change:*/}
+                                                                {/*</Typography>*/}
+                                                                <Typography variant="h6" component="div">
+                                                                    {change.subject}
+                                                                </Typography>
+                                                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                                                                    {change.project}
+                                                                </Typography>
+                                                                {/*<Typography variant="body2">*/}
+                                                                {/*    well meaning and kindly.*/}
+                                                                {/*    <br />*/}
+                                                                {/*    {'"a benevolent smile"'}*/}
+                                                                {/*</Typography>*/}
+                                                            </CardContent>
+                                                            <CardActions>
+                                                                <Link to={`/changes/${change.id}`} target="_blank" style={{ textDecoration: 'none' }}>
+                                                                    <Button size="small">Learn More</Button>
+                                                                </Link>
+                                                            </CardActions>
+                                                        </Card>
+                                                    )}
+                                                </Draggable>
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={10}>
-                                        <Box>
-                                            <Draggable key={change.id} draggableId={change.id} index={index}>
-                                                {(provided) => (
-                                                    // <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                    //     <Item><Link to={`${baseUrl}/${id}`}>{subject}</Link></Item>
-                                                    // </Box>
-                                                    <Card sx={{ minWidth: 275, m: 2 }} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        <CardContent>
-                                                            {/*<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>*/}
-                                                            {/*    Change:*/}
-                                                            {/*</Typography>*/}
-                                                            <Typography variant="h6" component="div">
-                                                                {change.subject}
-                                                            </Typography>
-                                                            <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                                                {change.project}
-                                                            </Typography>
-                                                            {/*<Typography variant="body2">*/}
-                                                            {/*    well meaning and kindly.*/}
-                                                            {/*    <br />*/}
-                                                            {/*    {'"a benevolent smile"'}*/}
-                                                            {/*</Typography>*/}
-                                                        </CardContent>
-                                                        <CardActions>
-                                                            <Link to={`/changes/${change.id}`} target="_blank" style={{ textDecoration: 'none' }}>
-                                                                <Button size="small">Learn More</Button>
-                                                            </Link>
-                                                        </CardActions>
-                                                    </Card>
-                                                )}
-                                            </Draggable>
-                                        </Box>
-                                    </Grid>
-                                </Grid>
-                            );
-                        })}
-                        {provided.placeholder}
-                    </Box>
-                )}
-            </Droppable>
-            <Box sx={{ width: '100%', textAlign: 'center' }}>
-                <StyledButton fullWidth
-                              variant="contained"
-                              sx={{ mt: 3, mb: 2 }}
-                              onClick={handleSubmit}>
-                    <ButtonLabel>Submit</ButtonLabel>
-                </StyledButton>
-                <Link to={{pathname: practice ? "/practice/taskB" : "/taskB", state: { practice: practice }}} style={{ textDecoration: 'none' }}>
-                    <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                        <ButtonLabel>Skip</ButtonLabel>
+                                );
+                            })}
+                            {provided.placeholder}
+                        </Box>
+                    )}
+                </Droppable>
+                <Box sx={{ width: '100%', textAlign: 'center' }}>
+                    <StyledButton fullWidth
+                                  variant="contained"
+                                  sx={{ mt: 3, mb: 2 }}
+                                  onClick={handleSubmit}>
+                        <ButtonLabel>Submit</ButtonLabel>
                     </StyledButton>
-                </Link>
-            </Box>
-        </DragDropContext>
+                    <Link to={{pathname: practice ? "/practice/taskB" : "/taskB", state: { practice: practice }}} style={{ textDecoration: 'none' }}>
+                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            <ButtonLabel>Skip</ButtonLabel>
+                        </StyledButton>
+                    </Link>
+                </Box>
+            </DragDropContext>
+        </div>
     );
 }
 
