@@ -124,7 +124,7 @@ function MainPage() {
                             Your Tasks in a Glance
                         </Typography>
                         <Grid container spacing={4} sx={{ p: 2}}>
-                            <Grid item xs={6} sx={{ minHeight: 250 }}>
+                            <Grid item xs={6} sx={{ minHeight: 300 }}>
                                 <Card sx={{ height: '100%', display: 'flex' }}>
                                     <CardContent sx={{ flex: 1 }}>
                                         <Typography component="h2" variant="h6">
@@ -140,8 +140,8 @@ function MainPage() {
                                     </CardContent>
                                 </Card>
                             </Grid>
-                            <Grid item xs={6} sx={{ minHeight: 250 }}>
-                                <Card sx={{ display: 'flex' }}>
+                            <Grid item xs={6} sx={{ minHeight: 300 }}>
+                                <Card sx={{ height: '100%', display: 'flex' }}>
                                     <CardContent sx={{ flex: 1 }}>
                                         <Typography component="h2" variant="h6">
                                             Task B
