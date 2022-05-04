@@ -18,6 +18,7 @@ import {
     CardActions
 } from '@mui/material';
 import {createTheme, ThemeProvider} from "@mui/material/styles";
+import {useAuth} from "../../../auth";
 
 
 const Header = styled.h1`
@@ -70,6 +71,8 @@ function MainPage() {
     let { practiced } = location.state || false;
     const history = useHistory();
 
+    let auth = useAuth();
+
     const handleStartClick = () => {
         history.push(`/taskA`);
     }
@@ -103,7 +106,7 @@ function MainPage() {
                                 </p>
                                 <p>
                                     We are aware that it may be possible for you to access the actual historic code reviews performed by the systems' original developers.
-                                    We respectfully ask you *not* to do this, so that we can evaluate our research ideas without bias.
+                                    We respectfully ask you <b>not</b> to do this, so that we can evaluate our research ideas without bias.
                                     However, you are free to use other tools or information sources that you normally use during code reviews.
                                 </p>
                                 <p>
@@ -159,6 +162,70 @@ function MainPage() {
                         </Grid>
                     </Box>
 
+                    {auth.user.group != "no-tool" && <Divider />}
+
+                    {auth.user.group === "gherald" &&
+                        <Box sx={{ width: '100%' }} padding='20px'>
+                            <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
+                                Tooling support
+                            </Typography>
+                            <Box padding='20px'>
+                                <Card sx={{ minWidth: 275}}>
+                                    <CardContent>
+                                        <Typography variant="subtitle1" paragraph>
+                                            <p>
+                                                In this experiment, you will be provided with a tool called <b>Gherald</b> to assist your completion of tasks.
+                                            </p>
+                                            <p>
+                                                In a nutshell, Gherald is a risk assessment technique we implemented based on historical analysis.
+                                                It is trained on a great number of historical changes and predicts the defect proneness of given code changes and the associated lines.
+                                            </p>
+                                            <p>
+                                                During the tasks, you will be able to see the output of Gherald in the change detail page.
+                                                Specifically, you will be presented with a risk assessment report displaying an estimation
+                                                of the riskiness of code changes by a percentage risk score, the top-three risk indicators that explains how much each feature contributes to the riskiness of
+                                                changes, and risk mitigation guidance based on the risky change features at hand.
+                                                Moreover, Gherald will alert your of the risky lines that are prone to defects when you are reviewing the code diff.
+                                            </p>
+                                            <p>
+                                                Please feel free to use Gherald as a complemental tool to help with your manual code reviews.
+                                            </p>
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Box>
+                        </Box>
+                    }
+
+                    {auth.user.group === "infer" &&
+                        <Box sx={{ width: '100%' }} padding='20px'>
+                            <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
+                                Tooling support
+                            </Typography>
+                            <Box padding='20px'>
+                                <Card sx={{ minWidth: 275}}>
+                                    <CardContent>
+                                        <Typography variant="subtitle1" paragraph>
+                                            <p>
+                                                In this experiment, you will be provided with a tool called <b>Infer</b> to assist your completion of tasks.
+                                            </p>
+                                            <p>
+                                                Infer is a static analysis tool and it can detect bugs in terms of null pointer dereferences, memory leaks, coding conventions and unavailable API’s.
+                                            </p>
+                                            <p>
+                                                During the tasks, you will be able to see the output of Infer in the change detail page.
+                                                Specifically, you will be presented with an Infer analysis report specifying the detected issues and the problematic line of code.
+                                            </p>
+                                            <p>
+                                                Please feel free to use Infer as a complemental tool to help with your manual code reviews.
+                                            </p>
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Box>
+                        </Box>
+                    }
+
                     <Divider />
                     <Box sx={{ width: '100%' }} padding='20px'>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
@@ -183,7 +250,7 @@ function MainPage() {
                                         </p>
                                         <p>
                                             Also, if you get a phone call or otherwise need to take a short break for some reason, please click on the "Pause" button.
-                                            However, please do *not* pause if you're actively thinking about the task.
+                                            However, please do <b>not</b> pause if you're actively thinking about the task.
                                         </p>
                                     </Typography>
                                 </CardContent>

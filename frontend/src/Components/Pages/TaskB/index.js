@@ -57,7 +57,6 @@ function TaskB() {
     const [loading, setLoading] = useState(true);
     const [reviews, setReviews] = useState([]);
     const [ready, setReady] = useState(false);
-    const [pause, setPause] = useState(false);
 
     let location = useLocation();
     let { practice } = location.state || false;
@@ -65,7 +64,7 @@ function TaskB() {
     let auth = useAuth();
 
     useEffect(() => {
-        fetch(`/api/participants/${auth.user}`)
+        fetch(`/api/participants/${auth.user.id}`)
             .then(results => results.json())
             .then(data => {
                 setLoading(false);
@@ -77,17 +76,9 @@ function TaskB() {
         setReady(true);
     }
 
-    const handlePauseClick = () => {
-        setPause(true);
-    }
-
-    const handleResumeClick = () => {
-        setPause(false);
-    }
-
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="xl">
+            <Container component="main" padding='5%'>
                 <CssBaseline />
                 <Box sx={{ width: '100%' }} padding='5%'>
                     <Header>Task B: Conduct Code Reviews</Header>
@@ -104,7 +95,7 @@ function TaskB() {
                                 Taking each set one at a time, your job will be to identify as many defects in the commit as you can, and then log them (file name, line number, description of defect) in a code inspection form at the bottom of the web page.
                             </p>
                             <p>
-                                Please focus on identifying *only* functional defects; please ignore any other flaws you might notice in the code, such as those relating to style or documentation.
+                                Please focus on identifying <b>only</b> functional defects; please ignore any other flaws you might notice in the code, such as those relating to style or documentation.
                             </p>
                             {!ready && <p>To start the task, click on the <b>I'm ready for Task B</b> button below.</p>}
                         </Typography>
@@ -121,7 +112,7 @@ function TaskB() {
                     {!ready ? (
                         <Box sx={{ width: '100%', textAlign: 'center' }}>
                             <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
-                                <ButtonLabel>Ready</ButtonLabel>
+                                I'm ready for Task B
                             </StyledButton>
                         </Box>
                     ) : (
@@ -131,24 +122,7 @@ function TaskB() {
                                     <CircularProgress size={100} />
                                 </Box>
                             ) : (
-                                <div style={{ width: '100%' }}>
-                                    {!practice &&
-                                        <Box sx={{ width: '100%', textAlign: 'center' }}>
-                                            {pause ? (
-                                                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>
-                                                    <AccessAlarmsIcon />
-                                                    <ButtonLabel>Resume</ButtonLabel>
-                                                </StyledButton>
-                                            ) : (
-                                                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>
-                                                    <AccessAlarmsIcon />
-                                                    <ButtonLabel>Pause</ButtonLabel>
-                                                </StyledButton>
-                                            )}
-                                        </Box>
-                                    }
-                                    <CodeReview reviews={reviews} practice={practice} />
-                                </div>
+                                <CodeReview reviews={reviews} practice={practice} />
                             )}
                         </div>
                     )}

@@ -64,7 +64,7 @@ function TaskA(props) {
     let auth = useAuth();
 
     useEffect(() => {
-        fetch(`/api/participants/${auth.user}`)
+        fetch(`/api/participants/${auth.user.id}`)
             .then(results => results.json())
             .then(data => {
                 setLoading(false);
@@ -124,7 +124,7 @@ function TaskA(props) {
                     {!ready ? (
                         <Box sx={{ width: '100%', textAlign: 'center' }}>
                             <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
-                                <ButtonLabel>Ready</ButtonLabel>
+                                I'm ready for Task A
                             </StyledButton>
                         </Box>
                     ) : (

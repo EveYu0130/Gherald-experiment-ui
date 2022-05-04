@@ -139,7 +139,7 @@ function DnD({ changes, practice }) {
                     )}
                 </Box>
             }
-            <DragDropContext onDragEnd={handleOnDragEnd}>
+            {!pause && <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable droppableId="changes">
                     {(provided) => (
                         // <Grid container spacing={2}>
@@ -222,7 +222,7 @@ function DnD({ changes, practice }) {
                         </StyledButton>
                     </Link>
                 </Box>
-            </DragDropContext>
+            </DragDropContext>}
         </div>
     );
 }
