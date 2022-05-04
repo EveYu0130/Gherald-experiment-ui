@@ -117,10 +117,17 @@ function Questionnaire() {
                                     name="understandability"
                                     value={state.understandability}
                                     onChange={handleChange}
+                                    sx={{ justifyContent: 'space-evenly' }}
                                 >
-                                    <FormControlLabel value="Very well" control={<Radio />} label="Mostly understand" />
-                                    <FormControlLabel value="Somewhat" control={<Radio />} label="Half understand" />
-                                    <FormControlLabel value="Barely" control={<Radio />} label="Barely understand" />
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Very well" control={<Radio />} label="Mostly understand" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Somewhat" control={<Radio />} label="Half understand" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Barely" control={<Radio />} label="Barely understand" />
+                                    </Box>
                                 </RadioGroup>
                             </Grid>
                             <Grid item xs={12}>
@@ -132,10 +139,17 @@ function Questionnaire() {
                                     name="difficulty"
                                     value={state.difficulty}
                                     onChange={handleChange}
+                                    sx={{ justifyContent: 'space-evenly' }}
                                 >
-                                    <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
-                                    <FormControlLabel value="Moderate" control={<Radio />} label="Average" />
-                                    <FormControlLabel value="Hard" control={<Radio />} label="Hard" />
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Moderate" control={<Radio />} label="Average" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Hard" control={<Radio />} label="Hard" />
+                                    </Box>
                                 </RadioGroup>
                             </Grid>
                             <Grid item xs={12}>
@@ -147,10 +161,17 @@ function Questionnaire() {
                                     name="fitness"
                                     value={state.fitness}
                                     onChange={handleChange}
+                                    sx={{ justifyContent: 'space-evenly' }}
                                 >
-                                    <FormControlLabel value="High" control={<Radio />} label="Very energetic" />
-                                    <FormControlLabel value="Moderate" control={<Radio />} label="OK" />
-                                    <FormControlLabel value="Low" control={<Radio />} label="Very tired" />
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="High" control={<Radio />} label="Very energetic" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Moderate" control={<Radio />} label="OK" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Low" control={<Radio />} label="Very tired" />
+                                    </Box>
                                 </RadioGroup>
                             </Grid>
                             {auth.user.group === "gherald" &&
