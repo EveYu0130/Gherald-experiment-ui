@@ -120,13 +120,13 @@ function Questionnaire() {
                                     sx={{ justifyContent: 'space-evenly' }}
                                 >
                                     <Box sx={{ width: 200, height: 30}}>
-                                        <FormControlLabel value="Very well" control={<Radio />} label="Mostly understand" />
+                                        <FormControlLabel value="Very well" control={<Radio />} label="Very well" />
                                     </Box>
                                     <Box sx={{ width: 200, height: 30}}>
-                                        <FormControlLabel value="Somewhat" control={<Radio />} label="Half understand" />
+                                        <FormControlLabel value="Somewhat" control={<Radio />} label="Somewhat" />
                                     </Box>
                                     <Box sx={{ width: 200, height: 30}}>
-                                        <FormControlLabel value="Barely" control={<Radio />} label="Barely understand" />
+                                        <FormControlLabel value="Barely" control={<Radio />} label="Barely" />
                                     </Box>
                                 </RadioGroup>
                             </Grid>
@@ -145,10 +145,10 @@ function Questionnaire() {
                                         <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
                                     </Box>
                                     <Box sx={{ width: 200, height: 30}}>
-                                        <FormControlLabel value="Moderate" control={<Radio />} label="Average" />
+                                        <FormControlLabel value="Moderate" control={<Radio />} label="Moderate" />
                                     </Box>
                                     <Box sx={{ width: 200, height: 30}}>
-                                        <FormControlLabel value="Hard" control={<Radio />} label="Hard" />
+                                        <FormControlLabel value="Very hard" control={<Radio />} label="Very hard" />
                                     </Box>
                                 </RadioGroup>
                             </Grid>
@@ -164,13 +164,13 @@ function Questionnaire() {
                                     sx={{ justifyContent: 'space-evenly' }}
                                 >
                                     <Box sx={{ width: 200, height: 30}}>
-                                        <FormControlLabel value="High" control={<Radio />} label="Very energetic" />
+                                        <FormControlLabel value="High" control={<Radio />} label="High" />
                                     </Box>
                                     <Box sx={{ width: 200, height: 30}}>
-                                        <FormControlLabel value="Moderate" control={<Radio />} label="OK" />
+                                        <FormControlLabel value="Moderate" control={<Radio />} label="Moderate" />
                                     </Box>
                                     <Box sx={{ width: 200, height: 30}}>
-                                        <FormControlLabel value="Low" control={<Radio />} label="Very tired" />
+                                        <FormControlLabel value="Low" control={<Radio />} label="Low" />
                                     </Box>
                                 </RadioGroup>
                             </Grid>
@@ -184,10 +184,17 @@ function Questionnaire() {
                                         name="usability"
                                         value={state.usability}
                                         onChange={handleChange}
+                                        sx={{ justifyContent: 'space-evenly' }}
                                     >
-                                        <FormControlLabel value="Very useful" control={<Radio />} label="Very useful" />
-                                        <FormControlLabel value="Moderately useful" control={<Radio />} label="Somewhat useful" />
-                                        <FormControlLabel value="Not useful" control={<Radio />} label="Useless" />
+                                        <Box sx={{ width: 200, height: 30}}>
+                                            <FormControlLabel value="Very useful" control={<Radio />} label="Very useful" />
+                                        </Box>
+                                        <Box sx={{ width: 200, height: 30}}>
+                                            <FormControlLabel value="Moderately useful" control={<Radio />} label="Moderately useful" />
+                                        </Box>
+                                        <Box sx={{ width: 200, height: 30}}>
+                                            <FormControlLabel value="Not useful" control={<Radio />} label="Not useful" />
+                                        </Box>
                                     </RadioGroup>
                                 </Grid>
                             }

@@ -111,6 +111,11 @@ function TaskA(props) {
                                 <p>
                                     You can examine the details of each change by clicking on the <b>Learn more</b> button.
                                 </p>
+                                {!props.practice &&
+                                    <p>
+                                        You can pause the experiment by clicking on the <b>Pause</b> button if you get a phone call or want to grab a coffee.
+                                    </p>
+                                }
                                 <p>
                                     Once you are happy with your ranking, click on the <b>Submit</b> button.
                                 </p>

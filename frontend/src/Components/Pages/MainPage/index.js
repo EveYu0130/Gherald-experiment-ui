@@ -96,8 +96,8 @@ function MainPage() {
                                     Thanks for your participation!
                                 </p>
                                 <p>
-                                    In this experiment, we're going to ask you to complete two tasks that relate to code review.
-                                    We'll be using examples code commits taken from real-world systems and asking you to evaluate them in different ways.
+                                    In this experiment, we are going to ask you to complete two tasks that relate to code review.
+                                    We will be using examples code commits taken from real-world systems and asking you to evaluate them in different ways.
                                 </p>
                                 <p>
                                     The tasks will be timed.
@@ -115,7 +115,7 @@ function MainPage() {
                                     The practise exercises will not be timed or evaluated by us.
                                 </p>
                                 <p>
-                                    Once you're comfortable that you understand what you're being asked to do, you can begin the experiment by clicking on the <b>Start Experiment</b> button below.
+                                    Once you are comfortable that you understand what you're being asked to do, you can begin the experiment by clicking on the <b>Start Experiment</b> button below.
                                 </p>
                             </Typography>
                         </Box>
@@ -131,7 +131,7 @@ function MainPage() {
                                 <Card sx={{ height: '100%', display: 'flex' }}>
                                     <CardContent sx={{ flex: 1 }}>
                                         <Typography component="h2" variant="h6">
-                                            Task A
+                                            Task A [x~ minutes to complete]
                                         </Typography>
                                         <Typography variant="subtitle1" color="text.secondary">
                                             Rank the changes by risk
@@ -147,7 +147,7 @@ function MainPage() {
                                 <Card sx={{ height: '100%', display: 'flex' }}>
                                     <CardContent sx={{ flex: 1 }}>
                                         <Typography component="h2" variant="h6">
-                                            Task B
+                                            Task B [x~ minutes to complete]
                                         </Typography>
                                         <Typography variant="subtitle1" color="text.secondary">
                                             Conduct Code Reviews
@@ -167,7 +167,7 @@ function MainPage() {
                     {auth.user.group === "gherald" &&
                         <Box sx={{ width: '100%' }} padding='20px'>
                             <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
-                                Tooling support
+                                Tools
                             </Typography>
                             <Box padding='20px'>
                                 <Card sx={{ minWidth: 275}}>
@@ -178,17 +178,17 @@ function MainPage() {
                                             </p>
                                             <p>
                                                 In a nutshell, Gherald is a risk assessment technique we implemented based on historical analysis.
-                                                It is trained on a great number of historical changes and predicts the defect proneness of given code changes and the associated lines.
+                                                It is trained on a great number of historical changes and predicts the defect proneness of a given code change and the associated lines.
                                             </p>
                                             <p>
                                                 During the tasks, you will be able to see the output of Gherald in the change detail page.
                                                 Specifically, you will be presented with a risk assessment report displaying an estimation
-                                                of the riskiness of code changes by a percentage risk score, the top-three risk indicators that explains how much each feature contributes to the riskiness of
-                                                changes, and risk mitigation guidance based on the risky change features at hand.
+                                                of the riskiness of code changes in the form of a percentage risk score, the top-three risk indicators that contributes to the riskiness of
+                                                changes, and risk mitigation suggestions based on the risky change features at hand.
                                                 Moreover, Gherald will alert your of the risky lines that are prone to defects when you are reviewing the code diff.
                                             </p>
                                             <p>
-                                                Please feel free to use Gherald as a complemental tool to help with your manual code reviews.
+                                                Please feel free to use Gherald as a complementary tool to help with your manual code reviews.
                                             </p>
                                         </Typography>
                                     </CardContent>
@@ -200,7 +200,7 @@ function MainPage() {
                     {auth.user.group === "infer" &&
                         <Box sx={{ width: '100%' }} padding='20px'>
                             <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
-                                Tooling support
+                                Tools
                             </Typography>
                             <Box padding='20px'>
                                 <Card sx={{ minWidth: 275}}>
@@ -217,7 +217,7 @@ function MainPage() {
                                                 Specifically, you will be presented with an Infer analysis report specifying the detected issues and the problematic line of code.
                                             </p>
                                             <p>
-                                                Please feel free to use Infer as a complemental tool to help with your manual code reviews.
+                                                Please feel free to use Infer as a complementary tool to help with your manual code reviews.
                                             </p>
                                         </Typography>
                                     </CardContent>

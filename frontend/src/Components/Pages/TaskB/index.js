@@ -97,6 +97,11 @@ function TaskB() {
                             <p>
                                 Please focus on identifying <b>only</b> functional defects; please ignore any other flaws you might notice in the code, such as those relating to style or documentation.
                             </p>
+                            {!practice &&
+                                <p>
+                                    You can pause the experiment by clicking on the <b>Pause</b> button if you get a phone call or want to grab a coffee.
+                                </p>
+                            }
                             {!ready && <p>To start the task, click on the <b>I'm ready for Task B</b> button below.</p>}
                         </Typography>
                     </Box>
@@ -116,7 +121,7 @@ function TaskB() {
                             </StyledButton>
                         </Box>
                     ) : (
-                        <div>
+                        <div sx={{ width: '100%' }}>
                             {loading ? (
                                 <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
                                     <CircularProgress size={100} />

@@ -114,30 +114,30 @@ function GheraldReport() {
                             <Typography variant="body2">Size</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                            <ProgressWithLabel value={99} theme={theme}/>
+                            <ProgressWithLabel value={35} theme={theme}/>
                         </Grid>
                         <Grid item xs={1}>
-                            <InfoPopover text1={"The size of change is large, which increase the riskiness of change by 99%."}
+                            <InfoPopover text1={"The size of change is large, which increase the riskiness of change by 35%."}
                                          text2={"Please consider asking the author to split the change into smaller ones."}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography variant="body2">Author prior changes</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                            <ProgressWithLabel value={70} theme={theme}/>
+                            <ProgressWithLabel value={15} theme={theme}/>
                         </Grid>
                         <Grid item xs={1}>
-                            <InfoPopover text1={"The author has a relatively low number of prior changes in this project, which increase the riskiness of change by 70%."}
+                            <InfoPopover text1={"The author has a relatively low number of prior changes in this project, which increase the riskiness of change by 15%."}
                                          text2={"Please consider having an experienced developer reviewing this change."}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography variant="body2"># of developers</Typography>
                         </Grid>
                         <Grid item xs={7}>
-                            <ProgressWithLabel value={55} theme={theme}/>
+                            <ProgressWithLabel value={10} theme={theme}/>
                         </Grid>
                         <Grid item xs={1}>
-                            <InfoPopover text1={"The files in change have been modified by a relatively large number developers, which increase the riskiness of change by 55%."}
+                            <InfoPopover text1={"The files in change have been modified by a relatively large number developers, which increase the riskiness of change by 10%."}
                                          text2={"Please consider having develops who recently modified these files reviewing this change."}/>
                         </Grid>
                     </Grid>
