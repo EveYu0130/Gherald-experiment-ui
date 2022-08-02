@@ -6,6 +6,7 @@ import 'react-diff-view/style/index.css';
 
 import ChangeInfo from "../ChangeInfo";
 import CodeInspectionForm from "../CodeInspectionForm";
+import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 
 const StyledButton = styled(Button)`
   color: #fff;
@@ -27,9 +28,15 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const ButtonLabel = styled.label`
+  margin-left: 5px;
+`;
+
 function CodeReview({ reviews, practice }) {
     const [activeStep, setActiveStep] = React.useState(0);
     const { id, change } = reviews[activeStep];
+    const [pause, setPause] = useState(false);
+    const [seconds, setSeconds] = useState(0);
 
     const history = useHistory();
 
@@ -42,6 +49,18 @@ function CodeReview({ reviews, practice }) {
         }
     ];
     const [data, setData] = useState(initialData);
+
+    useEffect(() => {
+        let interval = null;
+        if (!pause) {
+            interval = setInterval(() => {
+                setSeconds(seconds => seconds + 1);
+            }, 1000);
+        } else if (seconds > 0) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [pause, seconds, activeStep])
 
     const updateData = (rowIndex, columnID, value) => {
         setData(oldData =>
@@ -118,48 +137,70 @@ function CodeReview({ reviews, practice }) {
         }
     };
 
-    useEffect(() => {
+    const handlePauseClick = () => {
+        console.log(seconds);
+        setPause(true);
+    }
 
-    }, [activeStep]);
+    const handleResumeClick = () => {
+        console.log(seconds);
+        setPause(false);
+    }
 
     return (
-        <Box sx={{ width: '100%' }} padding="20px">
-            <Box>
-                <Stepper activeStep={activeStep} alternativeLabel>
-                    {reviews.map((label) => (
-                        <Step key={label}>
-                            <StepLabel />
-                        </Step>
-                    ))}
-                </Stepper>
-            </Box>
+        <div style={{ width: '100%' }}>
+            {!practice &&
+                <Box sx={{ width: '100%', textAlign: 'center' }}>
+                    {pause ? (
+                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>
+                            <AccessAlarmsIcon />
+                            <ButtonLabel>Resume</ButtonLabel>
+                        </StyledButton>
+                    ) : (
+                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>
+                            <AccessAlarmsIcon />
+                            <ButtonLabel>Pause</ButtonLabel>
+                        </StyledButton>
+                    )}
+                </Box>
+            }
+            {!pause && <Box sx={{ width: '100%' }} padding="20px">
+                <Box>
+                    <Stepper activeStep={activeStep} alternativeLabel>
+                        {reviews.map((label) => (
+                            <Step key={label}>
+                                <StepLabel />
+                            </Step>
+                        ))}
+                    </Stepper>
+                </Box>
 
-            <ChangeInfo change={change} number={activeStep+1} />
+                <ChangeInfo change={change} number={activeStep+1} />
 
-            <CodeInspectionForm data={data} updateData={updateData} deleteData={deleteData} addData={addData} selectOptions={change.files.slice(1).map(file => file.filename)}/>
+                <CodeInspectionForm data={data} updateData={updateData} deleteData={deleteData} addData={addData} selectOptions={change.files.slice(1).map(file => file.filename)}/>
 
-            <Box sx={{ width: '100%', textAlign: 'center' }}>
-                <StyledButton
-                    // color="inherit"
-                    onClick={handleSkip}
-                    sx={{ mr: 1 }}
-                    variant="contained"
-                    fullWidth
-                >
-                    Skip
-                </StyledButton>
-                <StyledButton
-                    // color="inherit"
-                    onClick={handleNext}
-                    sx={{ mr: 1 }}
-                    variant="contained"
-                    fullWidth
-                >
-                    {activeStep === reviews.length - 1 ? 'Finish' : 'Next'}
-                </StyledButton>
-            </Box>
-
-        </Box>
+                <Box sx={{ width: '100%', textAlign: 'center' }}>
+                    <StyledButton
+                        // color="inherit"
+                        onClick={handleSkip}
+                        sx={{ mr: 1 }}
+                        variant="contained"
+                        fullWidth
+                    >
+                        Skip
+                    </StyledButton>
+                    <StyledButton
+                        // color="inherit"
+                        onClick={handleNext}
+                        sx={{ mr: 1 }}
+                        variant="contained"
+                        fullWidth
+                    >
+                        {activeStep === reviews.length - 1 ? 'Finish' : 'Next'}
+                    </StyledButton>
+                </Box>
+            </Box>}
+        </div>
     );
 }
 

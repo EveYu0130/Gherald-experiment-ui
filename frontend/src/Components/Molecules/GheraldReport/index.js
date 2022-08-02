@@ -5,6 +5,8 @@ import LinearProgress, {linearProgressClasses} from "@mui/material/LinearProgres
 import {makeStyles} from "@mui/styles";
 import {createTheme} from "@mui/material/styles";
 import {useEffect} from "react";
+import InfoIcon from '@mui/icons-material/Info';
+import InfoPopover from "../../Atoms/InfoPopover";
 
 function change(value) {
     return gradient(value/100,'#ffab91','#dd2c00');
@@ -95,7 +97,10 @@ function GheraldReport() {
         <Box sx={{ width: '50%' }} padding='20px'>
             <Card sx={{ minWidth: 275 }}>
                 <CardContent>
-                    <Typography variant="h6" component="div" sx={{ fontWeight: '700' }}>
+                    <Typography variant="h6" component="div" sx={{ fontWeight: '700', mb: 1.5 }}>
+                        Gherald risk assessment
+                    </Typography>
+                    <Typography variant="body1" component="div" sx={{ fontWeight: '600' }}>
                         Risk score: 65%
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
@@ -108,20 +113,32 @@ function GheraldReport() {
                         <Grid item xs={4}>
                             <Typography variant="body2">Size</Typography>
                         </Grid>
-                        <Grid item xs={8}>
-                            <ProgressWithLabel value={99} theme={theme}/>
+                        <Grid item xs={7}>
+                            <ProgressWithLabel value={35} theme={theme}/>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <InfoPopover text1={"The size of change is large, which increase the riskiness of change by 35%."}
+                                         text2={"Please consider asking the author to split the change into smaller ones."}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography variant="body2">Author prior changes</Typography>
                         </Grid>
-                        <Grid item xs={8}>
-                            <ProgressWithLabel value={70} theme={theme}/>
+                        <Grid item xs={7}>
+                            <ProgressWithLabel value={15} theme={theme}/>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <InfoPopover text1={"The author has a relatively low number of prior changes in this project, which increase the riskiness of change by 15%."}
+                                         text2={"Please consider having an experienced developer reviewing this change."}/>
                         </Grid>
                         <Grid item xs={4}>
                             <Typography variant="body2"># of developers</Typography>
                         </Grid>
-                        <Grid item xs={8}>
-                            <ProgressWithLabel value={55} theme={theme}/>
+                        <Grid item xs={7}>
+                            <ProgressWithLabel value={10} theme={theme}/>
+                        </Grid>
+                        <Grid item xs={1}>
+                            <InfoPopover text1={"The files in change have been modified by a relatively large number developers, which increase the riskiness of change by 10%."}
+                                         text2={"Please consider having develops who recently modified these files reviewing this change."}/>
                         </Grid>
                     </Grid>
                 </CardContent>

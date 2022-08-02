@@ -15,7 +15,7 @@ const getWidgets = hunks => {
 
             return {
                 ...widgets,
-                [changeKey]: <Alert severity="warning">This line in change is risky — check it out!</Alert>
+                [changeKey]: <Alert severity="warning">GHERALD: Token TOKEN1, TOKEN2, TOKEN3 in this line of change is prone to defects in historical changes — check it out!</Alert>
             };
         },
         {}
