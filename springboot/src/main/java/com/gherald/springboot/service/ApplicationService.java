@@ -39,8 +39,9 @@ public class ApplicationService {
     QuestionnaireRepository questionnaireRepository;
 
     @Transactional
-    public Participant createParticipant() {
+    public Participant createParticipant(String tool) {
         Participant participant = new Participant();
+        participant.setTool(tool);
         participantRepository.save(participant);
         return participant;
     }

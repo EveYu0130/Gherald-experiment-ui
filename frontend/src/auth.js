@@ -25,17 +25,19 @@ export const useAuth = () => {
 function useProvideAuth() {
     const [user, setUser] = useState(null);
 
-    const signin = (userId) => {
-        fetch(`/api/participants/${userId}`, {
+    const signin = (id) => {
+        fetch(`/api/participants/${id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         }).then(response => {
-            if (response.status === 200) {
-                setUser(userId);
-            }
-            console.log(response);
+            return response.json();
+        }).then(data => {
+            setUser({
+                id: data.id,
+                group: data.tool
+            })
         }).catch(error => {
             console.log(error);
         });

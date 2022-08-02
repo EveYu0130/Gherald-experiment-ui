@@ -79,7 +79,7 @@ function Questionnaire() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({...state, participantId: auth.user})
+            body: JSON.stringify({...state, participantId: auth.user.id})
         }).then(response => {
             if  (response.status === 200) {
                 history.push(`/end`);
@@ -117,10 +117,17 @@ function Questionnaire() {
                                     name="understandability"
                                     value={state.understandability}
                                     onChange={handleChange}
+                                    sx={{ justifyContent: 'space-evenly' }}
                                 >
-                                    <FormControlLabel value="Very well" control={<Radio />} label="Mostly understand" />
-                                    <FormControlLabel value="Somewhat" control={<Radio />} label="Half understand" />
-                                    <FormControlLabel value="Barely" control={<Radio />} label="Barely understand" />
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Very well" control={<Radio />} label="Very well" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Somewhat" control={<Radio />} label="Somewhat" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Barely" control={<Radio />} label="Barely" />
+                                    </Box>
                                 </RadioGroup>
                             </Grid>
                             <Grid item xs={12}>
@@ -132,10 +139,17 @@ function Questionnaire() {
                                     name="difficulty"
                                     value={state.difficulty}
                                     onChange={handleChange}
+                                    sx={{ justifyContent: 'space-evenly' }}
                                 >
-                                    <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
-                                    <FormControlLabel value="Moderate" control={<Radio />} label="Average" />
-                                    <FormControlLabel value="Hard" control={<Radio />} label="Hard" />
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Easy" control={<Radio />} label="Easy" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Moderate" control={<Radio />} label="Moderate" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Very hard" control={<Radio />} label="Very hard" />
+                                    </Box>
                                 </RadioGroup>
                             </Grid>
                             <Grid item xs={12}>
@@ -147,30 +161,46 @@ function Questionnaire() {
                                     name="fitness"
                                     value={state.fitness}
                                     onChange={handleChange}
+                                    sx={{ justifyContent: 'space-evenly' }}
                                 >
-                                    <FormControlLabel value="High" control={<Radio />} label="Very energetic" />
-                                    <FormControlLabel value="Moderate" control={<Radio />} label="OK" />
-                                    <FormControlLabel value="Low" control={<Radio />} label="Very tired" />
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="High" control={<Radio />} label="High" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Moderate" control={<Radio />} label="Moderate" />
+                                    </Box>
+                                    <Box sx={{ width: 200, height: 30}}>
+                                        <FormControlLabel value="Low" control={<Radio />} label="Low" />
+                                    </Box>
                                 </RadioGroup>
                             </Grid>
+                            {auth.user.group === "gherald" &&
+                                <Grid item xs={12}>
+                                    <Typography>
+                                        4. How useful did you find the information provided by the tool?
+                                    </Typography>
+                                    <RadioGroup
+                                        row
+                                        name="usability"
+                                        value={state.usability}
+                                        onChange={handleChange}
+                                        sx={{ justifyContent: 'space-evenly' }}
+                                    >
+                                        <Box sx={{ width: 200, height: 30}}>
+                                            <FormControlLabel value="Very useful" control={<Radio />} label="Very useful" />
+                                        </Box>
+                                        <Box sx={{ width: 200, height: 30}}>
+                                            <FormControlLabel value="Moderately useful" control={<Radio />} label="Moderately useful" />
+                                        </Box>
+                                        <Box sx={{ width: 200, height: 30}}>
+                                            <FormControlLabel value="Not useful" control={<Radio />} label="Not useful" />
+                                        </Box>
+                                    </RadioGroup>
+                                </Grid>
+                            }
                             <Grid item xs={12}>
                                 <Typography>
-                                    4. How useful did you find the information provided by the tool?
-                                </Typography>
-                                <RadioGroup
-                                    row
-                                    name="usability"
-                                    value={state.usability}
-                                    onChange={handleChange}
-                                >
-                                    <FormControlLabel value="Very useful" control={<Radio />} label="Very useful" />
-                                    <FormControlLabel value="Moderately useful" control={<Radio />} label="Somewhat useful" />
-                                    <FormControlLabel value="Not useful" control={<Radio />} label="Useless" />
-                                </RadioGroup>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography>
-                                    5. What, if any, additional tools or information sources did you use during the experiment to help in your decision making?
+                                    {auth.user.group === "gherald" ? 5 : 4}. What, if any, additional tools or information sources did you use during the experiment to help in your decision making?
                                 </Typography>
                                 <TextField
                                     required
@@ -185,7 +215,7 @@ function Questionnaire() {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    6. What, if any, problems did you encounter during the experiment?
+                                    {auth.user.group === "gherald" ? 6 : 5}. What, if any, problems did you encounter during the experiment?
                                 </Typography>
                                 <TextField
                                     required
@@ -200,7 +230,7 @@ function Questionnaire() {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography>
-                                    7. Do you have any additional comments or feedback on the tasks you performed and the information you were provided with?
+                                    {auth.user.group === "gherald" ? 7 : 6}. Do you have any additional comments or feedback on the tasks you performed and the information you were provided with?
                                 </Typography>
                                 <TextField
                                     required

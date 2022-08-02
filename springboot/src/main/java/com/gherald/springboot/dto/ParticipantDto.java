@@ -7,10 +7,12 @@ import java.util.List;
 
 public class ParticipantDto {
     private String id;
+    private String tool;
     private List<ChangeReviewDto> changeReviews;
 
-    public ParticipantDto(String id, List<ChangeReviewDto> changeReviews) {
+    public ParticipantDto(String id, String tool, List<ChangeReviewDto> changeReviews) {
         this.id = id;
+        this.tool = tool;
         this.changeReviews = changeReviews;
     }
 
@@ -20,6 +22,14 @@ public class ParticipantDto {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTool() {
+        return tool;
+    }
+
+    public void setTool(String tool) {
+        this.tool = tool;
     }
 
     public List<ChangeReviewDto> getChangeReviews() {

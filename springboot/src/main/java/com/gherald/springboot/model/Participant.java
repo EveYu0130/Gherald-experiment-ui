@@ -13,6 +13,8 @@ public class Participant {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
 
+    private String tool;
+
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     private List<ChangeReview> changeReviews;
 
@@ -25,6 +27,14 @@ public class Participant {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getTool() {
+        return tool;
+    }
+
+    public void setTool(String tool) {
+        this.tool = tool;
     }
 
     public List<ChangeReview> getChangeReviews() {

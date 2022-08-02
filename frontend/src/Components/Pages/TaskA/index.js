@@ -18,7 +18,7 @@ import ChangeDetail from "../ChangeDetail";
 import DnD from "../../Molecules/DnD";
 import {useAuth} from "../../../auth";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import practice from "../Practice";
+import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 
 const Header = styled.h1`
     // background: #43D1AF;
@@ -64,7 +64,7 @@ function TaskA(props) {
     let auth = useAuth();
 
     useEffect(() => {
-        fetch(`/api/participants/${auth.user}`)
+        fetch(`/api/participants/${auth.user.id}`)
             .then(results => results.json())
             .then(data => {
                 setLoading(false);
@@ -111,6 +111,11 @@ function TaskA(props) {
                                 <p>
                                     You can examine the details of each change by clicking on the <b>Learn more</b> button.
                                 </p>
+                                {!props.practice &&
+                                    <p>
+                                        You can pause the experiment by clicking on the <b>Pause</b> button if you get a phone call or want to grab a coffee.
+                                    </p>
+                                }
                                 <p>
                                     Once you are happy with your ranking, click on the <b>Submit</b> button.
                                 </p>
@@ -124,7 +129,7 @@ function TaskA(props) {
                     {!ready ? (
                         <Box sx={{ width: '100%', textAlign: 'center' }}>
                             <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
-                                <ButtonLabel>Ready</ButtonLabel>
+                                I'm ready for Task A
                             </StyledButton>
                         </Box>
                     ) : (
@@ -134,9 +139,7 @@ function TaskA(props) {
                                     <CircularProgress size={100} />
                                 </Box>
                             ) : (
-                                <div style={{ width: '100%' }}>
-                                    {changes.length > 0 && <DnD changes={changes} practice={props.practice ? true : false}/>}
-                                </div>
+                                <DnD changes={changes} practice={props.practice ? true : false}/>
                             )}
                         </div>
                     )}
