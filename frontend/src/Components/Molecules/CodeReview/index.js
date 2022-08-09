@@ -7,6 +7,7 @@ import 'react-diff-view/style/index.css';
 import ChangeInfo from "../ChangeInfo";
 import CodeInspectionForm from "../CodeInspectionForm";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
+import { forwardRef, useRef, useImperativeHandle } from "react"
 
 const StyledButton = styled(Button)`
   color: #fff;
@@ -32,6 +33,46 @@ const ButtonLabel = styled.label`
   margin-left: 5px;
 `;
 
+const Timer = forwardRef(({pause, handleResumeClick, handlePauseClick, updateTimer}, ref) => {
+    const [seconds, setSeconds] = useState(0);
+
+    useImperativeHandle(ref, () => ({
+        submitTime() {
+            updateTimer(seconds);
+            // console.log(seconds);
+        }
+    }))
+    // const [pause, setPause] = useState(false);
+
+    useEffect(() => {
+        let interval = null;
+        if (!pause) {
+            interval = setInterval(() => {
+                setSeconds(seconds => seconds + 1);
+            }, 1000);
+        } else if (seconds > 0) {
+            clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [seconds, pause])
+
+    return (
+        <Box sx={{ width: '100%', textAlign: 'center' }}>
+            {pause ? (
+                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>
+                    <AccessAlarmsIcon />
+                    <ButtonLabel>Resume</ButtonLabel>
+                </StyledButton>
+            ) : (
+                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>
+                    <AccessAlarmsIcon />
+                    <ButtonLabel>Pause</ButtonLabel>
+                </StyledButton>
+            )}
+        </Box>
+    );
+})
+
 function CodeReview({ reviews, practice }) {
     const [activeStep, setActiveStep] = React.useState(0);
     const { id, change } = reviews[activeStep];
@@ -49,18 +90,7 @@ function CodeReview({ reviews, practice }) {
         }
     ];
     const [data, setData] = useState(initialData);
-
-    useEffect(() => {
-        let interval = null;
-        if (!pause) {
-            interval = setInterval(() => {
-                setSeconds(seconds => seconds + 1);
-            }, 1000);
-        } else if (seconds > 0) {
-            clearInterval(interval);
-        }
-        return () => clearInterval(interval);
-    }, [pause, seconds, activeStep])
+    const timerRef = useRef();
 
     const updateData = (rowIndex, columnID, value) => {
         setData(oldData =>
@@ -99,6 +129,8 @@ function CodeReview({ reviews, practice }) {
                 setActiveStep((prevActiveStep) => prevActiveStep + 1);
             }
         } else {
+            timerRef.current.submitTime();
+            console.log(seconds);
             fetch('/api/code-review', {
                 method: 'POST',
                 headers: {
@@ -138,31 +170,38 @@ function CodeReview({ reviews, practice }) {
     };
 
     const handlePauseClick = () => {
-        console.log(seconds);
+        // console.log(seconds);
         setPause(true);
     }
 
     const handleResumeClick = () => {
-        console.log(seconds);
+        // console.log(seconds);
         setPause(false);
+    }
+
+    const updateTimer = (seconds) => {
+        setSeconds(seconds);
     }
 
     return (
         <div style={{ width: '100%' }}>
+            {/*{!practice &&*/}
+            {/*    <Box sx={{ width: '100%', textAlign: 'center' }}>*/}
+            {/*        {pause ? (*/}
+            {/*            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>*/}
+            {/*                <AccessAlarmsIcon />*/}
+            {/*                <ButtonLabel>Resume</ButtonLabel>*/}
+            {/*            </StyledButton>*/}
+            {/*        ) : (*/}
+            {/*            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>*/}
+            {/*                <AccessAlarmsIcon />*/}
+            {/*                <ButtonLabel>Pause</ButtonLabel>*/}
+            {/*            </StyledButton>*/}
+            {/*        )}*/}
+            {/*    </Box>*/}
+            {/*}*/}
             {!practice &&
-                <Box sx={{ width: '100%', textAlign: 'center' }}>
-                    {pause ? (
-                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>
-                            <AccessAlarmsIcon />
-                            <ButtonLabel>Resume</ButtonLabel>
-                        </StyledButton>
-                    ) : (
-                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>
-                            <AccessAlarmsIcon />
-                            <ButtonLabel>Pause</ButtonLabel>
-                        </StyledButton>
-                    )}
-                </Box>
+                <Timer pause={pause} handleResumeClick={handleResumeClick} handlePauseClick={handlePauseClick} updateTimer={updateTimer} ref={timerRef} />
             }
             {!pause && <Box sx={{ width: '100%' }} padding="20px">
                 <Box>
