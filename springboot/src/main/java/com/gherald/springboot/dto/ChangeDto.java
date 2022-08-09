@@ -4,10 +4,9 @@ import java.util.List;
 
 public class ChangeDto {
     private String id;
-    private String project;
+    private String repo;
     private String branch;
     private String subject;
-    private String status;
     private String created;
     private String updated;
     private String submitted;
@@ -20,12 +19,13 @@ public class ChangeDto {
     private String commitMsg;
     private Integer riskLevel;
 
-    public ChangeDto(String id, String project, String branch, String subject, String status, String created, String updated, Integer insertions, Integer deletions, Integer number, String parent, String commitMsg, Integer riskLevel) {
+    private String project;
+
+    public ChangeDto(String id, String repo, String branch, String subject, String created, String updated, Integer insertions, Integer deletions, Integer number, String parent, String commitMsg, Integer riskLevel, String project) {
         this.id = id;
-        this.project = project;
+        this.repo = repo;
         this.branch = branch;
         this.subject = subject;
-        this.status = status;
         this.created = created;
         this.updated = updated;
         this.insertions = insertions;
@@ -34,6 +34,7 @@ public class ChangeDto {
         this.parent = parent;
         this.commitMsg = commitMsg;
         this.riskLevel = riskLevel;
+        this.project = project;
     }
 
     public void setFiles(List<FileDto> files) {
@@ -52,12 +53,12 @@ public class ChangeDto {
         this.id = id;
     }
 
-    public String getProject() {
-        return project;
+    public String getRepo() {
+        return repo;
     }
 
-    public void setProject(String project) {
-        this.project = project;
+    public void setRepo(String repo) {
+        this.repo = repo;
     }
 
     public String getBranch() {
@@ -74,14 +75,6 @@ public class ChangeDto {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getCreated() {
@@ -162,5 +155,13 @@ public class ChangeDto {
 
     public void setRiskLevel(Integer riskLevel) {
         this.riskLevel = riskLevel;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
     }
 }

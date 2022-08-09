@@ -46,7 +46,7 @@ function ChangeInfo({ change, number }) {
 
     const handleOpenWindow = (e) => {
         e.preventDefault();
-        const url = `https://github.com/${change.project}/tree/${change.parent}`;
+        const url = `https://github.com/${change.repo}/tree/${change.parent}`;
         window.open(url);
     }
 

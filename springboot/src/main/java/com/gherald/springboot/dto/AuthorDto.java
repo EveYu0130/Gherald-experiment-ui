@@ -6,11 +6,14 @@ public class AuthorDto {
     private String email;
     private String username;
 
-    public AuthorDto(Integer accountId, String name, String email, String username) {
+    private String project;
+
+    public AuthorDto(Integer accountId, String name, String email, String username, String project) {
         this.accountId = accountId;
         this.name = name;
         this.email = email;
         this.username = username;
+        this.project = project;
     }
 
     public Integer getAccountId() {
@@ -43,5 +46,13 @@ public class AuthorDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
     }
 }

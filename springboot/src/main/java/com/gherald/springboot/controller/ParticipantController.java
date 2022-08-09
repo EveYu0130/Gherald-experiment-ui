@@ -20,8 +20,8 @@ public class ParticipantController {
     private ApplicationService applicationService;
 
     @PostMapping("/api/participants/add")
-    public ParticipantDto createParticipant(@RequestParam String tool) {
-        Participant participant = applicationService.createParticipant(tool);
+    public ParticipantDto createParticipant(@RequestParam String tool, @RequestParam String project) {
+        Participant participant = applicationService.createParticipant(tool, project);
         return convertToDto(participant);
     }
 
@@ -74,7 +74,7 @@ public class ParticipantController {
                 changeReviews.add(convertToDto(changeReview));
             }
         }
-        ParticipantDto participantDto = new ParticipantDto(participant.getId(), participant.getTool(), changeReviews);
+        ParticipantDto participantDto = new ParticipantDto(participant.getId(), participant.getTool(), participant.getProject(), changeReviews);
         return participantDto;
     }
 
@@ -82,14 +82,14 @@ public class ParticipantController {
         if (change == null) {
             return null;
         }
-        ChangeDto changeDto = new ChangeDto(change.getId(), change.getProject(), change.getBranch(), change.getSubject(), change.getStatus(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg(), change.getRiskLevel());
+        ChangeDto changeDto = new ChangeDto(change.getId(), change.getRepo(), change.getBranch(), change.getSubject(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg(), change.getRiskLevel(), change.getProject());
         List<FileDto> files = new ArrayList<>();
         for (File file : change.getFiles()) {
-            FileDto fileDto = new FileDto(file.getFilename(), file.getStatus(), file.getInsertions(), file.getDeletions(), file.getCodeA(), file.getCodeB());
+            FileDto fileDto = new FileDto(file.getFilename(), file.getStatus(), file.getInsertions(), file.getDeletions(), file.getCodeA(), file.getCodeB(), file.getDiff());
             files.add(fileDto);
         }
         changeDto.setFiles(files);
-        AuthorDto authorDto = new AuthorDto(change.getAuthor().getAccountId(), change.getAuthor().getName(), change.getAuthor().getEmail(), change.getAuthor().getUsername());
+        AuthorDto authorDto = new AuthorDto(change.getAuthor().getAccountId(), change.getAuthor().getName(), change.getAuthor().getEmail(), change.getAuthor().getUsername(), change.getAuthor().getProject());
         changeDto.setAuthor(authorDto);
         return changeDto;
     }

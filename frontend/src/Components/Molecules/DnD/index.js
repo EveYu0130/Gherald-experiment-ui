@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {Link, useHistory} from "react-router-dom";
-import {Box, Card, CardActions, CardContent, Button, Typography, Grid, Avatar} from "@mui/material";
+import {Box, Card, CardActions, CardContent, Button, Typography, Grid, Avatar, Divider} from "@mui/material";
 import styled from "styled-components";
 import LooksOneIcon from '@mui/icons-material/LooksOne';
 import LooksTwoIcon from '@mui/icons-material/LooksTwo';
@@ -180,12 +180,20 @@ function DnD({ changes, practice }) {
                                                                 {/*<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>*/}
                                                                 {/*    Change:*/}
                                                                 {/*</Typography>*/}
-                                                                <Typography variant="h6" component="div">
-                                                                    {change.subject}
-                                                                </Typography>
-                                                                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                                                                    {change.project}
-                                                                </Typography>
+                                                                {change.subject
+                                                                    ? <Typography variant="h6" component="div">{change.subject}</Typography>
+                                                                    : <Typography variant="h6" component="div">{change.repo}</Typography>
+                                                                }
+                                                                {change.subject
+                                                                    ? <Typography sx={{ mb: 1.5 }} color="text.secondary">{change.repo}</Typography>
+                                                                    : <Typography sx={{ mb: 1.5 }} color="text.secondary">{change.commitMsg}</Typography>
+                                                                }
+                                                                {/*<Typography variant="h6" component="div">*/}
+                                                                {/*    {change.subject}*/}
+                                                                {/*</Typography>*/}
+                                                                {/*<Typography sx={{ mb: 1.5 }} color="text.secondary">*/}
+                                                                {/*    {change.repo}*/}
+                                                                {/*</Typography>*/}
                                                                 {/*<Typography variant="body2">*/}
                                                                 {/*    well meaning and kindly.*/}
                                                                 {/*    <br />*/}

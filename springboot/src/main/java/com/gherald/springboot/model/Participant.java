@@ -15,6 +15,8 @@ public class Participant {
 
     private String tool;
 
+    private String project;
+
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     private List<ChangeReview> changeReviews;
 
@@ -35,6 +37,14 @@ public class Participant {
 
     public void setTool(String tool) {
         this.tool = tool;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
     }
 
     public List<ChangeReview> getChangeReviews() {

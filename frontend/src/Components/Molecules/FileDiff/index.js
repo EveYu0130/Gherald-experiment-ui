@@ -9,7 +9,8 @@ import {parseDiff} from "react-diff-view";
 import DiffView from "../../Pages/DiffView";
 
 function FileDiff({ file }) {
-    const [fileDiff] = parseDiff(formatLines(diffLines(file.codeA, file.codeB), {context: 3}), {nearbySequences: 'zip'});
+    const [fileDiff] = parseDiff(file.diff)
+    // const [fileDiff] = file.diff ? parseDiff(file.diff) : parseDiff(formatLines(diffLines(file.codeA, file.codeB), {context: 3}), {nearbySequences: 'zip'});
     const linesCount = file.codeA ? file.codeA.split('\n').length : 0;
     return (
         <Accordion>

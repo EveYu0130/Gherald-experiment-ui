@@ -39,9 +39,10 @@ public class ApplicationService {
     QuestionnaireRepository questionnaireRepository;
 
     @Transactional
-    public Participant createParticipant(String tool) {
+    public Participant createParticipant(String tool, String project) {
         Participant participant = new Participant();
         participant.setTool(tool);
+        participant.setProject(project);
         participantRepository.save(participant);
         return participant;
     }
@@ -49,9 +50,11 @@ public class ApplicationService {
     @Transactional
     public Participant initiateReview(String id) {
         Participant participant = participantRepository.findParticipantById(id);
+        String project = participant.getProject();
         List<Integer> riskLevelList = Arrays.asList(1, 2, 3);
         for (Integer riskLevel : riskLevelList) {
-            List<Change> changesByRiskLevel = changeRepository.findAllByRiskLevel(riskLevel);
+//            List<Change> changesByRiskLevel = changeRepository.findAllByRiskLevel(riskLevel);
+            List<Change> changesByRiskLevel = changeRepository.findByRiskLevelAndProject(riskLevel, project);
             Change randomChangeByRiskLevel = changesByRiskLevel.get(new Random().nextInt(changesByRiskLevel.size()));
             ChangeReview changeReview = new ChangeReview();
             changeReview.setChange(randomChangeByRiskLevel);

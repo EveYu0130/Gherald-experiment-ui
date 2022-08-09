@@ -102,7 +102,7 @@ function ChangeDetail(props) {
                 setChange({
                     status: data.status,
                     subject: data.subject,
-                    project: data.project,
+                    project: data.repo,
                     branch: data.branch,
                     updated: data.updated,
                     number: data.number,

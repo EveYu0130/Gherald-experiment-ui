@@ -23,6 +23,9 @@ public class File {
     @Column(columnDefinition = "LONGTEXT")
     private String codeB;
 
+    @Column(columnDefinition = "LONGTEXT")
+    private String diff;
+
     @ManyToOne
     private Change change;
 
@@ -80,6 +83,14 @@ public class File {
 
     public void setCodeB(String codeB) {
         this.codeB = codeB;
+    }
+
+    public String getDiff() {
+        return diff;
+    }
+
+    public void setDiff(String diff) {
+        this.diff = diff;
     }
 
     public Change getChange() {

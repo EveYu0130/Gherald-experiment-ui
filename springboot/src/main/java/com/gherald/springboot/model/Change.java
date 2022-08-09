@@ -10,13 +10,11 @@ public class Change {
     @Id
     private String id;
 
-    private String project;
+    private String repo;
 
     private String branch;
 
     private String subject;
-
-    private String status;
 
     private String created;
 
@@ -37,6 +35,8 @@ public class Change {
     @Column(columnDefinition = "LONGTEXT")
     private String commitMsg;
 
+    private String project;
+
     @OneToMany(mappedBy = "change", cascade = CascadeType.ALL)
     private List<File> files;
 
@@ -54,12 +54,12 @@ public class Change {
         this.id = id;
     }
 
-    public String getProject() {
-        return project;
+    public String getRepo() {
+        return repo;
     }
 
-    public void setProject(String project) {
-        this.project = project;
+    public void setRepo(String repo) {
+        this.repo = repo;
     }
 
     public String getBranch() {
@@ -76,14 +76,6 @@ public class Change {
 
     public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getCreated() {
@@ -172,6 +164,14 @@ public class Change {
 
     public void setRiskLevel(Integer riskLevel) {
         this.riskLevel = riskLevel;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
     }
 
     public List<ChangeReview> getReviews() {

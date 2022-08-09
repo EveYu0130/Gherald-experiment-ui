@@ -9,4 +9,6 @@ public interface ChangeRepository extends CrudRepository<Change, String> {
 
     Change findChangeById(String id);
     List<Change> findAllByRiskLevel(Integer riskLevel);
+
+    List<Change> findByRiskLevelAndProject(Integer riskLevel, String project);
 }

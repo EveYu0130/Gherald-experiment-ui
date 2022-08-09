@@ -8,13 +8,16 @@ public class FileDto {
     private String codeA;
     private String codeB;
 
-    public FileDto(String filename, String status, Integer insertions, Integer deletions, String codeA, String codeB) {
+    private String diff;
+
+    public FileDto(String filename, String status, Integer insertions, Integer deletions, String codeA, String codeB, String diff) {
         this.filename = filename;
         this.status = status;
         this.insertions = insertions;
         this.deletions = deletions;
         this.codeA = codeA;
         this.codeB = codeB;
+        this.diff = diff;
     }
 
     public String getFilename() {
@@ -63,5 +66,13 @@ public class FileDto {
 
     public void setCodeB(String codeB) {
         this.codeB = codeB;
+    }
+
+    public String getDiff() {
+        return diff;
+    }
+
+    public void setDiff(String diff) {
+        this.diff = diff;
     }
 }

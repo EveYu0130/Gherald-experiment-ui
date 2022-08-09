@@ -15,6 +15,8 @@ public class Author {
 
     private String username;
 
+    private String project;
+
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Change> changes;
 
@@ -48,6 +50,14 @@ public class Author {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getProject() {
+        return project;
+    }
+
+    public void setProject(String project) {
+        this.project = project;
     }
 
     public List<Change> getChanges() {
