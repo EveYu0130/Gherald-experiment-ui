@@ -1,0 +1,14 @@
+name,start_line,end_line,prior_changes,prior_bugs,file,commit_id
+"StringUtils::unwrap( final String str , final char wrapChar)",9179,9192,6,2,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+"StringUtils::unwrap( final String str , final String wrapToken)",9221,9237,4,0,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+StringUtilsTest::testUnwrap_StringString(),3088,3107,2,0,src/test/java/org/apache/commons/lang3/StringUtilsTest.java,06aea7e74cfe4a1578cb76672f1562132090c205
+StringUtilsTest::testUnwrap_StringChar(),3070,3085,4,0,src/test/java/org/apache/commons/lang3/StringUtilsTest.java,06aea7e74cfe4a1578cb76672f1562132090c205
+"ToStringStyle::JsonToStringStyle::appendDetail( StringBuffer buffer , String fieldName , Object value)",2568,2598,2,1,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+NumberUtils::isNumber( final String str),1336,1449,3,3,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+NumberUtilsTest::testLANG971(),1229,1235,0,0,src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java,9397608dd35a335d5e14813c0923f9419782980a
+"DateUtils::getFragment( final Calendar calendar , final int fragment , final int unit)",1682,1722,2,1,src/main/java/org/apache/commons/lang3/time/DateUtils.java,0942ef04f1fa911d382b79a92dca1dd4b3eb88e6
+DateUtilsFragmentTest::testMinutesOfYearWithWrongOffsetBugWithCalendar(),535,545,0,0,src/test/java/org/apache/commons/lang3/time/DateUtilsFragmentTest.java,0942ef04f1fa911d382b79a92dca1dd4b3eb88e6
+NumberUtils::createNumber( String str),445,604,17,2,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+NumberUtilsTest::testCreateNumberMagnitude(),251,275,1,0,src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+NumberUtils::createBigInteger( String str),695,719,6,0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+NumberUtilsTest::testCreateBigInteger(),343,363,8,0,src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8

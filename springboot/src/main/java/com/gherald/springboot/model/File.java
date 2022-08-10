@@ -1,6 +1,7 @@
 package com.gherald.springboot.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class File {
@@ -26,8 +27,18 @@ public class File {
     @Column(columnDefinition = "LONGTEXT")
     private String diff;
 
+    private Integer priorBugs;
+
+    private Integer priorChanges;
+
     @ManyToOne
     private Change change;
+
+    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL)
+    private List<Method> methods;
+
+    @OneToMany(mappedBy = "file", cascade = CascadeType.ALL)
+    private List<Line> lines;
 
     public Integer getId() {
         return id;
@@ -93,11 +104,43 @@ public class File {
         this.diff = diff;
     }
 
+    public Integer getPriorBugs() {
+        return priorBugs;
+    }
+
+    public void setPriorBugs(Integer priorBugs) {
+        this.priorBugs = priorBugs;
+    }
+
+    public Integer getPriorChanges() {
+        return priorChanges;
+    }
+
+    public void setPriorChanges(Integer priorChanges) {
+        this.priorChanges = priorChanges;
+    }
+
     public Change getChange() {
         return change;
     }
 
     public void setChange(Change change) {
         this.change = change;
+    }
+
+    public List<Method> getMethods() {
+        return methods;
+    }
+
+    public void setMethods(List<Method> methods) {
+        this.methods = methods;
+    }
+
+    public List<Line> getLines() {
+        return lines;
+    }
+
+    public void setLines(List<Line> lines) {
+        this.lines = lines;
     }
 }

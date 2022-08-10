@@ -37,6 +37,14 @@ public class Change {
 
     private String project;
 
+    private Integer authorPriorChanges;
+
+    private Integer authorPriorBugs;
+
+    private Float riskScore;
+
+    private Float bugDensity;
+
     @OneToMany(mappedBy = "change", cascade = CascadeType.ALL)
     private List<File> files;
 
@@ -172,6 +180,38 @@ public class Change {
 
     public void setProject(String project) {
         this.project = project;
+    }
+
+    public Integer getAuthorPriorChanges() {
+        return authorPriorChanges;
+    }
+
+    public void setAuthorPriorChanges(Integer authorPriorChanges) {
+        this.authorPriorChanges = authorPriorChanges;
+    }
+
+    public Integer getAuthorPriorBugs() {
+        return authorPriorBugs;
+    }
+
+    public void setAuthorPriorBugs(Integer authorPriorBugs) {
+        this.authorPriorBugs = authorPriorBugs;
+    }
+
+    public Float getRiskScore() {
+        return riskScore;
+    }
+
+    public void setRiskScore(Float riskScore) {
+        this.riskScore = riskScore;
+    }
+
+    public Float getBugDensity() {
+        return bugDensity;
+    }
+
+    public void setBugDensity(Float bugDensity) {
+        this.bugDensity = bugDensity;
     }
 
     public List<ChangeReview> getReviews() {

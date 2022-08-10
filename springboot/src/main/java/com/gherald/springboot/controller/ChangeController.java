@@ -2,13 +2,9 @@ package com.gherald.springboot.controller;
 
 import com.gherald.springboot.dao.FileRepository;
 import com.gherald.springboot.dao.AuthorRepository;
-import com.gherald.springboot.dto.ChangeDto;
-import com.gherald.springboot.dto.FileDto;
-import com.gherald.springboot.dto.AuthorDto;
-import com.gherald.springboot.model.Change;
+import com.gherald.springboot.dto.*;
+import com.gherald.springboot.model.*;
 import com.gherald.springboot.dao.ChangeRepository;
-import com.gherald.springboot.model.File;
-import com.gherald.springboot.model.Author;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,69 +19,6 @@ public class ChangeController {
 
     @Autowired
     private ChangeRepository changeRepository;
-
-    @Autowired
-    private FileRepository fileDiffRepository;
-
-    @Autowired
-    private AuthorRepository authorRepository;
-
-    @PostMapping("/api/changes/add")
-    public String createChange(@RequestParam String id) {
-        Change change = new Change();
-        String uri = String.format("https://codereview.qt-project.org/changes/?q=%s+AND+project:qt/qtbase+AND+branch:dev&o=DETAILED_LABELS&o=ALL_REVISIONS&o=ALL_FILES&o=ALL_COMMITS&o=DETAILED_ACCOUNTS", id);
-        RestTemplate restTemplate = new RestTemplate();
-        String result = restTemplate.getForObject(uri, String.class);
-        result = result.substring(6, (result.length() - 2));
-        try {
-            JSONObject jsonObject = new JSONObject(result);
-            change.setId(id);
-            change.setRepo(jsonObject.getString("project"));
-            change.setBranch(jsonObject.getString("branch"));
-            change.setSubject(jsonObject.getString("subject"));
-            change.setCreated(jsonObject.getString("created"));
-            change.setUpdated(jsonObject.getString("updated"));
-            change.setInsertions(jsonObject.getInt("insertions"));
-            change.setDeletions(jsonObject.getInt("deletions"));
-            change.setNumber(jsonObject.getInt("_number"));
-
-//            JSONObject submitterObj = jsonObject.getJSONObject("submitter");
-//            User submitter = new User();
-//            submitter.setAccountId(submitterObj.getInt("_account_id"));
-//            submitter.setName(submitterObj.getString("name"));
-//            submitter.setEmail(submitterObj.getString("email"));
-//            submitter.setUsername(submitterObj.getString("username"));
-//            userRepository.save(submitter);
-//            change.setSubmitter(submitter);
-//
-            JSONObject ownerObj = jsonObject.getJSONObject("owner");
-            Author author = new Author();
-            author.setAccountId(ownerObj.getInt("_account_id"));
-            author.setName(ownerObj.getString("name"));
-            author.setEmail(ownerObj.getString("email"));
-            author.setUsername(ownerObj.getString("username"));
-            authorRepository.save(author);
-            change.setAuthor(author);
-
-            List files = new ArrayList<>();
-            File file = new File();
-            file.setFilename("test/file");
-            file.setInsertions(6);
-            file.setDeletions(8);
-            file.setCodeA("Code A");
-            file.setCodeB("Code B");
-            file.setChange(change);
-            files.add(file);
-//            change.setFiles(files);
-            changeRepository.save(change);
-            fileDiffRepository.save(file);
-            System.out.println("OBJECT : "+jsonObject.toString());
-        } catch (JSONException err) {
-            System.out.println("Exception : "+err.toString());
-        }
-        System.out.println(result);
-        return "Added new change to repo";
-    }
 
     @GetMapping("/api/changes")
     public List<ChangeDto> getChanges() {
@@ -113,10 +46,22 @@ public class ChangeController {
 
 
     private ChangeDto convertToDto(Change change) {
-        ChangeDto changeDto = new ChangeDto(change.getId(), change.getRepo(), change.getBranch(), change.getSubject(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg(), change.getRiskLevel(), change.getProject());
+        ChangeDto changeDto = new ChangeDto(change.getId(), change.getRepo(), change.getBranch(), change.getSubject(), change.getCreated(), change.getUpdated(), change.getInsertions(), change.getDeletions(), change.getNumber(), change.getParent(), change.getCommitMsg(), change.getRiskLevel(), change.getProject(), change.getAuthorPriorChanges(), change.getAuthorPriorBugs(), change.getRiskScore(), change.getBugDensity());
         List<FileDto> files = new ArrayList<>();
         for (File file : change.getFiles()) {
-            FileDto fileDto = new FileDto(file.getFilename(), file.getStatus(), file.getInsertions(), file.getDeletions(), file.getCodeA(), file.getCodeB(), file.getDiff());
+            FileDto fileDto = new FileDto(file.getFilename(), file.getStatus(), file.getInsertions(), file.getDeletions(), file.getCodeA(), file.getCodeB(), file.getDiff(), file.getPriorBugs(), file.getPriorChanges());
+            List<MethodDto> methods = new ArrayList<>();
+            for (Method method : file.getMethods()) {
+                MethodDto methodDto = new MethodDto(method.getName(), method.getStartLine(), method.getEndLine(), method.getPriorChanges(), method.getPriorBugs());
+                methods.add(methodDto);
+            }
+            fileDto.setMethods(methods);
+            List<LineDto> lines = new ArrayList<>();
+            for (Line line : file.getLines()) {
+                LineDto lineDto = new LineDto(line.getLineNumber(), line.getCode(), line.getRiskScore());
+                lines.add(lineDto);
+            }
+            fileDto.setLines(lines);
             files.add(fileDto);
         }
         changeDto.setFiles(files);

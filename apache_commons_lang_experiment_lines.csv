@@ -1,0 +1,85 @@
+line_number,code,risk_score,file,commit_id
+9222,if ( isEmpty ( str ) | | isEmpty ( wrapToken ) | | str . length ( ) = = 1 ) {,27.8,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+9180,if ( isEmpty ( str ) | | wrapChar = = CharUtils . NUL | | str . length ( ) = = 1 ) {,25.6,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+9188,"return str . substring ( startIndex + 1 , endIndex ) ;",22.333333333333332,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+9162,"* StringUtils . unwrap ( `` a `` , ' a ' ) = `` a ``",9.0,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+9163,"* StringUtils . unwrap ( `` aa `` , ' a ' ) = `` ``",9.0,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+9165,"* StringUtils . unwrap ( `` AABabcBAA `` , ' A ' ) = `` ABabcBA ``",9.0,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+9203,"* StringUtils . unwrap ( `` a `` , `` a `` ) = `` a ``",9.0,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+9204,"* StringUtils . unwrap ( `` aa `` , `` a `` ) = `` ``",9.0,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
+2597,"appendDetail ( buffer , fieldName , try _ value _ str ) ;",11.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2589,if ( try _ value _ str . startsWith ( getContentStart ( ) ) & & try _ value _ str . endsWith ( getContentEnd ( ) ),4.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2590,| | try _ value _ str . startsWith ( getArrayStart ( ) ) & & try _ value _ str . startsWith ( getArrayEnd ( ) ),4.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2582,if ( value instanceof Number | | value instanceof Boolean ) {,1.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2576,if ( value instanceof String | | value instanceof Character ) {,0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2578,"appendValueAsString ( buffer , value . toString ( ) ) ;",0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2584,buffer . append ( value ) ;,0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2585,return ;,0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2586,},0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2588,final String try _ value _ str = value . toString ( ) ;,0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2591,) {,0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2593,buffer . append ( value ) ;,0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2594,return ;,0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+2595,},0.0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
+1350,( chars [ start + 1 ] = = ' x ' ) | |,5.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1351,( chars [ start + 1 ] = = ' X ' ),5.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1358,for ( ; i < chars . length ; i + + ) {,5.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1359,if ( ( chars [ i ] < ' 0 ' | | chars [ i ] > ' 9 ' ),5.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1360,& & ( chars [ i ] < ' a ' | | chars [ i ] > ' f ' ),5.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1361,& & ( chars [ i ] < ' A ' | | chars [ i ] > ' F ' ) ) {,5.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1369,if ( chars [ i ] < ' 0 ' | | chars [ i ] > ' 7 ' ) {,5.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1368,for ( ; i < chars . length ; i + + ) {,5.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1348,if ( sz > start + 1 & & chars [ start ] = = ' 0 ' ) {,3.5,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1354,if ( i = = sz ) {,2.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1366,} else {,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1373,return true ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1372,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1371,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1370,return false ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1367,int i = start + 1 ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1362,return false ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1365,return true ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1364,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1363,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1349,if (,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1355,return false ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1353,int i = start + 2 ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1352,) {,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1374,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
+1695,result + = ( ( calendar . get ( Calendar . DAY _ OF _ MONTH ) - 1 ) * MILLIS _ PER _ DAY ) / millisPerUnit ;,3.0,src/main/java/org/apache/commons/lang3/time/DateUtils.java,0942ef04f1fa911d382b79a92dca1dd4b3eb88e6
+1692,result + = ( ( calendar . get ( Calendar . DAY _ OF _ YEAR ) - 1 ) * MILLIS _ PER _ DAY ) / millisPerUnit ;,0.0,src/main/java/org/apache/commons/lang3/time/DateUtils.java,0942ef04f1fa911d382b79a92dca1dd4b3eb88e6
+464,return createBigInteger ( str ) ;,30.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+456,if ( str . startsWith ( pfx ) ) {,16.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+462,int hexDigits = str . length ( ) - pfxLen ;,15.5,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+463,if ( hexDigits > 16 ) {,1.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+451,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+453,"final String [ ] hex _ prefixes = { `` 0x `` , `` 0X `` , `` - 0x `` , `` - 0X `` , `` # `` , `` - # `` } ;",0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+454,int pfxLen = 0 ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+455,for ( String pfx : hex _ prefixes ) {,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+457,pfxLen + = pfx . length ( ) ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+458,break ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+459,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+460,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+461,if ( pfxLen > 0 ) {,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+470,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
+702,if ( str . startsWith ( `` - `` ) ) {,28.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+717,"final BigInteger value = new BigInteger ( str . substring ( pos ) , radix ) ;",15.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+706,"if ( str . startsWith ( `` 0x `` , pos ) | | str . startsWith ( `` 0x `` , pos ) ) {",15.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+712,"} else if ( str . startsWith ( `` 0 `` , pos ) & & str . length ( ) > pos + 1 ) {",15.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+709,"} else if ( str . startsWith ( `` # `` , pos ) ) {",15.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+711,pos + + ;,2.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+699,int pos = 0 ;,2.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+714,pos + + ;,2.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+704,pos = 1 ;,2.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+708,pos + = 2 ;,2.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+686,* < p > Convert a < code > String < / code > to a < code > BigInteger < / code > ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+715,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+713,radix = 8 ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+707,radix = 16 ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+710,radix = 16 ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+687,* since 3 . 2 it handles hex ( 0x or # ) and octal ( 0 ) notations . < / p >,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+705,},0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+703,negate = true ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+701,boolean negate = false ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+700,int radix = 10 ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
+718,return negate ? value . negate ( ) : value ;,0.0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
