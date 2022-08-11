@@ -1,21 +1,64 @@
 import {Diff, Decoration, Hunk, withSourceExpansion, getChangeKey} from 'react-diff-view';
 import tokenize from '../ChangeDetail/tokenize';
-import {IconButton, Typography, Box, Alert} from "@mui/material";
+import {IconButton, Typography, Box, Alert, AlertTitle} from "@mui/material";
 import React from "react";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandIcon from '@mui/icons-material/Expand';
+import {Link} from "react-router-dom";
 
-const getWidgets = hunks => {
+const getWidgets = (hunks, modifiedLines, modifiedMethods) => {
+    const lines = Object.assign({}, ...modifiedLines.map((x) => ({[x.lineNumber]: {...x}})));
+
     const changes = hunks.reduce((result, {changes}) => [...result, ...changes], []);
-    const warning = changes.filter(({type}) => Math.random() < 0.3 && (type === "insert" || type === "delete"));
+    let methods = modifiedMethods.map(method => {
+        let insert_start = method.endLine + 1;
+        let delete_start = method.endLine + 1;
+        changes.forEach(change => {
+            if (change.type === "insert" && change.lineNumber >= method.startLine && change.lineNumber <= method.endLine) {
+                insert_start = Math.min(insert_start, change.lineNumber)
+            }
+            if (change.type === "delete" && change.lineNumber >= method.startLine && change.lineNumber <= method.endLine) {
+                delete_start = Math.min(insert_start, change.lineNumber)
+            }
+        })
+        // const labelled_line = insert_start > method.endLine ? delete_start - 1 : insert_start - 1;
+        const labelled_line = method.startLine - 1;
+        const delete_only = insert_start > method.endLine;
+        return {
+            ...method,
+            labelled_line,
+            delete_only
+        }
+    })
+    methods = Object.assign({}, ...methods.map((x) => ({[x.labelled_line]: {...x}})));
+    const warning = changes.filter((change) =>
+        (change.type === "insert" && change.lineNumber in lines && lines[change.lineNumber]["riskScore"] > 0)
+        || (change.type === "normal" && change.newLineNumber in methods && !methods[change.newLineNumber]["delete_only"])
+        || (change.type === "normal" && change.oldLineNumber in methods && methods[change.oldLineNumber]["delete_only"]));
     return warning.reduce(
         (widgets, change) => {
             const changeKey = getChangeKey(change);
 
             return {
                 ...widgets,
-                [changeKey]: <Alert severity="warning">GHERALD: Token TOKEN1, TOKEN2, TOKEN3 in this line of change is prone to defects in historical changes — check it out!</Alert>
+                [changeKey]:
+                    change.type === "insert" ?
+                        <Alert severity="warning">
+                            <AlertTitle>GHERALD line risk score: {lines[change.lineNumber]["riskScore"]}</AlertTitle>
+                            This line is risky — check it out!
+                        </Alert>
+                        :
+                        (change.oldLineNumber in methods && methods[change.oldLineNumber]["delete_only"]) ?
+                            <Alert severity="warning">
+                                <AlertTitle>GHERALD method risk: there have been {methods[change.oldLineNumber]["priorBugs"]} prior bugs among {methods[change.oldLineNumber]["priorChanges"]} changes</AlertTitle>
+                                Method: {methods[change.oldLineNumber]["name"]}
+                            </Alert>
+                            :
+                            <Alert severity="warning">
+                                <AlertTitle>GHERALD method risk: there have been {methods[change.newLineNumber]["priorBugs"]} prior bugs among {methods[change.newLineNumber]["priorChanges"]} changes</AlertTitle>
+                                Method: {methods[change.newLineNumber]["name"]}
+                            </Alert>
             };
         },
         {}
@@ -109,7 +152,7 @@ const UnfoldStub = ({currentHunk, linesCount, onClick}) => {
     );
 };
 
-const DiffView = ({hunks, onExpandRange, linesCount}) => {
+const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMethods}) => {
     const renderHunk = (children, hunk, index) => {
         const previousElement = children[children.length - 1];
         const decorationElement = (
@@ -168,7 +211,7 @@ const DiffView = ({hunks, onExpandRange, linesCount}) => {
     };
 
     return (
-        <Diff hunks={hunks} diffType="modify" viewType="split" tokens={tokenize(hunks)} widgets={getWidgets(hunks)}>
+        <Diff hunks={hunks} diffType="modify" viewType="split" tokens={tokenize(hunks)} widgets={getWidgets(hunks, modifiedLines, modifiedMethods)}>
             {hunks => hunks.reduce(renderHunk, [])}
         </Diff>
     );

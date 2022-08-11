@@ -7,6 +7,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {diffLines, formatLines} from "unidiff";
 import {parseDiff} from "react-diff-view";
 import DiffView from "../../Pages/DiffView";
+import {Alert, AlertTitle} from "@mui/material";
 
 function FileDiff({ file }) {
     const [fileDiff] = parseDiff(file.diff)
@@ -29,8 +30,13 @@ function FileDiff({ file }) {
                     {file.status ? "" : "-" + file.deletions}
                 </Typography>
             </AccordionSummary>
+            <Alert severity="warning">
+                <AlertTitle>
+                    GHERALD file risk: there have been {file.priorBugs} prior bugs among {file.priorChanges} changes in this file
+                </AlertTitle>
+            </Alert>
             <AccordionDetails>
-                <DiffView hunks={fileDiff.hunks} oldSource={file.codeA} linesCount={linesCount} />
+                <DiffView hunks={fileDiff.hunks} oldSource={file.codeA} linesCount={linesCount} modifiedLines={file.lines} modifiedMethods={file.methods}/>
             </AccordionDetails>
         </Accordion>
     );

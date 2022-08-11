@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
+import {ReactComponent as GheraldIcon} from "../../../icons/gherald.svg";
+import {SvgIcon} from "@mui/material";
 
-export default function AuthorPopover({author}) {
+export default function AuthorPopover({author, authorPriorChanges, authorPriorBugs}) {
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handlePopoverOpen = (e) => {
@@ -17,15 +19,7 @@ export default function AuthorPopover({author}) {
 
     return (
         <div>
-            <Typography
-                aria-owns={open ? 'mouse-over-popover' : undefined}
-                aria-haspopup="true"
-                onMouseEnter={handlePopoverOpen}
-                onMouseLeave={handlePopoverClose}
-                sx = {{ fontSize: '0.875rem', fontWeight: '700' }}
-            >
-                {author.name}
-            </Typography>
+            <SvgIcon component={GheraldIcon} inheritViewBox onMouseEnter={handlePopoverOpen} onMouseLeave={handlePopoverClose}/>
             <Popover
                 id="mouse-over-popover"
                 sx={{
@@ -45,8 +39,8 @@ export default function AuthorPopover({author}) {
                 onClose={handlePopoverClose}
                 disableRestoreFocus
             >
-                <Typography variant="h6" sx={{ px: 3, pt: 2 }}>{author.name}</Typography>
-                <Typography variant="subtitle1" sx={{ px: 3, pb: 2 }}>{author.email}</Typography>
+                <Typography variant="h6" sx={{ px: 3, pt: 2 }}>{author.name} — {author.email}</Typography>
+                <Typography variant="subtitle1" sx={{ px: 3, py: 2 }}>GHERALD author risk: author {author.name} has made {authorPriorBugs} prior bugs among {authorPriorChanges} changes.</Typography>
             </Popover>
         </div>
     );

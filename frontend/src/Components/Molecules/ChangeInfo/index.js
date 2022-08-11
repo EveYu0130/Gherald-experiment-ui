@@ -4,12 +4,17 @@ import {
     Box,
     IconButton,
     AppBar,
-    Toolbar
+    Toolbar,
+    SvgIcon,
+    Grid
 } from '@mui/material';
 import AuthorPopover from "../../Atoms/AuthorPopover";
 import GheraldReport from "../GheraldReport";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import FileDiff from "../FileDiff";
+
+import { ReactComponent as GheraldIcon } from '../../../icons/gherald.svg';
+import InfoPopover from "../../Atoms/InfoPopover";
 
 
 function Item(props) {
@@ -51,47 +56,67 @@ function ChangeInfo({ change, number }) {
     }
 
     return (
-        <Box>
-            <Box
-                sx={{
-                    display: 'grid',
-                    gap: 1,
-                    gridTemplateColumns: 'repeat(8, 1fr)',
-                    gridTemplateRows: 'auto',
-                    gridTemplateAreas: `"subject subject subject subject subject subject subject subject"
-                                    "created_title created_info created_info created_info . . . ."
-                                    "author_title author_info author_info author_info . . . ."
-                                    "repo_title repo_info repo_info repo_info . . . ."
-                                    "branch_title branch_info branch_info branch_info . . . ."
-                                    "msg msg msg msg . . . ."`,
-                }}
-                padding='20px'
-            >
-                <Box sx={{ gridArea: 'subject' }} padding='20px 0px'>
-                    <Typography variant="h5" component="div"  text-align="left">
-                        Change {number}: {change.subject}
+        <Box padding='20px'>
+            <Box sx={{ py: 2 }}>
+                <Typography variant="h5" component="div"  text-align="left">
+                    Change {number}: {change.subject}
+                </Typography>
+            </Box>
+            <Grid container spacing={2} sx={{ py: 2 }}>
+                <Grid item>
+                    <SvgIcon component={GheraldIcon} inheritViewBox/>
+                </Grid>
+                <Grid item>
+                    <Typography variant="subtitle1">
+                        RISK SCORE: {change.riskScore}
                     </Typography>
-                </Box>
-                <Typography sx={{ gridArea: 'created_title' }}>Created</Typography>
-                <Item sx={{ gridArea: 'created_info' }}>{change.updated.substring(0,19)}</Item>
-                <Typography sx={{ gridArea: 'author_title' }}>Author</Typography>
-                <Item sx={{ gridArea: 'author_info' }}><AuthorPopover author={change.author} /></Item>
-                <Typography sx={{ gridArea: 'repo_title' }}>Repo</Typography>
-                <Item sx={{ gridArea: 'repo_info' }}>{change.project}</Item>
-                <Typography sx={{ gridArea: 'branch_title' }}>Branch</Typography>
-                <Item sx={{ gridArea: 'branch_info' }}>{change.branch}</Item>
-                <Item sx={{ gridArea: 'msg'}}>
-                    <div>
-                        {change.commitMsg.split('\n').map((str) => (
-                            <NewlineText text={str} />
-                        ))}
-                    </div>
-                </Item>
+                </Grid>
+            </Grid>
+
+            <Box>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    <Grid item xs={2}>Author</Grid>
+                    <Grid item xs={4}>
+                        <Item>
+                            <Grid container spacing={2}>
+                                <Grid item item xs={10}>{change.author.name}</Grid>
+                                <Grid item>
+                                    <AuthorPopover author={change.author} authorPriorChanges={change.authorPriorChanges} authorPriorBugs={change.authorPriorBugs} />
+                                </Grid>
+                            </Grid>
+                        </Item>
+
+                    </Grid>
+                    <Grid item xs={6} />
+                    <Grid item xs={2}>Repo</Grid>
+                    <Grid item xs={4}>
+                        <Item>{change.project}</Item>
+                    </Grid>
+                    <Grid item xs={6} />
+                    <Grid item xs={2}>Branch</Grid>
+                    <Grid item xs={4}>
+                        <Item>{change.branch}</Item>
+                    </Grid>
+                    <Grid item xs={6} />
+                    <Grid item xs={2}>Created</Grid>
+                    <Grid item xs={4}>
+                        <Item>{change.updated.substring(0,19)}</Item>
+                    </Grid>
+                    <Grid item xs={6} />
+                    <Grid item xs={6}>
+                        <Item>
+                            <div>
+                                {change.commitMsg.split('\n').map((str) => (
+                                    <NewlineText text={str} />
+                                ))}
+                            </div>
+                        </Item>
+                    </Grid>
+                    <Grid item xs={6} />
+                </Grid>
             </Box>
 
-            <GheraldReport />
-
-            <Box sx={{ width: '100%' }} padding='20px'>
+            <Box sx={{ width: '100%' }}>
                 <Box
                     sx={{
                         width: '100%',
