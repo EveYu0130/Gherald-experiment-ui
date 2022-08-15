@@ -6,7 +6,7 @@ import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 
 const AddButton = props => {
-    console.log("AddButton", props);
+    // console.log("AddButton", props);
     const { addData } = props;
     return (
         <IconButton aria-label="delete" size="small" onClick={addData}>
@@ -16,7 +16,7 @@ const AddButton = props => {
 };
 
 const DeleteButton = props => {
-    console.log("DeleteButton", props);
+    // console.log("DeleteButton", props);
     const { row, deleteData } = props;
     const onDelete = e => {
         e.preventDefault();
@@ -30,7 +30,7 @@ const DeleteButton = props => {
 };
 
 const TableSelectInput = props => {
-    console.log("TableInput", props);
+    // console.log("TableInput", props);
     const { column, row, cell, updateData, selectOptions } = props;
     const onChange = e => updateData(row.index, column.id, e.target.value);
     return (<Select
@@ -48,7 +48,7 @@ const TableSelectInput = props => {
 };
 
 const TableInput = props => {
-    console.log("TableInput", props);
+    // console.log("TableInput", props);
     const { column, row, cell, updateData } = props;
     const onChange = e => updateData(row.index, column.id, e.target.value);
     return <TextField variant="outlined" value={cell.value || ""} onChange={onChange} fullWidth />;

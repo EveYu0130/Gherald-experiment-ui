@@ -33,14 +33,14 @@ const ButtonLabel = styled.label`
   margin-left: 5px;
 `;
 
-const Timer = forwardRef(({pause, handleResumeClick, handlePauseClick, updateTimer}, ref) => {
+const Timer = forwardRef(({pause, handleResumeClick, handlePauseClick}, ref) => {
     const [seconds, setSeconds] = useState(0);
 
     useImperativeHandle(ref, () => ({
-        submitTime() {
-            updateTimer(seconds);
-            // console.log(seconds);
-        }
+        resetTime() {
+            setSeconds(0);
+        },
+        seconds
     }))
     // const [pause, setPause] = useState(false);
 
@@ -77,7 +77,6 @@ function CodeReview({ reviews, practice }) {
     const [activeStep, setActiveStep] = useState(0);
     const { id, change } = reviews[activeStep];
     const [pause, setPause] = useState(false);
-    const [seconds, setSeconds] = useState(0);
 
     const history = useHistory();
 
@@ -129,8 +128,8 @@ function CodeReview({ reviews, practice }) {
                 setActiveStep((prevActiveStep) => prevActiveStep + 1);
             }
         } else {
-            timerRef.current.submitTime();
-            console.log(seconds);
+            console.log(timerRef.current.seconds);
+            timerRef.current.resetTime();
             fetch('/api/code-review', {
                 method: 'POST',
                 headers: {
@@ -170,17 +169,13 @@ function CodeReview({ reviews, practice }) {
     };
 
     const handlePauseClick = () => {
-        // console.log(seconds);
         setPause(true);
+        console.log(timerRef.current.seconds);
     }
 
     const handleResumeClick = () => {
-        // console.log(seconds);
         setPause(false);
-    }
-
-    const updateTimer = (seconds) => {
-        setSeconds(seconds);
+        console.log(timerRef.current.seconds);
     }
 
     return (
@@ -201,7 +196,7 @@ function CodeReview({ reviews, practice }) {
             {/*    </Box>*/}
             {/*}*/}
             {!practice &&
-                <Timer pause={pause} handleResumeClick={handleResumeClick} handlePauseClick={handlePauseClick} updateTimer={updateTimer} ref={timerRef} />
+                <Timer pause={pause} handleResumeClick={handleResumeClick} handlePauseClick={handlePauseClick} ref={timerRef} />
             }
             {!pause && <Box sx={{ width: '100%' }} padding="20px">
                 <Box>

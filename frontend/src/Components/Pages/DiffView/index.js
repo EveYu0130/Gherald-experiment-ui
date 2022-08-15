@@ -172,8 +172,8 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
         // ],
     };
     const tokens = tokenize(hunks, options);
-    console.log(hunks);
-    console.log(tokens);
+    // console.log(hunks);
+    // console.log(tokens);
     // const tokens = useMemo(() => tokenize(hunks, oldSource), [hunks]);
 
     const renderHunk = (children, hunk, index) => {
