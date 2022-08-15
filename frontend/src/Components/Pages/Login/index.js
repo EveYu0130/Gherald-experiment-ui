@@ -9,6 +9,23 @@ import { useAuth } from "../../../auth";
 
 const theme = createTheme();
 
+const backgroundImage = 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
+
+
+
+const Background = styled(Box)({
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    // backgroundColor: 'common.black',
+    zIndex: -1,
+    opacity: 0.6,
+});
+
 function Login() {
     const history = useHistory();
     let location = useLocation();
@@ -32,6 +49,11 @@ function Login() {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="xs">
+                <Background sx={{
+                    backgroundImage: `url(${backgroundImage})`,
+                    backgroundColor: '#7fc7d9', // Average color of the background image.
+                    backgroundPosition: 'center',
+                }} />
                 <CssBaseline />
                 <Box
                     sx={{

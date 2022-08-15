@@ -53,6 +53,20 @@ const ButtonLabel = styled.label`
 
 const theme = createTheme();
 
+const backgroundImage = 'https://images.unsplash.com/photo-1515549832467-8783363e19b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80';
+
+const Background = styled(Box)({
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'repeat',
+    zIndex: -1,
+    opacity: 0.6,
+});
+
 function TaskB() {
     const [loading, setLoading] = useState(true);
     const [reviews, setReviews] = useState([]);
@@ -77,63 +91,64 @@ function TaskB() {
     }
 
     return (
-        <ThemeProvider theme={theme}>
-            <Container component="main" padding='5%'>
-                <CssBaseline />
-                <Box sx={{ width: '100%' }} padding='5%'>
-                    <Header>Task B: Conduct Code Reviews</Header>
-                    <Divider />
+        // <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="false" disableGutters>
+            <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
+            <CssBaseline />
+            <Box sx={{ width: '100%' }} padding='5%'>
+                <Header>Task B: Conduct Code Reviews</Header>
+                <Divider />
 
-                    <Divider />
-                    <Box sx={{ width: '100%' }} padding='20px'>
-                        <Typography variant="h6" component="div"  text-align="center">
-                            Task Description
-                        </Typography>
-                        <Typography component="div"  text-align="center">
+                <Divider />
+                <Box sx={{ width: '100%' }} padding='20px'>
+                    <Typography variant="h6" component="div"  text-align="center">
+                        Task Description
+                    </Typography>
+                    <Typography component="div"  text-align="center">
+                        <p>
+                            In this task, you will be provided with the same three sets of changes that you saw in task A.
+                            Taking each set one at a time, your job will be to identify as many defects in the commit as you can, and then log them (file name, line number, description of defect) in a code inspection form at the bottom of the web page.
+                        </p>
+                        <p>
+                            Please focus on identifying <b>only</b> functional defects; please ignore any other flaws you might notice in the code, such as those relating to style or documentation.
+                        </p>
+                        {!practice &&
                             <p>
-                                In this task, you will be provided with the same three sets of changes that you saw in task A.
-                                Taking each set one at a time, your job will be to identify as many defects in the commit as you can, and then log them (file name, line number, description of defect) in a code inspection form at the bottom of the web page.
+                                You can pause the experiment by clicking on the <b>Pause</b> button if you get a phone call or want to grab a coffee.
                             </p>
-                            <p>
-                                Please focus on identifying <b>only</b> functional defects; please ignore any other flaws you might notice in the code, such as those relating to style or documentation.
-                            </p>
-                            {!practice &&
-                                <p>
-                                    You can pause the experiment by clicking on the <b>Pause</b> button if you get a phone call or want to grab a coffee.
-                                </p>
-                            }
-                            {!ready && <p>To start the task, click on the <b>I'm ready for Task B</b> button below.</p>}
-                        </Typography>
-                    </Box>
-
-                    {/*<Box sx={{ width: '100%', textAlign: 'center' }}>*/}
-                    {/*    <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}} style={{ textDecoration: 'none' }}>*/}
-                    {/*        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>*/}
-                    {/*            <ButtonLabel>Ready</ButtonLabel>*/}
-                    {/*        </StyledButton>*/}
-                    {/*    </Link>*/}
-                    {/*</Box>*/}
-
-                    {!ready ? (
-                        <Box sx={{ width: '100%', textAlign: 'center' }}>
-                            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
-                                I'm ready for Task B
-                            </StyledButton>
-                        </Box>
-                    ) : (
-                        <div sx={{ width: '100%' }}>
-                            {loading ? (
-                                <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
-                                    <CircularProgress size={100} />
-                                </Box>
-                            ) : (
-                                <CodeReview reviews={reviews} practice={practice} />
-                            )}
-                        </div>
-                    )}
+                        }
+                        {!ready && <p>To start the task, click on the <b>I'm ready for Task B</b> button below.</p>}
+                    </Typography>
                 </Box>
-            </Container>
-        </ThemeProvider>
+
+                {/*<Box sx={{ width: '100%', textAlign: 'center' }}>*/}
+                {/*    <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}} style={{ textDecoration: 'none' }}>*/}
+                {/*        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>*/}
+                {/*            <ButtonLabel>Ready</ButtonLabel>*/}
+                {/*        </StyledButton>*/}
+                {/*    </Link>*/}
+                {/*</Box>*/}
+
+                {!ready ? (
+                    <Box sx={{ width: '100%', textAlign: 'center' }}>
+                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
+                            I'm ready for Task B
+                        </StyledButton>
+                    </Box>
+                ) : (
+                    <div sx={{ width: '100%' }}>
+                        {loading ? (
+                            <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
+                                <CircularProgress size={100} />
+                            </Box>
+                        ) : (
+                            <CodeReview reviews={reviews} practice={practice} />
+                        )}
+                    </div>
+                )}
+            </Box>
+        </Container>
+        // </ThemeProvider>
     );
 }
 

@@ -1,11 +1,22 @@
-import {Diff, Decoration, Hunk, withSourceExpansion, getChangeKey} from 'react-diff-view';
-import tokenize from '../ChangeDetail/tokenize';
+import './index.css';
+import {Diff, Decoration, Hunk, withSourceExpansion, getChangeKey, tokenize, useSourceExpansion} from 'react-diff-view';
 import {IconButton, Typography, Box, Alert, AlertTitle} from "@mui/material";
-import React from "react";
+import React, {useMemo} from "react";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandIcon from '@mui/icons-material/Expand';
-import {Link} from "react-router-dom";
+import * as refractor from "refractor";
+import 'prism-themes/themes/prism-vs.css';
+import styled from "styled-components";
+
+const ExpandButton = styled(Box)({
+    backgroundColor: '#f5f5f5',
+    cursor: 'pointer',
+    textAlign: 'center',
+    '&:hover': {
+        backgroundColor: '#bdbdbd',
+    }
+});
 
 const getWidgets = (hunks, modifiedLines, modifiedMethods) => {
     const lines = Object.assign({}, ...modifiedLines.map((x) => ({[x.lineNumber]: {...x}})));
@@ -65,115 +76,166 @@ const getWidgets = (hunks, modifiedLines, modifiedMethods) => {
     );
 };
 
-const UnfoldCollapsed = ({previousHunk, currentHunk, onClick}) => {
-    const start = previousHunk ? previousHunk.oldStart + previousHunk.oldLines : 1;
-    const end = currentHunk.oldStart;
-
-    return (
-        // <div>
-        //     <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
-        //         <ExpandIcon />
-        //     </IconButton>
-        // </div>
-        <Decoration>
-            <Box sx={{ width: '100%', textAlign: 'center' }}>
-                <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
-                    <ExpandIcon />
-                    <Typography variant="button" color="text.secondary">Expand all</Typography>
-                </IconButton>
-            </Box>
-        </Decoration>
-    );
-};
-
-const ExpandUp = ({previousHunk, currentHunk, onClick}) => {
-    let start = previousHunk ? previousHunk.oldStart + previousHunk.oldLines : 1;
-    const end = currentHunk.oldStart;
-    if (end - start > 15) {
-        start = end - 15
-    }
-
+const ExpandUpAll = ({start, end, onClick}) => {
+    const lines = end - start;
     return (
         <Decoration>
-            <Box sx={{ width: '100%', textAlign: 'center' }}>
-                <IconButton aria-label="expand-up" size="small" onClick={() => onClick(start, end)}>
+            <ExpandButton sx={{ width: '100%' }} onClick={() => onClick(start, end)}>
+                <IconButton aria-label="expand-up" size="small">
                     <ExpandLessIcon />
-                    <Typography variant="button" color="text.secondary">Expand up</Typography>
+                    <Typography variant="button" color="text.secondary">Expand all {lines} lines</Typography>
                 </IconButton>
-            </Box>
+            </ExpandButton>
         </Decoration>
-        // <div>
-        //     <IconButton aria-label="expand-up" size="small" onClick={() => onClick(start, end)}>
-        //         <ExpandLessIcon />
-        //     </IconButton>
-        // </div>
     );
 };
 
-const ExpandDown = ({currentHunk, linesCount, onClick}) => {
-    const start = currentHunk ? currentHunk.oldStart + currentHunk.oldLines : linesCount;
-    const end = start + 15 < linesCount ? start + 15 : linesCount;
-
+const ExpandAll = ({start, end, onClick}) => {
+    const lines = end - start;
     return (
         <Decoration>
-            <Box sx={{ width: '100%', textAlign: 'center' }}>
-                <IconButton aria-label="expand-down" size="small" onClick={() => onClick(start, end)}>
-                    <ExpandMoreIcon />
-                    <Typography variant="button" color="text.secondary">Expand down</Typography>
-                </IconButton>
-            </Box>
-        </Decoration>
-        // <div>
-        //     <IconButton aria-label="expand-down" size="small" onClick={() => onClick(start, end)}>
-        //         <ExpandMoreIcon />
-        //     </IconButton>
-        // </div>
-    );
-};
-
-const UnfoldStub = ({currentHunk, linesCount, onClick}) => {
-    const start = currentHunk ? currentHunk.oldStart + currentHunk.oldLines : linesCount;
-    const end = linesCount;
-
-    return (
-        <Decoration>
-            <Box sx={{ width: '100%', textAlign: 'center' }}>
-                <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
+            <ExpandButton sx={{ width: '100%' }} onClick={() => onClick(start, end)}>
+                <IconButton aria-label="expand-all" size="small">
                     <ExpandIcon />
-                    <Typography variant="button" color="text.secondary">Expand all</Typography>
+                    <Typography variant="button" color="text.secondary">Expand all {lines} lines</Typography>
                 </IconButton>
-            </Box>
+            </ExpandButton>
         </Decoration>
-        // <div>
-        //     <IconButton aria-label="expand-all" size="small" onClick={() => onClick(start, end)}>
-        //         <ExpandIcon />
-        //     </IconButton>
-        // </div>
     );
+};
+
+const ExpandUp = ({start, end, onClick}) => {
+    const lines = end - start;
+    return (
+        <Decoration>
+            <ExpandButton sx={{ width: '100%' }} onClick={() => onClick(start, end)}>
+                <IconButton aria-label="expand-up" size="small">
+                    <ExpandLessIcon />
+                    <Typography variant="button" color="text.secondary">Expand up {lines} lines</Typography>
+                </IconButton>
+            </ExpandButton>
+        </Decoration>
+    );
+};
+
+const ExpandDown = ({start, end, onClick}) => {
+    const lines = end - start;
+    return (
+        <Decoration>
+            <ExpandButton sx={{ width: '100%' }} onClick={() => onClick(start, end)}>
+                <IconButton aria-label="expand-down" size="small">
+                    <ExpandMoreIcon />
+                    <Typography variant="button" color="text.secondary">Expand down {lines} lines</Typography>
+                </IconButton>
+            </ExpandButton>
+        </Decoration>
+    );
+};
+
+const ExpandDownAll = ({start, end, onClick}) => {
+    const lines = end - start;
+    return (
+        <Decoration>
+            <ExpandButton sx={{ width: '100%' }} onClick={() => onClick(start, end)}>
+                <IconButton aria-label="expand-down" size="small">
+                    <ExpandMoreIcon />
+                    <Typography variant="button" color="text.secondary">Expand all {lines} lines</Typography>
+                </IconButton>
+            </ExpandButton>
+        </Decoration>
+    );
+};
+
+const renderToken = (token, defaultRender, i) => {
+    switch (token.type) {
+        case 'space':
+            console.log(token);
+            return (
+                <span key={i} className="space">
+                    {token.children && token.children.map((token, i) => renderToken(token, defaultRender, i))}
+                </span>
+            );
+        default:
+            return defaultRender(token, i);
+    }
 };
 
 const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMethods}) => {
+    const options = {
+        refractor: refractor,
+        highlight: true,
+        // oldSource: oldSource,
+        language: 'java',
+        // enhancers: [
+        //     markEdits(hunks)
+        //     // markEdits(hunks, {type: 'block'})
+        // ],
+    };
+    const tokens = tokenize(hunks, options);
+    console.log(hunks);
+    console.log(tokens);
+    // const tokens = useMemo(() => tokenize(hunks, oldSource), [hunks]);
+
     const renderHunk = (children, hunk, index) => {
         const previousElement = children[children.length - 1];
-        const decorationElement = (
-            <UnfoldCollapsed
-                key={'decoration-' + hunk.content}
-                previousHunk={previousElement && previousElement.props.hunk}
-                currentHunk={hunk}
-                onClick={onExpandRange}
-            />
-        );
-        const expandUpElement = (
-            <ExpandUp
-                key={'expand-up-' + hunk.content}
-                previousHunk={previousElement && previousElement.props.hunk}
-                currentHunk={hunk}
-                onClick={onExpandRange}
-            />
-        )
-        if (hunk.oldStart > 1) {
-            children.push(decorationElement);
-            children.push(expandUpElement);
+
+        if (previousElement) {
+            const previousHunk = previousElement.props.hunk;
+            const previousEnd = previousHunk.oldStart + previousHunk.oldLines;
+            const currentStart = hunk.oldStart;
+            if (currentStart - previousEnd < 20) {
+                const expandAllElement = (
+                    <ExpandAll
+                        key={'expand-all-' + hunk.content}
+                        start={previousEnd}
+                        end={currentStart}
+                        onClick={onExpandRange}
+                    />
+                );
+                children.push(expandAllElement);
+            } else {
+                const expandDownElement = (
+                    <ExpandDown
+                        key={'expand-down-' + hunk.content}
+                        previousHunk={previousHunk}
+                        start={previousEnd}
+                        end={previousEnd + 20}
+                        onClick={onExpandRange}
+                    />
+                );
+                const expandUpElement = (
+                    <ExpandUp
+                        key={'expand-up-' + hunk.content}
+                        start={hunk.oldStart - 20}
+                        end={currentStart}
+                        onClick={onExpandRange}
+                    />
+                );
+                children.push(expandDownElement);
+                children.push(expandUpElement);
+            }
+        } else {
+            const currentStart = hunk.oldStart;
+            const expandUpAllElement = (
+                <ExpandUpAll
+                    key={'expand-up-' + hunk.content}
+                    start={1}
+                    end={currentStart}
+                    onClick={onExpandRange}
+                />
+            );
+            children.push(expandUpAllElement);
+            if (currentStart > 20) {
+                const expandUpElement = (
+                    <ExpandUp
+                        key={'expand-up-' + hunk.content}
+                        start={currentStart - 20}
+                        end={currentStart}
+                        onClick={onExpandRange}
+                    />
+                );
+                children.push(expandUpElement);
+            }
         }
 
         const hunkElement = (
@@ -184,34 +246,36 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
         );
         children.push(hunkElement);
 
-        const expandDownElement = (
-            <ExpandDown
-                key={'expand-down-' + hunk.content}
-                currentHunk={hunk}
-                linesCount={linesCount}
-                onClick={onExpandRange}
-            />
-        )
 
-        if (hunk.oldStart + hunk.oldLines < linesCount) {
-            children.push(expandDownElement);
-            if (index === hunks.length - 1) {
-                children.push(
-                    <UnfoldStub
-                        key={'decoration-stub'}
-                        currentHunk={hunk}
-                        linesCount={linesCount}
+        if (index === hunks.length - 1) {
+            const currentEnd = hunk.oldStart + hunk.oldLines;
+            if (currentEnd + 20 < linesCount) {
+                const expandDownElement = (
+                    <ExpandDown
+                        key={'expand-down-' + hunk.content}
+                        start={currentEnd}
+                        end={currentEnd + 20}
                         onClick={onExpandRange}
                     />
-                );
+                )
+                children.push(expandDownElement);
             }
+            const expandDownAllElement = (
+                <ExpandDownAll
+                    key={'expand-down-' + hunk.content}
+                    start={currentEnd}
+                    end={linesCount}
+                    onClick={onExpandRange}
+                />
+            )
+            children.push(expandDownAllElement);
         }
 
         return children;
     };
 
     return (
-        <Diff hunks={hunks} diffType="modify" viewType="split" tokens={tokenize(hunks)} widgets={getWidgets(hunks, modifiedLines, modifiedMethods)}>
+        <Diff className={"diff-view"} hunks={hunks} diffType="modify" viewType="split" tokens={tokens} widgets={getWidgets(hunks, modifiedLines, modifiedMethods)}>
             {hunks => hunks.reduce(renderHunk, [])}
         </Diff>
     );

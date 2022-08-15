@@ -66,6 +66,20 @@ const ButtonLabel = styled.label`
 
 const theme = createTheme();
 
+const backgroundImage = 'https://images.unsplash.com/photo-1515549832467-8783363e19b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80';
+
+const Background = styled(Box)({
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'repeat',
+    zIndex: -1,
+    opacity: 0.6,
+});
+
 function MainPage() {
     let location = useLocation();
     let { practiced } = location.state || false;
@@ -79,12 +93,12 @@ function MainPage() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" padding='5%'>
+            <Container component="main" maxWidth="false" disableGutters>
+                <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
                 <CssBaseline />
                 <Box sx={{ width: '100%' }} padding='5%'>
                     <Header>Welcome to our experiment on code review</Header>
                     <Divider />
-
                     <Divider />
                     <Box sx={{ width: '100%' }} padding='20px'>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
@@ -165,7 +179,7 @@ function MainPage() {
                     {auth.user.group != "no-tool" && <Divider />}
 
                     {auth.user.group === "gherald" &&
-                        <Box sx={{ width: '100%' }} padding='20px'>
+                        <Box sx={{ width: '100%' }} padding='20px' >
                             <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                                 Tools
                             </Typography>

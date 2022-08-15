@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useMemo} from "react";
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -10,11 +10,12 @@ import DiffView from "../../Pages/DiffView";
 import {Alert, AlertTitle} from "@mui/material";
 
 function FileDiff({ file }) {
-    const [fileDiff] = parseDiff(file.diff)
+    const [fileDiff] = useMemo(() => parseDiff(file.diff, {nearbySequences: 'zip'}), []);
+    // const [fileDiff] = parseDiff(file.diff, {nearbySequences: 'zip'})
     // const [fileDiff] = file.diff ? parseDiff(file.diff) : parseDiff(formatLines(diffLines(file.codeA, file.codeB), {context: 3}), {nearbySequences: 'zip'});
     const linesCount = file.codeA ? file.codeA.split('\n').length : 0;
     return (
-        <Accordion>
+        <Accordion TransitionProps={{ unmountOnExit: true }}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={file.filename + "-content"}
