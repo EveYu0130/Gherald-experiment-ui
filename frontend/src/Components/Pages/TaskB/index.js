@@ -93,7 +93,6 @@ function TaskB() {
     return (
         // <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="false" disableGutters>
-            <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
             <CssBaseline />
             <Box sx={{ width: '100%' }} padding='5%'>
                 <Header>Task B: Conduct Code Reviews</Header>

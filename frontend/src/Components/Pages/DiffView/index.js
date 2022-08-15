@@ -186,7 +186,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
             if (currentStart - previousEnd < 20) {
                 const expandAllElement = (
                     <ExpandAll
-                        key={'expand-all-' + hunk.content}
+                        key={'expand-all-' + hunk.oldStart + hunk.content}
                         start={previousEnd}
                         end={currentStart}
                         onClick={onExpandRange}
@@ -196,7 +196,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
             } else {
                 const expandDownElement = (
                     <ExpandDown
-                        key={'expand-down-' + hunk.content}
+                        key={'expand-down-' + hunk.oldStart + hunk.content}
                         previousHunk={previousHunk}
                         start={previousEnd}
                         end={previousEnd + 20}
@@ -205,7 +205,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
                 );
                 const expandUpElement = (
                     <ExpandUp
-                        key={'expand-up-' + hunk.content}
+                        key={'expand-up-' + hunk.oldStart + hunk.content}
                         start={hunk.oldStart - 20}
                         end={currentStart}
                         onClick={onExpandRange}
@@ -218,7 +218,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
             const currentStart = hunk.oldStart;
             const expandUpAllElement = (
                 <ExpandUpAll
-                    key={'expand-up-' + hunk.content}
+                    key={'expand-up-all' + hunk.oldStart + hunk.content}
                     start={1}
                     end={currentStart}
                     onClick={onExpandRange}
@@ -228,7 +228,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
             if (currentStart > 20) {
                 const expandUpElement = (
                     <ExpandUp
-                        key={'expand-up-' + hunk.content}
+                        key={'expand-up-' + hunk.oldStart + hunk.content}
                         start={currentStart - 20}
                         end={currentStart}
                         onClick={onExpandRange}
@@ -252,7 +252,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
             if (currentEnd + 20 < linesCount) {
                 const expandDownElement = (
                     <ExpandDown
-                        key={'expand-down-' + hunk.content}
+                        key={'expand-down-' + hunk.oldStart + hunk.content}
                         start={currentEnd}
                         end={currentEnd + 20}
                         onClick={onExpandRange}
@@ -262,7 +262,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
             }
             const expandDownAllElement = (
                 <ExpandDownAll
-                    key={'expand-down-' + hunk.content}
+                    key={'expand-down-all' + hunk.oldStart + hunk.content}
                     start={currentEnd}
                     end={linesCount}
                     onClick={onExpandRange}

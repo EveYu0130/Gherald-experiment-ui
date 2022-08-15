@@ -36,13 +36,13 @@ const TableSelectInput = props => {
     return (<Select
         labelId="demo-simple-select-label"
         id="demo-simple-select"
-        value={cell.value}
+        value={cell.value || ""}
         label="File"
         onChange={onChange}
         fullWidth
     >
-        {selectOptions.map(file => (
-            <MenuItem value={file}>{file}</MenuItem>
+        {selectOptions.map((file, index) => (
+            <MenuItem key={'file-' + index} value={file}>{file}</MenuItem>
         ))}
     </Select>);
 };
@@ -51,7 +51,7 @@ const TableInput = props => {
     console.log("TableInput", props);
     const { column, row, cell, updateData } = props;
     const onChange = e => updateData(row.index, column.id, e.target.value);
-    return <TextField variant="outlined" value={cell.value} onChange={onChange} fullWidth />;
+    return <TextField variant="outlined" value={cell.value || ""} onChange={onChange} fullWidth />;
     // return <input type="number" value={cell.value} onChange={onChange} />;
 };
 

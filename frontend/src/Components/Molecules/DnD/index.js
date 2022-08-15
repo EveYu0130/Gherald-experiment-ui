@@ -162,7 +162,7 @@ function DnD({ changes, practice }) {
                         <Box className="changes" sx={{ backgroundColor: 'grey.200', p: 2 }} {...provided.droppableProps} ref={provided.innerRef}>
                             {changeList.map(({id, change}, index) => {
                                 return (
-                                    <Grid container alignItems="center" spacing={2}>
+                                    <Grid key={change.id} container alignItems="center" spacing={2}>
                                         <Grid item xs={2}>
                                             <Box sx={{ width: '100%' }} textAlign="center">
                                                 {icons[index]}
@@ -170,7 +170,7 @@ function DnD({ changes, practice }) {
                                         </Grid>
                                         <Grid item xs={10}>
                                             <Box>
-                                                <Draggable key={change.id} draggableId={change.id} index={index}>
+                                                <Draggable key={'draggable' + change.id} draggableId={change.id} index={index}>
                                                     {(provided) => (
                                                         // <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                                         //     <Item><Link to={`${baseUrl}/${id}`}>{subject}</Link></Item>

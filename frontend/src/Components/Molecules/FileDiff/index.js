@@ -9,13 +9,12 @@ import {parseDiff} from "react-diff-view";
 import DiffView from "../../Pages/DiffView";
 import {Alert, AlertTitle} from "@mui/material";
 
-function FileDiff({ file }) {
-    const [fileDiff] = useMemo(() => parseDiff(file.diff, {nearbySequences: 'zip'}), []);
-    // const [fileDiff] = parseDiff(file.diff, {nearbySequences: 'zip'})
+const FileDiff = ({ file }) => {
+    const [fileDiff] = parseDiff(file.diff, {nearbySequences: 'zip'})
     // const [fileDiff] = file.diff ? parseDiff(file.diff) : parseDiff(formatLines(diffLines(file.codeA, file.codeB), {context: 3}), {nearbySequences: 'zip'});
     const linesCount = file.codeA ? file.codeA.split('\n').length : 0;
     return (
-        <Accordion TransitionProps={{ unmountOnExit: true }}>
+        <Accordion key={file.filename}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={file.filename + "-content"}
@@ -41,6 +40,6 @@ function FileDiff({ file }) {
             </AccordionDetails>
         </Accordion>
     );
-}
+};
 
 export default FileDiff;

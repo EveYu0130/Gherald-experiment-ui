@@ -74,7 +74,7 @@ const Timer = forwardRef(({pause, handleResumeClick, handlePauseClick, updateTim
 })
 
 function CodeReview({ reviews, practice }) {
-    const [activeStep, setActiveStep] = React.useState(0);
+    const [activeStep, setActiveStep] = useState(0);
     const { id, change } = reviews[activeStep];
     const [pause, setPause] = useState(false);
     const [seconds, setSeconds] = useState(0);
@@ -206,8 +206,8 @@ function CodeReview({ reviews, practice }) {
             {!pause && <Box sx={{ width: '100%' }} padding="20px">
                 <Box>
                     <Stepper activeStep={activeStep} alternativeLabel>
-                        {reviews.map((label) => (
-                            <Step key={label}>
+                        {reviews.map((review) => (
+                            <Step key={'review=' + review.id}>
                                 <StepLabel />
                             </Step>
                         ))}
@@ -216,7 +216,7 @@ function CodeReview({ reviews, practice }) {
 
                 <ChangeInfo change={change} number={activeStep+1} />
 
-                <CodeInspectionForm data={data} updateData={updateData} deleteData={deleteData} addData={addData} selectOptions={change.files.slice(1).map(file => file.filename)}/>
+                <CodeInspectionForm data={data} updateData={updateData} deleteData={deleteData} addData={addData} selectOptions={change.project === 'qt' ? change.files.slice(1).map(file => file.filename) : change.files.map(file => file.filename)}/>
 
                 <Box sx={{ width: '100%', textAlign: 'center' }}>
                     <StyledButton

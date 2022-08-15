@@ -94,7 +94,7 @@ function MainPage() {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="false" disableGutters>
-                <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
+                {/*<Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>*/}
                 <CssBaseline />
                 <Box sx={{ width: '100%' }} padding='5%'>
                     <Header>Welcome to our experiment on code review</Header>

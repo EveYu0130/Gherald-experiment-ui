@@ -106,8 +106,8 @@ function ChangeInfo({ change, number }) {
                     <Grid item xs={6}>
                         <Item>
                             <div>
-                                {change.commitMsg.split('\n').map((str) => (
-                                    <NewlineText text={str} />
+                                {change.commitMsg.split('\n').map((str, index) => (
+                                    <NewlineText key={'line-' + index} text={str} />
                                 ))}
                             </div>
                         </Item>
@@ -183,8 +183,8 @@ function ChangeInfo({ change, number }) {
                     </AppBar>
                 </Box>
                 <div>
-                    {change.files.map((file) => (
-                        <FileDiff file={file} />
+                    {change.files.map((file, index) => (
+                        <FileDiff key={'file-' + index} file={file} />
                     ))}
                 </div>
             </Box>

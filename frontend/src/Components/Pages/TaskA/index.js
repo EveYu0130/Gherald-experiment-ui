@@ -93,7 +93,6 @@ function TaskA(props) {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="false" disableGutters>
-                <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
                 <CssBaseline />
                 <Box sx={{ width: '100%' }} padding='5%'>
                     <Header>Task A: Rank the Changes</Header>
