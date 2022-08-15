@@ -58,7 +58,7 @@ public class ParticipantController {
 
     @PostMapping("/api/code-review")
     public ChangeReviewDto createCodeInspection(@RequestBody ChangeReviewDto changeReviewDto) {
-        ChangeReview changeReview = applicationService.createCodeInspection(changeReviewDto.getId(), changeReviewDto.getCodeInspections());
+        ChangeReview changeReview = applicationService.createCodeInspection(changeReviewDto.getId(), changeReviewDto.getReviewTime(), changeReviewDto.getCodeInspections());
         return convertToDto(changeReview);
     }
 
@@ -108,6 +108,7 @@ public class ParticipantController {
 
     private ChangeReviewDto convertToDto(ChangeReview changeReview) {
         Integer riskLevel = (changeReview.getRiskLevel() == null) ? null : changeReview.getRiskLevel();
+        Integer reviewTime = (changeReview.getReviewTime() == null) ? null : changeReview.getReviewTime();
         ChangeDto change = convertToDto(changeReview.getChange());
         List<CodeInspectionDto> codeInspections = new ArrayList<>();
         if (changeReview.getCodeInspections() != null) {
@@ -115,7 +116,7 @@ public class ParticipantController {
                 codeInspections.add(convertToDto(codeInspection));
             }
         }
-        ChangeReviewDto changeReviewDto = new ChangeReviewDto(changeReview.getId(), change, riskLevel, codeInspections);
+        ChangeReviewDto changeReviewDto = new ChangeReviewDto(changeReview.getId(), change, riskLevel, reviewTime, codeInspections);
         return changeReviewDto;
     }
 

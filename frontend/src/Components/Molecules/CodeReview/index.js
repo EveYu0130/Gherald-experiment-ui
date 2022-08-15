@@ -128,14 +128,15 @@ function CodeReview({ reviews, practice }) {
                 setActiveStep((prevActiveStep) => prevActiveStep + 1);
             }
         } else {
-            console.log(timerRef.current.seconds);
+            const reviewTime = timerRef.current.seconds;
+            console.log(reviewTime);
             timerRef.current.resetTime();
             fetch('/api/code-review', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({id, codeInspections: data.map(({file, line, comment}) => ({file, line, comment}))})
+                body: JSON.stringify({id, reviewTime, codeInspections: data.map(({file, line, comment}) => ({file, line, comment}))})
             }).then(response => {
                 if  (response.status === 200) {
                     if (activeStep === reviews.length - 1) {

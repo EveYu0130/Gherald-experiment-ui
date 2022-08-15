@@ -83,8 +83,9 @@ public class ApplicationService {
     }
 
     @Transactional
-    public ChangeReview createCodeInspection(Integer reviewId, List<CodeInspectionDto> codeInspections) {
+    public ChangeReview createCodeInspection(Integer reviewId, Integer reviewTime, List<CodeInspectionDto> codeInspections) {
         ChangeReview changeReview = changeReviewRepository.findChangeReviewById(reviewId);
+        changeReview.setReviewTime(reviewTime);
         for (CodeInspectionDto codeInspectionDto : codeInspections) {
             CodeInspection codeInspection = new CodeInspection();
             codeInspection.setFile(codeInspectionDto.getFile());

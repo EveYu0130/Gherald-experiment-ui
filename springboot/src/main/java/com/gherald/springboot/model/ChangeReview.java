@@ -19,6 +19,8 @@ public class ChangeReview {
 
     private Integer riskLevel;
 
+    private Integer reviewTime;
+
     @OneToMany(mappedBy = "changeReview", cascade = CascadeType.ALL)
     private List<CodeInspection> codeInspections;
 
@@ -52,6 +54,14 @@ public class ChangeReview {
 
     public void setRiskLevel(Integer riskLevel) {
         this.riskLevel = riskLevel;
+    }
+
+    public Integer getReviewTime() {
+        return reviewTime;
+    }
+
+    public void setReviewTime(Integer reviewTime) {
+        this.reviewTime = reviewTime;
     }
 
     public List<CodeInspection> getCodeInspections() {
