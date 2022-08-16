@@ -59,7 +59,7 @@ function ChangeInfo({ change, number }) {
         <Box padding='20px'>
             <Box sx={{ py: 2 }}>
                 <Typography variant="h5" component="div"  text-align="left">
-                    Change {number}: {change.subject}
+                    Change {number ? number : "detail"}: {change.subject}
                 </Typography>
             </Box>
             <Grid container spacing={2} sx={{ py: 2 }}>
@@ -126,30 +126,6 @@ function ChangeInfo({ change, number }) {
                     }}
                     padding='5px 10px'
                 >
-                    {/*<Box sx={{*/}
-                    {/*    // width: '30%',*/}
-                    {/*    display: 'grid',*/}
-                    {/*    gridAutoFlow: 'column',*/}
-                    {/*    gap: 1,}} justify="flex-start">*/}
-                    {/*    <DifferenceIcon xs="auto" align='left' fontSize="small" />*/}
-                    {/*    <Typography xs="auto" align='left'>*/}
-                    {/*        {files.length - 1} {files.length > 2 ? "files" : "file"} with {change.insertions} insertions and {change.deletions} deletions*/}
-                    {/*    </Typography>*/}
-                    {/*</Box>*/}
-
-                    {/*<Box sx={{*/}
-                    {/*    // width: '30%',*/}
-                    {/*    display: 'grid',*/}
-                    {/*    gridAutoFlow: 'column',*/}
-                    {/*    gap: 1,}} xs="auto">*/}
-                    {/*    <Typography variant="button" xs="auto" align='right'>*/}
-                    {/*        /!*parent {change.parent.substring(0,7)}*!/*/}
-                    {/*        source code*/}
-                    {/*    </Typography>*/}
-                    {/*    /!*<IconButton aria-label="Example">*!/*/}
-                    {/*    /!*    <OpenInNewIcon xs="auto" align='right' fontSize="small" />*!/*/}
-                    {/*    /!*</IconButton>*!/*/}
-                    {/*</Box>*/}
                     <div onClick={handleOpenWindow} align='right'>
                         <Typography variant="button" xs="auto">
                             {/*parent {change.parent.substring(0,7)}*/}
@@ -161,12 +137,6 @@ function ChangeInfo({ change, number }) {
                     </div>
 
                 </Box>
-                {/*<Box sx={{ width: '100%', textAlign: 'center' }}>*/}
-                {/*    <DifferenceIcon fontSize="small" />*/}
-                {/*    <Typography>*/}
-                {/*        {files.length - 1} {files.length > 2 ? "files" : "file"} with {change.insertions} insertions and {change.deletions} deletions*/}
-                {/*    </Typography>*/}
-                {/*</Box>*/}
                 <Box sx={{ flexGrow: 1 }}>
                     <AppBar position="static" color='transparent'>
                         <Toolbar>

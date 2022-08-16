@@ -15,10 +15,14 @@ import {
     Button,
     Card,
     CardContent,
-    CardActions
+    CardActions,
+    CardMedia
 } from '@mui/material';
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useAuth} from "../../../auth";
+import taskA from '../../../images/task-a.jpg';
+import taskB from '../../../images/task-b.jpg';
+
 
 
 const Header = styled.h1`
@@ -66,7 +70,7 @@ const ButtonLabel = styled.label`
 
 const theme = createTheme();
 
-const backgroundImage = 'https://images.unsplash.com/photo-1515549832467-8783363e19b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80';
+const backgroundImage = 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
 
 const Background = styled(Box)({
     position: 'fixed',
@@ -77,7 +81,7 @@ const Background = styled(Box)({
     backgroundSize: 'cover',
     backgroundRepeat: 'repeat',
     zIndex: -1,
-    opacity: 0.6,
+    opacity: 0.1,
 });
 
 function MainPage() {
@@ -94,13 +98,16 @@ function MainPage() {
     return (
         <ThemeProvider theme={theme}>
             <Container component="main" maxWidth="false" disableGutters>
-                {/*<Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>*/}
+                <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
                 <CssBaseline />
-                <Box sx={{ width: '100%' }} padding='5%'>
-                    <Header>Welcome to our experiment on code review</Header>
-                    <Divider />
-                    <Divider />
-                    <Box sx={{ width: '100%' }} padding='20px'>
+                <Box sx={{ width: '100%' }}>
+                    {/*<Header>Welcome to our experiment on code review</Header>*/}
+                    <Box sx={{ width: '100%', textAlign: 'center' }} padding='5%'>
+                        <Typography variant="h4" component="div" sx={{ fontWeight: '600' }}>
+                            Welcome to our experiment on code review
+                        </Typography>
+                    </Box>
+                    <Box sx={{ width: '100%', backgroundColor: '#f5f5f5' }} padding='5%'>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                             About the experiment
                         </Typography>
@@ -135,14 +142,30 @@ function MainPage() {
                         </Box>
                     </Box>
 
-                    <Divider />
-                    <Box sx={{ width: '100%' }} padding='20px'>
+                    <Box sx={{ width: '100%' }} padding='5%'>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                             Your Tasks in a Glance
                         </Typography>
+
                         <Grid container spacing={4} sx={{ p: 2}}>
-                            <Grid item xs={6} sx={{ minHeight: 300 }}>
-                                <Card sx={{ height: '100%', display: 'flex' }}>
+                            {/*<Grid item xs={6} sx={{ minHeight: 300 }}>*/}
+                            {/*    <Card sx={{ height: '100%', display: 'flex' }}>*/}
+                            {/*        <CardContent sx={{ flex: 1 }}>*/}
+                            {/*            <Typography component="h2" variant="h6">*/}
+                            {/*                Task A [x~ minutes to complete]*/}
+                            {/*            </Typography>*/}
+                            {/*            <Typography variant="subtitle1" color="text.secondary">*/}
+                            {/*                Rank the changes by risk*/}
+                            {/*            </Typography>*/}
+                            {/*            <Typography variant="subtitle1" paragraph>*/}
+                            {/*                In this task, you will be provided with three sets of code changes (i.e., proposed commits to an existing software system).*/}
+                            {/*                Your job is to rank the changes from most to least risky, where we define risk as "the likelihood of a defect in the code that will need to be fixed later".*/}
+                            {/*            </Typography>*/}
+                            {/*        </CardContent>*/}
+                            {/*    </Card>*/}
+                            {/*</Grid>*/}
+                            <Grid item xs={6} sx={{ minHeight: 250 }}>
+                                <Card sx={{ display: 'flex', height: '100%' }}>
                                     <CardContent sx={{ flex: 1 }}>
                                         <Typography component="h2" variant="h6">
                                             Task A [x~ minutes to complete]
@@ -150,15 +173,21 @@ function MainPage() {
                                         <Typography variant="subtitle1" color="text.secondary">
                                             Rank the changes by risk
                                         </Typography>
-                                        <Typography variant="subtitle1" paragraph>
+                                        <Typography variant="subtitle1" paragraph sx={{ fontSize: "12px" }}>
                                             In this task, you will be provided with three sets of code changes (i.e., proposed commits to an existing software system).
                                             Your job is to rank the changes from most to least risky, where we define risk as "the likelihood of a defect in the code that will need to be fixed later".
                                         </Typography>
                                     </CardContent>
+                                    <CardMedia
+                                        component="img"
+                                        sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
+                                        image={taskA}
+                                        alt={"taskA"}
+                                    />
                                 </Card>
                             </Grid>
-                            <Grid item xs={6} sx={{ minHeight: 300 }}>
-                                <Card sx={{ height: '100%', display: 'flex' }}>
+                            <Grid item xs={6} sx={{ minHeight: 250 }}>
+                                <Card sx={{ display: 'flex', height: '100%' }}>
                                     <CardContent sx={{ flex: 1 }}>
                                         <Typography component="h2" variant="h6">
                                             Task B [x~ minutes to complete]
@@ -166,20 +195,42 @@ function MainPage() {
                                         <Typography variant="subtitle1" color="text.secondary">
                                             Conduct Code Reviews
                                         </Typography>
-                                        <Typography variant="subtitle1" paragraph>
+                                        <Typography variant="subtitle1" paragraph sx={{ fontSize: "12px" }}>
                                             In this task, you will be provided with the same three sets of changes that you saw in the first task.
                                             Your job will be to identify all of the defects in the commit and log them (file name, line number, description of defect) in a report.
                                         </Typography>
                                     </CardContent>
+                                    <CardMedia
+                                        component="img"
+                                        sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
+                                        image={taskB}
+                                        alt={"taskB"}
+                                    />
                                 </Card>
                             </Grid>
+                            {/*<Grid item xs={6} sx={{ minHeight: 300 }}>*/}
+                            {/*    <Card sx={{ height: '100%', display: 'flex' }}>*/}
+                            {/*        <CardContent sx={{ flex: 1 }}>*/}
+                            {/*            <Typography component="h2" variant="h6">*/}
+                            {/*                Task B [x~ minutes to complete]*/}
+                            {/*            </Typography>*/}
+                            {/*            <Typography variant="subtitle1" color="text.secondary">*/}
+                            {/*                Conduct Code Reviews*/}
+                            {/*            </Typography>*/}
+                            {/*            <Typography variant="subtitle1" paragraph>*/}
+                            {/*                In this task, you will be provided with the same three sets of changes that you saw in the first task.*/}
+                            {/*                Your job will be to identify all of the defects in the commit and log them (file name, line number, description of defect) in a report.*/}
+                            {/*            </Typography>*/}
+                            {/*        </CardContent>*/}
+                            {/*    </Card>*/}
+                            {/*</Grid>*/}
                         </Grid>
                     </Box>
 
-                    {auth.user.group != "no-tool" && <Divider />}
+                    {/*{auth.user.group != "no-tool" && <Divider />}*/}
 
                     {auth.user.group === "gherald" &&
-                        <Box sx={{ width: '100%' }} padding='20px' >
+                        <Box sx={{ width: '100%', backgroundColor: '#f5f5f5' }} padding='5%' >
                             <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                                 Tools
                             </Typography>
@@ -212,7 +263,7 @@ function MainPage() {
                     }
 
                     {auth.user.group === "infer" &&
-                        <Box sx={{ width: '100%' }} padding='20px'>
+                        <Box sx={{ width: '100%', backgroundColor: '#f5f5f5' }} padding='5%'>
                             <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                                 Tools
                             </Typography>
@@ -240,8 +291,8 @@ function MainPage() {
                         </Box>
                     }
 
-                    <Divider />
-                    <Box sx={{ width: '100%' }} padding='20px'>
+                    {/*<Divider />*/}
+                    <Box sx={{ width: '100%' }} padding='5%'>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                             Practice the Tasks
                         </Typography>

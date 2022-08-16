@@ -53,7 +53,7 @@ const ButtonLabel = styled.label`
 
 const theme = createTheme();
 
-const backgroundImage = 'https://images.unsplash.com/photo-1515549832467-8783363e19b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80';
+const backgroundImage = 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
 
 const Background = styled(Box)({
     position: 'fixed',
@@ -64,7 +64,7 @@ const Background = styled(Box)({
     backgroundSize: 'cover',
     backgroundRepeat: 'repeat',
     zIndex: -1,
-    opacity: 0.6,
+    opacity: 0.1,
 });
 
 function TaskB() {
@@ -93,6 +93,7 @@ function TaskB() {
     return (
         // <ThemeProvider theme={theme}>
         <Container component="main" maxWidth="false" disableGutters>
+            <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
             <CssBaseline />
             <Box sx={{ width: '100%' }} padding='5%'>
                 <Header>Task B: Conduct Code Reviews</Header>

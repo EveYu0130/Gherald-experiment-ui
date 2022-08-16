@@ -11,8 +11,6 @@ import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import one from '../../../icons/one.png';
 import two from '../../../icons/two.png';
 import three from '../../../icons/three.png';
-// import images from '../../../images';
-import test from '../../../images/apache-change-06aea7e74cfe4a1578cb76672f1562132090c205.png';
 
 
 const StyledButton = styled(Button)`
