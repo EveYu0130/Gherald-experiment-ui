@@ -34,8 +34,8 @@ const TableSelectInput = props => {
     const { column, row, cell, updateData, selectOptions } = props;
     const onChange = e => updateData(row.index, column.id, e.target.value);
     return (<Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
+        labelId="simple-select-label"
+        id="simple-select"
         value={cell.value || ""}
         label="File"
         onChange={onChange}

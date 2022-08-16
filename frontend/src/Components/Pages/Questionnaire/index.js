@@ -44,6 +44,20 @@ const ButtonLabel = styled.label`
 
 const theme = createTheme();
 
+const backgroundImage = 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
+
+const Background = styled(Box)({
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'repeat',
+    zIndex: -1,
+    opacity: 0.1,
+});
+
 function Questionnaire() {
     const [state, setState] = useState({
         understandability: null,
@@ -93,7 +107,8 @@ function Questionnaire() {
 
     return (
         <ThemeProvider theme={theme}>
-            <Container component="main" maxWidth="lg">
+            <Container component="main" maxWidth="false" disableGutters>
+                <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
                 <CssBaseline />
                 <Box sx={{ width: '100%' }} padding='5%'>
                     {/*<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>*/}
@@ -106,7 +121,7 @@ function Questionnaire() {
                     <Divider />
 
                     <Divider />
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }} padding='5%'>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <Typography>
@@ -209,7 +224,7 @@ function Questionnaire() {
                                     id="other-tool"
                                     name="otherTool"
                                     multiline
-                                    value={state.otherTool}
+                                    value={state.otherTool || ""}
                                     onChange={handleChange}
                                 />
                             </Grid>
@@ -224,7 +239,7 @@ function Questionnaire() {
                                     id="problem"
                                     name="problem"
                                     multiline
-                                    value={state.problem}
+                                    value={state.problem || ""}
                                     onChange={handleChange}
                                 />
                             </Grid>
@@ -238,7 +253,7 @@ function Questionnaire() {
                                     variant="standard"
                                     id="feedback"
                                     name="feedback"
-                                    value={state.feedback}
+                                    value={state.feedback || ""}
                                     onChange={handleChange}
                                 />
                             </Grid>

@@ -127,16 +127,19 @@ function CodeReview({ reviews, practice }) {
             } else {
                 setActiveStep((prevActiveStep) => prevActiveStep + 1);
             }
+            setData(initialData);
         } else {
             const reviewTime = timerRef.current.seconds;
             console.log(reviewTime);
             timerRef.current.resetTime();
+            const codeInspections = data.map(({file, line, comment}) => ({file, line, comment}));
+            setData(initialData);
             fetch('/api/code-review', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({id, reviewTime, codeInspections: data.map(({file, line, comment}) => ({file, line, comment}))})
+                body: JSON.stringify({id, reviewTime, codeInspections})
             }).then(response => {
                 if  (response.status === 200) {
                     if (activeStep === reviews.length - 1) {
