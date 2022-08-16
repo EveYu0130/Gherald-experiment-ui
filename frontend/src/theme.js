@@ -8,6 +8,9 @@ const theme = createTheme({
         secondary: {
             main: '#795548',
         },
+        // warning: {
+        //     light: '#ffcc80',
+        // }
     },
     typography: {
         // fontFamily: 'Verdana',
@@ -26,6 +29,9 @@ const theme = createTheme({
             '"Segoe UI Emoji"',
             '"Segoe UI Symbol"',
         ].join(','),
+    },
+    status: {
+        warning: '#d7ccc8',
     },
 });
 

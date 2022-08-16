@@ -7,7 +7,9 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {diffLines, formatLines} from "unidiff";
 import {parseDiff} from "react-diff-view";
 import DiffView from "../../Pages/DiffView";
-import {Alert, AlertTitle} from "@mui/material";
+import {Alert, AlertTitle, SvgIcon} from "@mui/material";
+import { ReactComponent as GheraldIcon } from '../../../icons/gherald.svg';
+
 
 const FileDiff = ({ file }) => {
     const [fileDiff] = parseDiff(file.diff, {nearbySequences: 'zip'})
@@ -30,10 +32,9 @@ const FileDiff = ({ file }) => {
                     {file.status ? "" : "-" + file.deletions}
                 </Typography>
             </AccordionSummary>
-            <Alert severity="warning">
-                <AlertTitle>
-                    GHERALD file risk: there have been {file.priorBugs} prior bugs among {file.priorChanges} changes in this file
-                </AlertTitle>
+            <Alert severity="warning" icon={<SvgIcon component={GheraldIcon} inheritViewBox/>}>
+                {/*<AlertTitle>GHERALD file risk: there have been {file.priorBugs} prior bugs among {file.priorChanges} changes in this file</AlertTitle>*/}
+                FILE: there have been {file.priorBugs} prior bugs among {file.priorChanges} changes in this file
             </Alert>
             <AccordionDetails>
                 <DiffView hunks={fileDiff.hunks} oldSource={file.codeA} linesCount={linesCount} modifiedLines={file.lines} modifiedMethods={file.methods}/>

@@ -1,6 +1,6 @@
 import './index.css';
 import {Diff, Decoration, Hunk, withSourceExpansion, getChangeKey, tokenize, useSourceExpansion} from 'react-diff-view';
-import {IconButton, Typography, Box, Alert, AlertTitle} from "@mui/material";
+import {IconButton, Typography, Box, Alert, AlertTitle, SvgIcon} from "@mui/material";
 import React, {useMemo} from "react";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -8,6 +8,8 @@ import ExpandIcon from '@mui/icons-material/Expand';
 import * as refractor from "refractor";
 import 'prism-themes/themes/prism-vs.css';
 import styled from "styled-components";
+import { ReactComponent as GheraldIcon } from '../../../icons/gherald.svg';
+
 
 const ExpandButton = styled(Box)({
     backgroundColor: '#f5f5f5',
@@ -55,20 +57,23 @@ const getWidgets = (hunks, modifiedLines, modifiedMethods) => {
                 ...widgets,
                 [changeKey]:
                     change.type === "insert" ?
-                        <Alert severity="warning">
-                            <AlertTitle>GHERALD line risk score: {lines[change.lineNumber]["riskScore"]}</AlertTitle>
-                            This line is risky — check it out!
+                        <Alert severity="warning" icon={<SvgIcon component={GheraldIcon} inheritViewBox/>}>
+                            {/*<AlertTitle>GHERALD line risk score: {lines[change.lineNumber]["riskScore"]}</AlertTitle>*/}
+                            {/*This line is risky — check it out!*/}
+                            LINE: risk score {lines[change.lineNumber]["riskScore"]} — check it out!
                         </Alert>
                         :
                         (change.oldLineNumber in methods && methods[change.oldLineNumber]["delete_only"]) ?
-                            <Alert severity="warning">
-                                <AlertTitle>GHERALD method risk: there have been {methods[change.oldLineNumber]["priorBugs"]} prior bugs among {methods[change.oldLineNumber]["priorChanges"]} changes</AlertTitle>
-                                Method: {methods[change.oldLineNumber]["name"]}
+                            <Alert severity="warning" icon={<SvgIcon component={GheraldIcon} inheritViewBox/>}>
+                                {/*<AlertTitle>GHERALD method risk: there have been {methods[change.oldLineNumber]["priorBugs"]} prior bugs among {methods[change.oldLineNumber]["priorChanges"]} changes</AlertTitle>*/}
+                                {/*Method: {methods[change.oldLineNumber]["name"]}*/}
+                                METHOD: there have been {methods[change.oldLineNumber]["priorBugs"]} prior bugs among {methods[change.oldLineNumber]["priorChanges"]} changes in method {methods[change.oldLineNumber]["name"]}
                             </Alert>
                             :
-                            <Alert severity="warning">
-                                <AlertTitle>GHERALD method risk: there have been {methods[change.newLineNumber]["priorBugs"]} prior bugs among {methods[change.newLineNumber]["priorChanges"]} changes</AlertTitle>
-                                Method: {methods[change.newLineNumber]["name"]}
+                            <Alert severity="warning" icon={<SvgIcon component={GheraldIcon} inheritViewBox/>}>
+                                {/*<AlertTitle>GHERALD method risk: there have been {methods[change.newLineNumber]["priorBugs"]} prior bugs among {methods[change.newLineNumber]["priorChanges"]} changes</AlertTitle>*/}
+                                {/*Method: {methods[change.newLineNumber]["name"]}*/}
+                                METHOD: there have been {methods[change.newLineNumber]["priorBugs"]} prior bugs among {methods[change.newLineNumber]["priorChanges"]} changes in method {methods[change.newLineNumber]["name"]}
                             </Alert>
             };
         },
