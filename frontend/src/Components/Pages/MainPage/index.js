@@ -127,17 +127,18 @@ function MainPage() {
                                         <Typography variant="subtitle1" color="text.secondary">
                                             Rank the changes by risk
                                         </Typography>
-                                        <Typography variant="subtitle1" paragraph sx={{ fontSize: "12px" }}>
-                                            In this task, you will be provided with three sets of code changes (i.e., proposed commits to an existing software system).
-                                            Your job is to rank the changes from most to least risky, where we define risk as "the likelihood of a defect in the code that will need to be fixed later".
-                                        </Typography>
+                                        <Box
+                                            display="flex"
+                                            justifyContent="center"
+                                            alignItems="center"
+                                            sx={{mt: '12px'}}>
+                                            <Typography variant="subtitle1" paragraph sx={{ fontSize: "12px", pr: '10px' }}>
+                                                In this task, you will be provided with three sets of code changes (i.e., proposed commits to an existing software system).
+                                                Your job is to rank the changes from most to least risky, where we define risk as "the likelihood of a defect in the code that will need to be fixed later".
+                                            </Typography>
+                                            <img src={taskA} alt="taskA" width={150} height={150} className={"taskA"} />
+                                        </Box>
                                     </CardContent>
-                                    <CardMedia
-                                        component="img"
-                                        sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-                                        image={taskA}
-                                        alt={"taskA"}
-                                    />
                                 </Card>
                             </Grid>
                             <Grid item xs={6} sx={{ minHeight: 250 }}>
@@ -149,17 +150,18 @@ function MainPage() {
                                         <Typography variant="subtitle1" color="text.secondary">
                                             Conduct Code Reviews
                                         </Typography>
-                                        <Typography variant="subtitle1" paragraph sx={{ fontSize: "12px" }}>
-                                            In this task, you will be provided with the same three sets of changes that you saw in task A.
-                                            Your job will be to identify all of the defects in the commit and log them (file name, line number, description of defect) in a report.
-                                        </Typography>
+                                        <Box
+                                            display="flex"
+                                            justifyContent="center"
+                                            alignItems="center"
+                                            sx={{mt: '12px'}}>
+                                            <Typography variant="subtitle1" paragraph sx={{ fontSize: "12px", pr: '10px' }}>
+                                                In this task, you will be provided with the same three sets of changes that you saw in task A.
+                                                Your job will be to identify all of the defects in the commit and log them (file name, line number, description of defect) in a report.
+                                            </Typography>
+                                            <img src={taskB} alt="taskB" width={150} height={150} className={"taskB"} />
+                                        </Box>
                                     </CardContent>
-                                    <CardMedia
-                                        component="img"
-                                        sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
-                                        image={taskB}
-                                        alt={"taskB"}
-                                    />
                                 </Card>
                             </Grid>
                             {/*<Grid item xs={6} sx={{ minHeight: 300 }}>*/}
