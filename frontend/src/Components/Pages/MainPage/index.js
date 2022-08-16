@@ -24,51 +24,6 @@ import taskA from '../../../images/task-a.jpg';
 import taskB from '../../../images/task-b.jpg';
 import theme from '../../../theme';
 
-
-
-const Header = styled.h1`
-    // background: #43D1AF;
-    padding: 20px 0;
-    font-weight: 300 bold;
-    text-align: center;
-    // color: #43D1AF;
-    margin: -16px -16px 16px -16px;
-    // width: 20%;
-`;
-
-const Text = styled.h3`
-    // background: #43D1AF;
-    padding: 20px 0;
-    font-weight: 300;
-    text-align: center;
-    margin: -16px -16px 16px -16px;
-    // width: 20%;
-`;
-
-const StyledButton = styled(Button)`
-  color: #fff;
-  flex-shrink: 0;
-  padding: 8px 16px;
-  justify-content: center;
-  margin-bottom: 10px;
-  width: 200px;
-  margin: 2% 1%;
-  text-align: center;
-
-  @media (max-width: 375px) {
-    height: 52px;
-  }
-
-  &:disabled {
-    opacity: 0.65; 
-    cursor: not-allowed;
-  }
-`;
-
-const ButtonLabel = styled.label`
-  margin-left: 5px;
-`;
-
 const backgroundImage = 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
 
 const Background = styled(Box)({
@@ -101,12 +56,12 @@ function MainPage() {
                 <CssBaseline />
                 <Box sx={{ width: '100%' }}>
                     {/*<Header>Welcome to our experiment on code review</Header>*/}
-                    <Box sx={{ width: '100%', textAlign: 'center' }} padding='5%'>
+                    <Box sx={{ width: '100%', textAlign: 'center', p: '4%' }}>
                         <Typography variant="h4" component="div" sx={{ fontWeight: '600' }}>
                             Welcome to our experiment on code review
                         </Typography>
                     </Box>
-                    <Box sx={{ width: '100%', backgroundColor: '#f5f5f5', px: '20%', py: '5%' }}>
+                    <Box sx={{ width: '100%', backgroundColor: '#f5f5f5', px: '20%', py: '4%' }}>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                             About the experiment
                         </Typography>
@@ -141,7 +96,7 @@ function MainPage() {
                         </Box>
                     </Box>
 
-                    <Box sx={{ width: '100%', px: '20%', py: '5%' }}>
+                    <Box sx={{ width: '100%', px: '20%', py: '4%' }}>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                             Your Tasks in a Glance
                         </Typography>
@@ -195,7 +150,7 @@ function MainPage() {
                                             Conduct Code Reviews
                                         </Typography>
                                         <Typography variant="subtitle1" paragraph sx={{ fontSize: "12px" }}>
-                                            In this task, you will be provided with the same three sets of changes that you saw in the first task.
+                                            In this task, you will be provided with the same three sets of changes that you saw in task A.
                                             Your job will be to identify all of the defects in the commit and log them (file name, line number, description of defect) in a report.
                                         </Typography>
                                     </CardContent>
@@ -229,7 +184,7 @@ function MainPage() {
                     {/*{auth.user.group != "no-tool" && <Divider />}*/}
 
                     {auth.user.group === "gherald" &&
-                        <Box sx={{ width: '100%', backgroundColor: '#f5f5f5', px: '20%', py: '5%' }}>
+                        <Box sx={{ width: '100%', backgroundColor: '#f5f5f5', px: '20%', py: '4%' }}>
                             <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                                 Tools
                             </Typography>
@@ -242,13 +197,8 @@ function MainPage() {
                                             </p>
                                             <p>
                                                 In a nutshell, Gherald is a risk assessment technique we implemented based on historical analysis.
-                                                It is trained on a great number of historical changes and predicts the defect proneness of a given code change and the associated lines.
-                                            </p>
-                                            <p>
-                                                During the tasks, you will be able to see the output of Gherald in the change detail page.
-                                                Specifically, you will be presented with a risk assessment report displaying an estimation
-                                                of the riskiness of code changes in the form of a percentage risk score, the top-three risk indicators that contributes to the riskiness of
-                                                changes, and risk mitigation suggestions based on the risky change features at hand.
+                                                During the tasks, you will be provided with Gherald risk assessment results regarding the riskiness of change and its relevant author, files, methods.
+                                                Specifically, you will be presented with a risk score of change and the prior defect information of its author, files, and methods.
                                                 Moreover, Gherald will alert your of the risky lines that are prone to defects when you are reviewing the code diff.
                                             </p>
                                             <p>
@@ -291,7 +241,7 @@ function MainPage() {
                     }
 
                     {/*<Divider />*/}
-                    <Box sx={{ width: '100%', px: '20%', py: '5%' }}>
+                    <Box sx={{ width: '100%', px: '20%', py: '4%' }}>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                             Practice the Tasks
                         </Typography>
@@ -313,36 +263,28 @@ function MainPage() {
                                             Take the time you feel that you need to do the task to your satisfaction.
                                         </p>
                                         <p>
-                                            Also, if you get a phone call or otherwise need to take a short break for some reason, please click on the "Pause" button.
+                                            Also, if you get a phone call or otherwise need to take a short break for some reason, please click on the <b>Pause</b> button.
                                             However, please do <b>not</b> pause if you're actively thinking about the task.
                                         </p>
                                     </Typography>
                                 </CardContent>
-                                {/*<CardActions>*/}
-                                {/*    <Button>Practice</Button>*/}
-                                {/*</CardActions>*/}
-                                {/*<CardActions>*/}
-                                {/*    <Link style={{ textDecoration: 'none' }}>*/}
-                                {/*        <Button>Practice</Button>*/}
-                                {/*    </Link>*/}
-                                {/*</CardActions>*/}
                             </Card>
                         </Box>
                     </Box>
 
                     <Divider />
 
-                    <Box sx={{ width: '100%', textAlign: 'center' }}>
+                    <Box sx={{ width: '100%', textAlign: 'center', px: '20%', py: '2%' }} >
                         <Link to="/practice/taskA" style={{ textDecoration: 'none' }}>
-                            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                                <ButtonLabel>Start Practice</ButtonLabel>
-                            </StyledButton>
+                            <Button  variant="contained" sx={{ mx: '2%', width: '200px' }}>
+                                Start Practice
+                            </Button>
                         </Link>
                     </Box>
-                    <Box sx={{ width: '100%', textAlign: 'center' }}>
-                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleStartClick} disabled={!practiced}>
-                            <ButtonLabel>Start Experiment</ButtonLabel>
-                        </StyledButton>
+                    <Box sx={{ width: '100%', textAlign: 'center', px: '20%', pb: '5%' }}>
+                        <Button  variant="contained" sx={{ mx: '2%', width: '200px' }} onClick={handleStartClick} disabled={!practiced}>
+                            Start Experiment
+                        </Button>
                     </Box>
                 </Box>
             </Container>

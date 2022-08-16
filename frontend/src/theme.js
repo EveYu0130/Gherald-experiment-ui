@@ -1,6 +1,6 @@
-import {createTheme} from "@mui/material/styles";
+import {createTheme, responsiveFontSizes} from "@mui/material/styles";
 
-const theme = createTheme({
+let theme = createTheme({
     palette: {
         primary: {
             main: '#795548',
@@ -30,9 +30,7 @@ const theme = createTheme({
             '"Segoe UI Symbol"',
         ].join(','),
     },
-    status: {
-        warning: '#d7ccc8',
-    },
 });
+theme = responsiveFontSizes(theme);
 
 export default theme;

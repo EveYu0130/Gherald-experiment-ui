@@ -7,32 +7,6 @@ import {useAuth} from "../../../auth";
 import {useHistory} from "react-router-dom";
 import theme from '../../../theme';
 
-
-const StyledButton = styled(Button)`
-  color: #fff;
-  flex-shrink: 0;
-  padding: 8px 16px;
-  justify-content: center;
-  margin-bottom: 10px;
-  width: 200px;
-  margin: 2% 1%;
-  text-align: center;
-
-  @media (max-width: 375px) {
-    height: 52px;
-  }
-
-  &:disabled {
-    opacity: 0.65; 
-    cursor: not-allowed;
-  }
-`;
-
-const ButtonLabel = styled.label`
-  margin-left: 5px;
-`;
-
-
 const backgroundImage = 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
 
 const Background = styled(Box)({
@@ -100,7 +74,7 @@ function Questionnaire() {
                 <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
                 <CssBaseline />
                 <Box sx={{ width: '100%' }}>
-                    <Box sx={{ width: '100%', textAlign: 'center' }} padding='4%'>
+                    <Box sx={{ width: '100%', textAlign: 'center', p: '4%' }}>
                         <Typography variant="h4" component="div" sx={{ fontWeight: '600' }}>
                             Post-Experiment Questionnaire
                         </Typography>
@@ -238,6 +212,7 @@ function Questionnaire() {
                                     variant="standard"
                                     id="feedback"
                                     name="feedback"
+                                    multiline
                                     value={state.feedback || ""}
                                     onChange={handleChange}
                                 />
@@ -252,14 +227,13 @@ function Questionnaire() {
                             </Grid>
                         </Grid>
                         <Box sx={{ width: '100%', textAlign: 'center' }}>
-                            <StyledButton
+                            <Button
                                 type="submit"
-                                fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{ mx: '2%', my: '3%', width: '200px' }}
                             >
                                 Submit
-                            </StyledButton>
+                            </Button>
                         </Box>
                     </Box>
                 </Box>

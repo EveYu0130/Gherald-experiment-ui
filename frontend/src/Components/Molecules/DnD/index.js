@@ -2,67 +2,11 @@ import React, {useEffect, useState} from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {Link, useHistory} from "react-router-dom";
 import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography, Grid, Avatar, Divider} from "@mui/material";
-import styled from "styled-components";
-import LooksOneIcon from '@mui/icons-material/LooksOne';
-import LooksTwoIcon from '@mui/icons-material/LooksTwo';
-import Looks3Icon from '@mui/icons-material/Looks3';
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import one from '../../../icons/one.png';
 import two from '../../../icons/two.png';
 import three from '../../../icons/three.png';
 
-
-const StyledButton = styled(Button)`
-  color: #fff;
-  flex-shrink: 0;
-  padding: 8px 16px;
-  justify-content: center;
-  margin-bottom: 10px;
-  width: 200px;
-  margin: 2% 1%;
-  text-align: center;
-
-  @media (max-width: 375px) {
-    height: 52px;
-  }
-
-  &:disabled {
-    opacity: 0.65; 
-    cursor: not-allowed;
-  }
-`;
-
-const ButtonLabel = styled.label`
-  margin-left: 5px;
-`;
-
-function Item(props) {
-    const { sx, ...other } = props;
-    return (
-        <Box
-            sx={{
-                bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : '#fff'),
-                color: (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800'),
-                border: '1px solid',
-                borderColor: (theme) =>
-                    theme.palette.mode === 'dark' ? 'grey.800' : 'grey.300',
-                p: 1,
-                borderRadius: 2,
-                fontSize: '0.875rem',
-                fontWeight: '700',
-                ...sx,
-            }}
-            {...other}
-        />
-    );
-}
-
-// const icons = [
-//     (<LooksOneIcon sx={{ color: 'primary.main', fontSize: '50px' }} />),
-//     (<LooksTwoIcon sx={{ color: 'primary.main', fontSize: '50px' }} />),
-//     (<Looks3Icon sx={{ color: 'primary.main', fontSize: '50px' }} />)
-// ]
 const icons = [
     (<img src={one} alt="ONE" width={50} height={50} className={"one"} />),
     (<img src={two} alt="TWO" width={50} height={50} className={"two"} />),
@@ -137,38 +81,21 @@ function DnD({ changes, practice }) {
             {!practice &&
                 <Box sx={{ width: '100%', textAlign: 'center' }}>
                     {pause ? (
-                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>
-                            <AccessAlarmsIcon />
-                            <ButtonLabel>Resume</ButtonLabel>
-                        </StyledButton>
+                        <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handleResumeClick}>
+                            <AccessAlarmsIcon sx={{mr: '5px'}}/>
+                            Resume
+                        </Button>
                     ) : (
-                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>
-                            <AccessAlarmsIcon />
-                            <ButtonLabel>Pause</ButtonLabel>
-                        </StyledButton>
+                        <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handlePauseClick}>
+                            <AccessAlarmsIcon sx={{mr: '5px'}}/>
+                            Pause
+                        </Button>
                     )}
                 </Box>
             }
             {!pause && <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable droppableId="changes">
                     {(provided) => (
-                        // <Grid container spacing={2}>
-                        //     <Grid container xs={2}>
-                        //         <Grid
-                        //             container
-                        //             direction="column"
-                        //             justifyContent="flex-start"
-                        //             alignItems="flex-start"
-                        //         >
-                        //             <Item>xs=6 md=4</Item>
-                        //             <Item>xs=6 md=4</Item>
-                        //             <Item>xs=6 md=4</Item>
-                        //         </Grid>
-                        //     </Grid>
-                        //     <Grid item xs={10}>
-                        //         <Item>xs=6 md=4</Item>
-                        //     </Grid>
-                        // </Grid>
                         <Box className="changes" sx={{ backgroundColor: 'grey.200', p: 2 }} {...provided.droppableProps} ref={provided.innerRef}>
                             {changeList.map(({id, change}, index) => {
                                 return (
@@ -204,7 +131,7 @@ function DnD({ changes, practice }) {
                                                             {/*</CardContent>*/}
                                                             <CardActions>
                                                                 <Link to={`/changes/${change.id}`} target="_blank" style={{ textDecoration: 'none' }}>
-                                                                    <Button size="small">Learn More</Button>
+                                                                    <Button>Learn More</Button>
                                                                 </Link>
                                                             </CardActions>
                                                         </Card>
@@ -219,18 +146,15 @@ function DnD({ changes, practice }) {
                         </Box>
                     )}
                 </Droppable>
-                <Box sx={{ width: '100%', textAlign: 'center' }}>
-                    <StyledButton fullWidth
-                                  variant="contained"
-                                  sx={{ mt: 3, mb: 2 }}
-                                  onClick={handleSubmit}>
-                        <ButtonLabel>Submit</ButtonLabel>
-                    </StyledButton>
+                <Box sx={{ width: '100%', textAlign: 'center', py: '3%' }}>
                     <Link to={{pathname: practice ? "/practice/taskB" : "/taskB", state: { practice: practice }}} style={{ textDecoration: 'none' }}>
-                        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
-                            <ButtonLabel>Skip</ButtonLabel>
-                        </StyledButton>
+                        <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }}>
+                            Skip
+                        </Button>
                     </Link>
+                    <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handleSubmit}>
+                        Submit
+                    </Button>
                 </Box>
             </DragDropContext>}
         </Box>

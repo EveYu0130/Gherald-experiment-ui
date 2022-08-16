@@ -4,7 +4,6 @@ import PrivateRoute from "./privateRoute";
 import MainPage from "./Components/Pages/MainPage";
 import Login from "./Components/Pages/Login";
 import ParticipantList from "./Components/Pages/ParticipantList";
-import ChangeList from "./Components/Pages/ChangeList";
 import TaskA from "./Components/Pages/TaskA";
 import TaskB from "./Components/Pages/TaskB";
 import Questionnaire from "./Components/Pages/Questionnaire";
@@ -25,8 +24,6 @@ function App() {
                   <Route exact path="/login" component={Login} />
                   <Route exact path="/participants" component={ParticipantList}>
                   </Route>
-                  {/*<Route exact path="/changes" component={ChangeList}>*/}
-                  {/*</Route>*/}
                   <PrivateRoute path="/taskA" component={TaskA}>
                   </PrivateRoute>
                   <PrivateRoute exact path="/taskB" component={TaskB}>

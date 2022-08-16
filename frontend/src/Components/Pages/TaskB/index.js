@@ -15,41 +15,7 @@ import CodeReview from "../../Molecules/CodeReview";
 import {useLocation} from "react-router-dom";
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
 import theme from '../../../theme';
-
-
-const Header = styled.h1`
-    // background: #43D1AF;
-    padding: 20px 0;
-    font-weight: 300 bold;
-    text-align: center;
-    // color: #43D1AF;
-    margin: -16px -16px 16px -16px;
-    // width: 20%;
-`;
-
-const StyledButton = styled(Button)`
-  color: #fff;
-  flex-shrink: 0;
-  padding: 8px 16px;
-  justify-content: center;
-  margin-bottom: 10px;
-  width: 200px;
-  margin: 2% 1%;
-  text-align: center;
-
-  @media (max-width: 375px) {
-    height: 52px;
-  }
-
-  &:disabled {
-    opacity: 0.65; 
-    cursor: not-allowed;
-  }
-`;
-
-const ButtonLabel = styled.label`
-  margin-left: 5px;
-`;
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 
 const backgroundImage = 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
@@ -95,13 +61,13 @@ function TaskB() {
                 <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
                 <CssBaseline />
                 <Box sx={{ width: '100%' }}>
-                    <Box sx={{ width: '100%', textAlign: 'center' }} padding='4%'>
+                    <Box sx={{ width: '100%', textAlign: 'center', p: '4%' }}>
                         <Typography variant="h4" component="div" sx={{ fontWeight: '600' }}>
                             Task B: Conduct Code Reviews
                         </Typography>
                     </Box>
                     <Divider />
-                    <Box sx={{ width: '100%', px: '10%', pt: '40px', pb: '20px' }}>
+                    <Box sx={{ width: '100%', px: '10%', pt: '30px' }}>
                         <Typography variant="h6" component="div"  text-align="center">
                             Task Description
                         </Typography>
@@ -119,27 +85,20 @@ function TaskB() {
                                 </p>
                             }
                             {!ready && <p>To start the task, click on the <b>I'm ready for Task B</b> button below.</p>}
+                            {ready && <p>The source code can be accessed by clicking on the <b>Source code</b> <OpenInNewIcon /> button below. Feel free to download it if needed.</p>}
                         </Typography>
                     </Box>
 
-                    {/*<Box sx={{ width: '100%', textAlign: 'center' }}>*/}
-                    {/*    <Link to={{pathname: `${url}/1`, state: { baseUrl: url, reviews: reviews.map(review => ({reviewId: review.id, changeId: review.change.id})) }}} style={{ textDecoration: 'none' }}>*/}
-                    {/*        <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>*/}
-                    {/*            <ButtonLabel>Ready</ButtonLabel>*/}
-                    {/*        </StyledButton>*/}
-                    {/*    </Link>*/}
-                    {/*</Box>*/}
-
                     {!ready ? (
                         <Box sx={{ width: '100%', textAlign: 'center' }}>
-                            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleReadyClick}>
+                            <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handleReadyClick}>
                                 I'm ready for Task B
-                            </StyledButton>
+                            </Button>
                         </Box>
                     ) : (
                         <Box sx={{ width: '100%', pt: '20px', pb: '10%' }}>
                             {loading ? (
-                                <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
+                                <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                                     <CircularProgress size={100} />
                                 </Box>
                             ) : (

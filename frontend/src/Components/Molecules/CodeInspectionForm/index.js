@@ -84,7 +84,7 @@ function CodeInspectionForm({ data, updateData, deleteData, addData, selectOptio
     );
 
     return (
-        <Box sx={{ width: '100%'}} padding='20px'>
+        <Box sx={{ width: '100%', px: '1%', py: '4%'}}>
             <Box sx={{ flexGrow: 1, textAlign: 'center' }}>
                 <AppBar position="static" color='transparent'>
                     <Toolbar>

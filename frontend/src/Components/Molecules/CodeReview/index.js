@@ -9,30 +9,6 @@ import CodeInspectionForm from "../CodeInspectionForm";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import { forwardRef, useRef, useImperativeHandle } from "react"
 
-const StyledButton = styled(Button)`
-  color: #fff;
-  flex-shrink: 0;
-  padding: 8px 16px;
-  justify-content: center;
-  margin-bottom: 10px;
-  width: 200px;
-  margin: 2% 1%;
-  text-align: center;
-
-  @media (max-width: 375px) {
-    height: 52px;
-  }
-
-  &:disabled {
-    opacity: 0.65; 
-    cursor: not-allowed;
-  }
-`;
-
-const ButtonLabel = styled.label`
-  margin-left: 5px;
-`;
-
 const Timer = forwardRef(({pause, handleResumeClick, handlePauseClick}, ref) => {
     const [seconds, setSeconds] = useState(0);
 
@@ -59,15 +35,15 @@ const Timer = forwardRef(({pause, handleResumeClick, handlePauseClick}, ref) => 
     return (
         <Box sx={{ width: '100%', textAlign: 'center' }}>
             {pause ? (
-                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>
-                    <AccessAlarmsIcon />
-                    <ButtonLabel>Resume</ButtonLabel>
-                </StyledButton>
+                <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handleResumeClick}>
+                    <AccessAlarmsIcon sx={{mr: '5px'}}/>
+                    Resume
+                </Button>
             ) : (
-                <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>
-                    <AccessAlarmsIcon />
-                    <ButtonLabel>Pause</ButtonLabel>
-                </StyledButton>
+                <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handlePauseClick}>
+                    <AccessAlarmsIcon sx={{mr: '5px'}}/>
+                    Pause
+                </Button>
             )}
         </Box>
     );
@@ -184,25 +160,10 @@ function CodeReview({ reviews, practice }) {
 
     return (
         <div style={{ width: '100%' }}>
-            {/*{!practice &&*/}
-            {/*    <Box sx={{ width: '100%', textAlign: 'center' }}>*/}
-            {/*        {pause ? (*/}
-            {/*            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handleResumeClick}>*/}
-            {/*                <AccessAlarmsIcon />*/}
-            {/*                <ButtonLabel>Resume</ButtonLabel>*/}
-            {/*            </StyledButton>*/}
-            {/*        ) : (*/}
-            {/*            <StyledButton fullWidth variant="contained" sx={{ mt: 3, mb: 2 }} onClick={handlePauseClick}>*/}
-            {/*                <AccessAlarmsIcon />*/}
-            {/*                <ButtonLabel>Pause</ButtonLabel>*/}
-            {/*            </StyledButton>*/}
-            {/*        )}*/}
-            {/*    </Box>*/}
-            {/*}*/}
             {!practice &&
                 <Timer pause={pause} handleResumeClick={handleResumeClick} handlePauseClick={handlePauseClick} ref={timerRef} />
             }
-            {!pause && <Box sx={{ width: '100%' }} padding="20px">
+            {!pause && <Box sx={{ width: '100%', p: '1%' }}>
                 <Box>
                     <Stepper activeStep={activeStep} alternativeLabel>
                         {reviews.map((review) => (
@@ -219,24 +180,12 @@ function CodeReview({ reviews, practice }) {
                     <CodeInspectionForm data={data} updateData={updateData} deleteData={deleteData} addData={addData} selectOptions={change.project === 'qt' ? change.files.slice(1).map(file => file.filename) : change.files.map(file => file.filename)}/>
 
                     <Box sx={{ width: '100%', textAlign: 'center' }}>
-                        <StyledButton
-                            // color="inherit"
-                            onClick={handleSkip}
-                            sx={{ mr: 1 }}
-                            variant="contained"
-                            fullWidth
-                        >
+                        <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handleSkip}>
                             Skip
-                        </StyledButton>
-                        <StyledButton
-                            // color="inherit"
-                            onClick={handleNext}
-                            sx={{ mr: 1 }}
-                            variant="contained"
-                            fullWidth
-                        >
+                        </Button>
+                        <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handleNext}>
                             {activeStep === reviews.length - 1 ? 'Finish' : 'Next'}
-                        </StyledButton>
+                        </Button>
                     </Box>
                 </Box>
             </Box>}

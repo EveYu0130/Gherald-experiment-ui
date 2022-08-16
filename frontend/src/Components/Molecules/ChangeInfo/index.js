@@ -56,7 +56,7 @@ function ChangeInfo({ change, number }) {
     }
 
     return (
-        <Box padding='20px'>
+        <Box sx={{ p: '1%' }}>
             <Box sx={{ py: 2 }}>
                 <Typography variant="h5" component="div"  text-align="left">
                     Change {number ? number : "detail"}: {change.subject}
@@ -123,8 +123,8 @@ function ChangeInfo({ change, number }) {
                         display: 'grid',
                         gridAutoFlow: 'column',
                         gap: 1,
+                        p: '1%'
                     }}
-                    padding='5px 10px'
                 >
                     <div onClick={handleOpenWindow} align='right'>
                         <Typography variant="button" xs="auto">
