@@ -1,13 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import {Link, useHistory} from "react-router-dom";
-import {Box, Card, CardActions, CardContent, Button, Typography, Grid, Avatar, Divider} from "@mui/material";
+import {Box, Card, CardActions, CardContent, CardMedia, Button, Typography, Grid, Avatar, Divider} from "@mui/material";
 import styled from "styled-components";
 import LooksOneIcon from '@mui/icons-material/LooksOne';
 import LooksTwoIcon from '@mui/icons-material/LooksTwo';
 import Looks3Icon from '@mui/icons-material/Looks3';
 import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
 import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
+import one from '../../../icons/one.png';
+import two from '../../../icons/two.png';
+import three from '../../../icons/three.png';
+// import images from '../../../images';
+import test from '../../../images/apache-change-06aea7e74cfe4a1578cb76672f1562132090c205.png';
 
 
 const StyledButton = styled(Button)`
@@ -55,10 +60,15 @@ function Item(props) {
     );
 }
 
+// const icons = [
+//     (<LooksOneIcon sx={{ color: 'primary.main', fontSize: '50px' }} />),
+//     (<LooksTwoIcon sx={{ color: 'primary.main', fontSize: '50px' }} />),
+//     (<Looks3Icon sx={{ color: 'primary.main', fontSize: '50px' }} />)
+// ]
 const icons = [
-    (<LooksOneIcon sx={{ color: 'primary.main', fontSize: '50px' }} />),
-    (<LooksTwoIcon sx={{ color: 'primary.main', fontSize: '50px' }} />),
-    (<Looks3Icon sx={{ color: 'primary.main', fontSize: '50px' }} />)
+    (<img src={one} alt="ONE" width={50} height={50} className={"one"} />),
+    (<img src={two} alt="TWO" width={50} height={50} className={"two"} />),
+    (<img src={three} alt="THREE" width={50} height={50} className={"three"} />)
 ]
 
 function DnD({ changes, practice }) {
@@ -122,6 +132,8 @@ function DnD({ changes, practice }) {
         setPause(false);
     }
 
+    const context = require.context("../../../images/", true, /.png$/);
+
     return (
         <div style={{ width: '100%' }}>
             {!practice &&
@@ -163,43 +175,35 @@ function DnD({ changes, practice }) {
                             {changeList.map(({id, change}, index) => {
                                 return (
                                     <Grid key={change.id} container alignItems="center" spacing={2}>
-                                        <Grid item xs={2}>
+                                        <Grid item xs={4}>
                                             <Box sx={{ width: '100%' }} textAlign="center">
                                                 {icons[index]}
                                             </Box>
                                         </Grid>
-                                        <Grid item xs={10}>
-                                            <Box>
+                                        <Grid item xs={8}>
+                                            <Box textAlign="center">
                                                 <Draggable key={'draggable' + change.id} draggableId={change.id} index={index}>
                                                     {(provided) => (
                                                         // <Box ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                                                         //     <Item><Link to={`${baseUrl}/${id}`}>{subject}</Link></Item>
                                                         // </Box>
-                                                        <Card sx={{ minWidth: 275, m: 2 }} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                            <CardContent>
-                                                                {/*<Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>*/}
-                                                                {/*    Change:*/}
-                                                                {/*</Typography>*/}
-                                                                {change.subject
-                                                                    ? <Typography variant="h6" component="div">{change.subject}</Typography>
-                                                                    : <Typography variant="h6" component="div">{change.repo}</Typography>
-                                                                }
-                                                                {change.subject
-                                                                    ? <Typography sx={{ mb: 1.5 }} color="text.secondary">{change.repo}</Typography>
-                                                                    : <Typography sx={{ mb: 1.5 }} color="text.secondary">{change.commitMsg}</Typography>
-                                                                }
-                                                                {/*<Typography variant="h6" component="div">*/}
-                                                                {/*    {change.subject}*/}
-                                                                {/*</Typography>*/}
-                                                                {/*<Typography sx={{ mb: 1.5 }} color="text.secondary">*/}
-                                                                {/*    {change.repo}*/}
-                                                                {/*</Typography>*/}
-                                                                {/*<Typography variant="body2">*/}
-                                                                {/*    well meaning and kindly.*/}
-                                                                {/*    <br />*/}
-                                                                {/*    {'"a benevolent smile"'}*/}
-                                                                {/*</Typography>*/}
-                                                            </CardContent>
+                                                        <Card sx={{ maxWidth: 550, m: 2 }} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                                            <CardMedia
+                                                                component="img"
+                                                                src={context("./" + change.project + "-change-" + change.id + ".png")}
+                                                                alt={change.commitMsg}
+                                                            />
+                                                            {/*<img src={context("./" + change.project + "-change-" + change.id + ".png")} height={250} alt={change.commitMsg} />*/}
+                                                            {/*<CardContent>*/}
+                                                            {/*    {change.subject*/}
+                                                            {/*        ? <Typography variant="h6" component="div">{change.subject}</Typography>*/}
+                                                            {/*        : <Typography variant="h6" component="div">{change.repo}</Typography>*/}
+                                                            {/*    }*/}
+                                                            {/*    {change.subject*/}
+                                                            {/*        ? <Typography sx={{ mb: 1.5 }} color="text.secondary">{change.repo}</Typography>*/}
+                                                            {/*        : <Typography sx={{ mb: 1.5 }} color="text.secondary">{change.commitMsg}</Typography>*/}
+                                                            {/*    }*/}
+                                                            {/*</CardContent>*/}
                                                             <CardActions>
                                                                 <Link to={`/changes/${change.id}`} target="_blank" style={{ textDecoration: 'none' }}>
                                                                     <Button size="small">Learn More</Button>

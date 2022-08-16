@@ -153,7 +153,7 @@ function TaskA(props) {
                                     <CircularProgress size={100} />
                                 </Box>
                             ) : (
-                                <DnD changes={changes} practice={props.practice ? true : false}/>
+                                <DnD changes={changes.map(change => ({...change, change: {...change.change, img: './../../../images/' + change.change.project + '-change-' + change.change.id + '.png'}}))} practice={props.practice ? true : false}/>
                             )}
                         </div>
                     )}
