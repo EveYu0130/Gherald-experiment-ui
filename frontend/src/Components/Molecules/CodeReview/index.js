@@ -213,29 +213,31 @@ function CodeReview({ reviews, practice }) {
                     </Stepper>
                 </Box>
 
-                <ChangeInfo change={change} number={activeStep+1} />
+                <Box  sx={{ width: '100%', px: '5%' }} >
+                    <ChangeInfo change={change} number={activeStep+1} />
 
-                <CodeInspectionForm data={data} updateData={updateData} deleteData={deleteData} addData={addData} selectOptions={change.project === 'qt' ? change.files.slice(1).map(file => file.filename) : change.files.map(file => file.filename)}/>
+                    <CodeInspectionForm data={data} updateData={updateData} deleteData={deleteData} addData={addData} selectOptions={change.project === 'qt' ? change.files.slice(1).map(file => file.filename) : change.files.map(file => file.filename)}/>
 
-                <Box sx={{ width: '100%', textAlign: 'center' }}>
-                    <StyledButton
-                        // color="inherit"
-                        onClick={handleSkip}
-                        sx={{ mr: 1 }}
-                        variant="contained"
-                        fullWidth
-                    >
-                        Skip
-                    </StyledButton>
-                    <StyledButton
-                        // color="inherit"
-                        onClick={handleNext}
-                        sx={{ mr: 1 }}
-                        variant="contained"
-                        fullWidth
-                    >
-                        {activeStep === reviews.length - 1 ? 'Finish' : 'Next'}
-                    </StyledButton>
+                    <Box sx={{ width: '100%', textAlign: 'center' }}>
+                        <StyledButton
+                            // color="inherit"
+                            onClick={handleSkip}
+                            sx={{ mr: 1 }}
+                            variant="contained"
+                            fullWidth
+                        >
+                            Skip
+                        </StyledButton>
+                        <StyledButton
+                            // color="inherit"
+                            onClick={handleNext}
+                            sx={{ mr: 1 }}
+                            variant="contained"
+                            fullWidth
+                        >
+                            {activeStep === reviews.length - 1 ? 'Finish' : 'Next'}
+                        </StyledButton>
+                    </Box>
                 </Box>
             </Box>}
         </div>

@@ -133,7 +133,7 @@ function DnD({ changes, practice }) {
     const context = require.context("../../../images/", true, /.png$/);
 
     return (
-        <div style={{ width: '100%' }}>
+        <Box style={{ width: '100%' }}>
             {!practice &&
                 <Box sx={{ width: '100%', textAlign: 'center' }}>
                     {pause ? (
@@ -173,12 +173,12 @@ function DnD({ changes, practice }) {
                             {changeList.map(({id, change}, index) => {
                                 return (
                                     <Grid key={change.id} container alignItems="center" spacing={2}>
-                                        <Grid item xs={4}>
+                                        <Grid item xs={5}>
                                             <Box sx={{ width: '100%' }} textAlign="center">
                                                 {icons[index]}
                                             </Box>
                                         </Grid>
-                                        <Grid item xs={8}>
+                                        <Grid item xs={7}>
                                             <Box textAlign="center">
                                                 <Draggable key={'draggable' + change.id} draggableId={change.id} index={index}>
                                                     {(provided) => (
@@ -233,7 +233,7 @@ function DnD({ changes, practice }) {
                     </Link>
                 </Box>
             </DragDropContext>}
-        </div>
+        </Box>
     );
 }
 

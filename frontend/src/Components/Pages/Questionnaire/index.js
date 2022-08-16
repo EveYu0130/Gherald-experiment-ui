@@ -1,21 +1,12 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 
-// import { Link } from 'react-router-dom';
 import { Box, Paper, Grid, Typography, AppBar, Toolbar, TextField, Divider, Container, Avatar, Button, CssBaseline, FormControlLabel, Checkbox, Link, Radio, RadioGroup, FormControl, FormLabel } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useAuth} from "../../../auth";
 import {useHistory} from "react-router-dom";
+import theme from '../../../theme';
 
-const Header = styled.h1`
-    // background: #43D1AF;
-    padding: 20px 0;
-    font-weight: 300 bold;
-    text-align: center;
-    // color: #43D1AF;
-    margin: -16px -16px 16px -16px;
-    // width: 20%;
-`;
 
 const StyledButton = styled(Button)`
   color: #fff;
@@ -41,8 +32,6 @@ const ButtonLabel = styled.label`
   margin-left: 5px;
 `;
 
-
-const theme = createTheme();
 
 const backgroundImage = 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
 
@@ -110,18 +99,14 @@ function Questionnaire() {
             <Container component="main" maxWidth="false" disableGutters>
                 <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
                 <CssBaseline />
-                <Box sx={{ width: '100%' }} padding='5%'>
-                    {/*<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>*/}
-                    {/*    <LockOutlinedIcon />*/}
-                    {/*</Avatar>*/}
-                    <Header>Post-Experiment Questionnaire</Header>
-                    {/*<Typography component="h1" variant="h5">*/}
-                    {/*    Post-Experiment Questionnaire*/}
-                    {/*</Typography>*/}
+                <Box sx={{ width: '100%' }}>
+                    <Box sx={{ width: '100%', textAlign: 'center' }} padding='4%'>
+                        <Typography variant="h4" component="div" sx={{ fontWeight: '600' }}>
+                            Post-Experiment Questionnaire
+                        </Typography>
+                    </Box>
                     <Divider />
-
-                    <Divider />
-                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }} padding='5%'>
+                    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ width: '100%', px: '10%', pt: '40px', pb: '10%' }}>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <Typography>

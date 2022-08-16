@@ -22,6 +22,7 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useAuth} from "../../../auth";
 import taskA from '../../../images/task-a.jpg';
 import taskB from '../../../images/task-b.jpg';
+import theme from '../../../theme';
 
 
 
@@ -68,8 +69,6 @@ const ButtonLabel = styled.label`
   margin-left: 5px;
 `;
 
-const theme = createTheme();
-
 const backgroundImage = 'https://images.unsplash.com/photo-1482062364825-616fd23b8fc1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80';
 
 const Background = styled(Box)({
@@ -107,11 +106,11 @@ function MainPage() {
                             Welcome to our experiment on code review
                         </Typography>
                     </Box>
-                    <Box sx={{ width: '100%', backgroundColor: '#f5f5f5' }} padding='5%'>
+                    <Box sx={{ width: '100%', backgroundColor: '#f5f5f5', px: '20%', py: '5%' }}>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                             About the experiment
                         </Typography>
-                        <Box padding='20px'>
+                        <Box sx={{ py: '20px' }}>
                             <Typography variant="subtitle1" paragraph>
                                 <p>
                                     Thanks for your participation!
@@ -142,12 +141,12 @@ function MainPage() {
                         </Box>
                     </Box>
 
-                    <Box sx={{ width: '100%' }} padding='5%'>
+                    <Box sx={{ width: '100%', px: '20%', py: '5%' }}>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                             Your Tasks in a Glance
                         </Typography>
 
-                        <Grid container spacing={4} sx={{ p: 2}}>
+                        <Grid container spacing={4} sx={{ py: '20px' }}>
                             {/*<Grid item xs={6} sx={{ minHeight: 300 }}>*/}
                             {/*    <Card sx={{ height: '100%', display: 'flex' }}>*/}
                             {/*        <CardContent sx={{ flex: 1 }}>*/}
@@ -230,11 +229,11 @@ function MainPage() {
                     {/*{auth.user.group != "no-tool" && <Divider />}*/}
 
                     {auth.user.group === "gherald" &&
-                        <Box sx={{ width: '100%', backgroundColor: '#f5f5f5' }} padding='5%' >
+                        <Box sx={{ width: '100%', backgroundColor: '#f5f5f5', px: '20%', py: '5%' }}>
                             <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                                 Tools
                             </Typography>
-                            <Box padding='20px'>
+                            <Box sx={{ py: '20px' }}>
                                 <Card sx={{ minWidth: 275}}>
                                     <CardContent>
                                         <Typography variant="subtitle1" paragraph>
@@ -263,11 +262,11 @@ function MainPage() {
                     }
 
                     {auth.user.group === "infer" &&
-                        <Box sx={{ width: '100%', backgroundColor: '#f5f5f5' }} padding='5%'>
+                        <Box sx={{ width: '100%', backgroundColor: '#f5f5f5', px: '20%', py: '5%' }}>
                             <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                                 Tools
                             </Typography>
-                            <Box padding='20px'>
+                            <Box sx={{ py: '20px' }}>
                                 <Card sx={{ minWidth: 275}}>
                                     <CardContent>
                                         <Typography variant="subtitle1" paragraph>
@@ -292,11 +291,11 @@ function MainPage() {
                     }
 
                     {/*<Divider />*/}
-                    <Box sx={{ width: '100%' }} padding='5%'>
+                    <Box sx={{ width: '100%', px: '20%', py: '5%' }}>
                         <Typography variant="h5" component="div" sx={{ fontWeight: '600' }}>
                             Practice the Tasks
                         </Typography>
-                        <Box padding='20px'>
+                        <Box sx={{ py: '20px' }}>
                             <Card sx={{ minWidth: 275}}>
                                 <CardContent>
                                     <Typography variant="subtitle1" paragraph>

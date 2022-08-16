@@ -19,6 +19,7 @@ import DnD from "../../Molecules/DnD";
 import {useAuth} from "../../../auth";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import AccessAlarmsIcon from '@mui/icons-material/AccessAlarms';
+import theme from '../../../theme';
 
 const Header = styled.h1`
     // background: #43D1AF;
@@ -68,8 +69,6 @@ const Background = styled(Box)({
     opacity: 0.1,
 });
 
-const theme = createTheme();
-
 function TaskA(props) {
     const [loading, setLoading] = useState(true);
     const [changes, setChanges] = useState([]);
@@ -95,12 +94,14 @@ function TaskA(props) {
             <Container component="main" maxWidth="false" disableGutters>
                 <Background sx={{ width: '100%', backgroundImage: `url(${backgroundImage})`}}/>
                 <CssBaseline />
-                <Box sx={{ width: '100%' }} padding='5%'>
-                    <Header>Task A: Rank the Changes</Header>
+                <Box sx={{ width: '100%' }}>
+                    <Box sx={{ width: '100%', textAlign: 'center' }} padding='4%'>
+                        <Typography variant="h4" component="div" sx={{ fontWeight: '600' }}>
+                            Task A: Rank the Changes
+                        </Typography>
+                    </Box>
                     <Divider />
-
-                    <Divider />
-                    <Box sx={{ width: '100%' }} padding='20px'>
+                    <Box sx={{ width: '100%', px: '10%', pt: '40px', pb: '20px' }}>
                         <Typography variant="h6" component="div"  text-align="center">
                             Task Description
                         </Typography>
@@ -148,7 +149,7 @@ function TaskA(props) {
                             </StyledButton>
                         </Box>
                     ) : (
-                        <div>
+                        <Box sx={{ width: '100%', px: '10%', pt: '20px', pb: '10%' }}>
                             {loading ? (
                                 <Box sx={{ width: '100%', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center'}} padding='20px 0px'>
                                     <CircularProgress size={100} />
@@ -156,7 +157,7 @@ function TaskA(props) {
                             ) : (
                                 <DnD changes={changes.map(change => ({...change, change: {...change.change, img: './../../../images/' + change.change.project + '-change-' + change.change.id + '.png'}}))} practice={props.practice ? true : false}/>
                             )}
-                        </div>
+                        </Box>
                     )}
                 </Box>
             </Container>
