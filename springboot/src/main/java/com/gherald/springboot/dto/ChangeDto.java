@@ -17,19 +17,13 @@ public class ChangeDto {
     private AuthorDto author;
     private String parent;
     private String commitMsg;
-    private Integer riskLevel;
-
     private String project;
-
     private Integer authorPriorChanges;
-
     private Integer authorPriorBugs;
-
     private Float riskScore;
-
     private Float bugDensity;
 
-    public ChangeDto(String id, String repo, String branch, String subject, String created, String updated, Integer insertions, Integer deletions, Integer number, String parent, String commitMsg, Integer riskLevel, String project, Integer authorPriorChanges, Integer authorPriorBugs, Float riskScore, Float bugDensity) {
+    public ChangeDto(String id, String repo, String branch, String subject, String created, String updated, Integer insertions, Integer deletions, Integer number, String parent, String commitMsg, String project, Integer authorPriorChanges, Integer authorPriorBugs, Float riskScore, Float bugDensity) {
         this.id = id;
         this.repo = repo;
         this.branch = branch;
@@ -41,7 +35,6 @@ public class ChangeDto {
         this.number = number;
         this.parent = parent;
         this.commitMsg = commitMsg;
-        this.riskLevel = riskLevel;
         this.project = project;
         this.authorPriorChanges = authorPriorChanges;
         this.authorPriorBugs = authorPriorBugs;
@@ -159,14 +152,6 @@ public class ChangeDto {
 
     public void setCommitMsg(String commitMsg) {
         this.commitMsg = commitMsg;
-    }
-
-    public Integer getRiskLevel() {
-        return riskLevel;
-    }
-
-    public void setRiskLevel(Integer riskLevel) {
-        this.riskLevel = riskLevel;
     }
 
     public String getProject() {

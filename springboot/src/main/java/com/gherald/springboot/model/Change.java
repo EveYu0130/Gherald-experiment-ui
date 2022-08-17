@@ -29,9 +29,6 @@ public class Change {
     private Integer number;
 
     private String parent;
-
-    private Integer riskLevel;
-
     @Column(columnDefinition = "LONGTEXT")
     private String commitMsg;
 
@@ -164,14 +161,6 @@ public class Change {
 
     public void setCommitMsg(String commitMsg) {
         this.commitMsg = commitMsg;
-    }
-
-    public Integer getRiskLevel() {
-        return riskLevel;
-    }
-
-    public void setRiskLevel(Integer riskLevel) {
-        this.riskLevel = riskLevel;
     }
 
     public String getProject() {

@@ -51,13 +51,13 @@ public class ApplicationService {
     public Participant initiateReview(String id) {
         Participant participant = participantRepository.findParticipantById(id);
         String project = participant.getProject();
-        List<Integer> riskLevelList = Arrays.asList(1, 2, 3);
-        for (Integer riskLevel : riskLevelList) {
-//            List<Change> changesByRiskLevel = changeRepository.findAllByRiskLevel(riskLevel);
-            List<Change> changesByRiskLevel = changeRepository.findByRiskLevelAndProject(riskLevel, project);
-            Change randomChangeByRiskLevel = changesByRiskLevel.get(new Random().nextInt(changesByRiskLevel.size()));
+        List<Change> changes = changeRepository.findAllByProject(project);
+        for (int i = 0; i < 3; i++) {
+            int randomIndex = new Random().nextInt(changes.size());
+            Change randomChange = changes.get(randomIndex);
+            changes.remove(randomIndex);
             ChangeReview changeReview = new ChangeReview();
-            changeReview.setChange(randomChangeByRiskLevel);
+            changeReview.setChange(randomChange);
             changeReview.setParticipant(participant);
             changeReviewRepository.save(changeReview);
         }
