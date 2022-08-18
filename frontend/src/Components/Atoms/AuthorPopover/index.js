@@ -16,6 +16,7 @@ export default function AuthorPopover({author, authorPriorChanges, authorPriorBu
     };
 
     const open = Boolean(anchorEl);
+    const riskScore = (1231 - authorPriorChanges) / 1231 * (authorPriorBugs + 1) / (authorPriorChanges + 1)
 
     return (
         <div>
@@ -40,7 +41,12 @@ export default function AuthorPopover({author, authorPriorChanges, authorPriorBu
                 disableRestoreFocus
             >
                 <Typography variant="h6" sx={{ px: 3, pt: 2 }}>{author.name} — {author.email}</Typography>
-                <Typography variant="subtitle1" sx={{ px: 3, py: 2 }}>GHERALD author risk: author {author.name} has made {authorPriorBugs} prior bugs among {authorPriorChanges} changes.</Typography>
+                <Typography variant="subtitle1" sx={{ px: 3, pt: 2 }}>
+                    The author has made {authorPriorChanges} historical changes.
+                </Typography>
+                <Typography variant="subtitle1" sx={{ px: 3, pb: 2 }}>
+                    AUTHOR risk score: {(riskScore * 100).toFixed(2)}%
+                </Typography>
             </Popover>
         </div>
     );

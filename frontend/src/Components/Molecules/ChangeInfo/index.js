@@ -15,6 +15,7 @@ import FileDiff from "../FileDiff";
 
 import { ReactComponent as GheraldIcon } from '../../../icons/gherald.svg';
 import InfoPopover from "../../Atoms/InfoPopover";
+import {useAuth} from "../../../auth";
 
 
 function Item(props) {
@@ -48,6 +49,7 @@ function NewlineText(props) {
 }
 
 function ChangeInfo({ change, number }) {
+    let auth = useAuth();
 
     const handleOpenWindow = (e) => {
         e.preventDefault();
@@ -62,16 +64,18 @@ function ChangeInfo({ change, number }) {
                     Change {number ? number : "detail"}: {change.subject}
                 </Typography>
             </Box>
-            <Grid container spacing={2} sx={{ py: 2 }}>
-                <Grid item>
-                    <SvgIcon component={GheraldIcon} inheritViewBox/>
+            {auth.user.group === "gherald" &&
+                <Grid container spacing={2} sx={{ py: 2 }}>
+                    <Grid item>
+                        <SvgIcon component={GheraldIcon} inheritViewBox/>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="subtitle1">
+                            RISK SCORE: {change.riskScore}
+                        </Typography>
+                    </Grid>
                 </Grid>
-                <Grid item>
-                    <Typography variant="subtitle1">
-                        RISK SCORE: {change.riskScore}
-                    </Typography>
-                </Grid>
-            </Grid>
+            }
 
             <Box>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
@@ -80,9 +84,11 @@ function ChangeInfo({ change, number }) {
                         <Item>
                             <Grid container spacing={2}>
                                 <Grid item item xs={10}>{change.author.name}</Grid>
-                                <Grid item>
-                                    <AuthorPopover author={change.author} authorPriorChanges={change.authorPriorChanges} authorPriorBugs={change.authorPriorBugs} />
-                                </Grid>
+                                {auth.user.group === "gherald" &&
+                                    <Grid item>
+                                        <AuthorPopover author={change.author} authorPriorChanges={change.authorPriorChanges} authorPriorBugs={change.authorPriorBugs} />
+                                    </Grid>
+                                }
                             </Grid>
                         </Item>
 
@@ -154,7 +160,7 @@ function ChangeInfo({ change, number }) {
                 </Box>
                 <div>
                     {change.files.map((file, index) => (
-                        <FileDiff key={'file-' + index} file={file} />
+                        <FileDiff key={'file-' + index} file={file} userGroup={auth.user.group} />
                     ))}
                 </div>
             </Box>

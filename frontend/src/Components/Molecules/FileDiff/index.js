@@ -11,7 +11,7 @@ import {Alert, AlertTitle, SvgIcon} from "@mui/material";
 import { ReactComponent as GheraldIcon } from '../../../icons/gherald.svg';
 
 
-const FileDiff = ({ file }) => {
+const FileDiff = ({ file, userGroup }) => {
     const [fileDiff] = parseDiff(file.diff, {nearbySequences: 'zip'})
     // const [fileDiff] = file.diff ? parseDiff(file.diff) : parseDiff(formatLines(diffLines(file.codeA, file.codeB), {context: 3}), {nearbySequences: 'zip'});
     const linesCount = file.codeA ? file.codeA.split('\n').length : 0;
@@ -32,12 +32,14 @@ const FileDiff = ({ file }) => {
                     {file.status ? "" : "-" + file.deletions}
                 </Typography>
             </AccordionSummary>
-            <Alert severity="warning" icon={<SvgIcon component={GheraldIcon} inheritViewBox/>}>
-                {/*<AlertTitle>GHERALD file risk: there have been {file.priorBugs} prior bugs among {file.priorChanges} changes in this file</AlertTitle>*/}
-                FILE: there have been {file.priorBugs} prior bugs among {file.priorChanges} changes in this file
-            </Alert>
+            {userGroup === "gherald" &&
+                <Alert severity="warning" icon={<SvgIcon component={GheraldIcon} inheritViewBox/>}>
+                    {/*<AlertTitle>GHERALD file risk: there have been {file.priorBugs} prior bugs among {file.priorChanges} changes in this file</AlertTitle>*/}
+                    FILE: there have been {file.priorBugs} prior bugs among {file.priorChanges} changes in this file
+                </Alert>
+            }
             <AccordionDetails>
-                <DiffView hunks={fileDiff.hunks} oldSource={file.codeA} linesCount={linesCount} modifiedLines={file.lines} modifiedMethods={file.methods}/>
+                <DiffView hunks={fileDiff.hunks} oldSource={file.codeA} linesCount={linesCount} modifiedLines={file.lines} modifiedMethods={file.methods} userGroup={userGroup} />
             </AccordionDetails>
         </Accordion>
     );

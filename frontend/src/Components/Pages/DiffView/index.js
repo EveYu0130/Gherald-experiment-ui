@@ -20,7 +20,7 @@ const ExpandButton = styled(Box)({
     }
 });
 
-const getWidgets = (hunks, modifiedLines, modifiedMethods) => {
+const getWidgets = (hunks, modifiedLines, modifiedMethods, userGroup) => {
     const lines = Object.assign({}, ...modifiedLines.map((x) => ({[x.lineNumber]: {...x}})));
 
     const changes = hunks.reduce((result, {changes}) => [...result, ...changes], []);
@@ -45,10 +45,11 @@ const getWidgets = (hunks, modifiedLines, modifiedMethods) => {
         }
     })
     methods = Object.assign({}, ...methods.map((x) => ({[x.labelled_line]: {...x}})));
-    const warning = changes.filter((change) =>
-        (change.type === "insert" && change.lineNumber in lines && lines[change.lineNumber]["riskScore"] > 0)
-        || (change.type === "normal" && change.newLineNumber in methods && !methods[change.newLineNumber]["delete_only"])
-        || (change.type === "normal" && change.oldLineNumber in methods && methods[change.oldLineNumber]["delete_only"]));
+    const warning = userGroup === "" ? [] :
+        changes.filter((change) =>
+            (change.type === "insert" && change.lineNumber in lines && lines[change.lineNumber]["riskScore"] > 0)
+            || (change.type === "normal" && change.newLineNumber in methods && !methods[change.newLineNumber]["delete_only"])
+            || (change.type === "normal" && change.oldLineNumber in methods && methods[change.oldLineNumber]["delete_only"]));
     return warning.reduce(
         (widgets, change) => {
             const changeKey = getChangeKey(change);
@@ -165,7 +166,7 @@ const renderToken = (token, defaultRender, i) => {
     }
 };
 
-const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMethods}) => {
+const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMethods, userGroup}) => {
     const options = {
         refractor: refractor,
         highlight: true,
@@ -221,15 +222,17 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
             }
         } else {
             const currentStart = hunk.oldStart;
-            const expandUpAllElement = (
-                <ExpandUpAll
-                    key={'expand-up-all' + hunk.oldStart + hunk.content}
-                    start={1}
-                    end={currentStart}
-                    onClick={onExpandRange}
-                />
-            );
-            children.push(expandUpAllElement);
+            if (currentStart > 1) {
+                const expandUpAllElement = (
+                    <ExpandUpAll
+                        key={'expand-up-all' + hunk.oldStart + hunk.content}
+                        start={1}
+                        end={currentStart}
+                        onClick={onExpandRange}
+                    />
+                );
+                children.push(expandUpAllElement);
+            }
             if (currentStart > 20) {
                 const expandUpElement = (
                     <ExpandUp
@@ -265,22 +268,24 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
                 )
                 children.push(expandDownElement);
             }
-            const expandDownAllElement = (
-                <ExpandDownAll
-                    key={'expand-down-all' + hunk.oldStart + hunk.content}
-                    start={currentEnd}
-                    end={linesCount}
-                    onClick={onExpandRange}
-                />
-            )
-            children.push(expandDownAllElement);
+            if (currentEnd <  linesCount) {
+                const expandDownAllElement = (
+                    <ExpandDownAll
+                        key={'expand-down-all' + hunk.oldStart + hunk.content}
+                        start={currentEnd}
+                        end={linesCount}
+                        onClick={onExpandRange}
+                    />
+                )
+                children.push(expandDownAllElement);
+            }
         }
 
         return children;
     };
 
     return (
-        <Diff className={"diff-view"} hunks={hunks} diffType="modify" viewType="split" tokens={tokens} widgets={getWidgets(hunks, modifiedLines, modifiedMethods)}>
+        <Diff className={"diff-view"} hunks={hunks} diffType="modify" viewType="split" tokens={tokens} widgets={getWidgets(hunks, modifiedLines, modifiedMethods, userGroup)}>
             {hunks => hunks.reduce(renderHunk, [])}
         </Diff>
     );
