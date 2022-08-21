@@ -52,7 +52,10 @@ public class ParticipantController {
 //    }
 
     @PostMapping("/api/risk-assessment")
-    public void updateRiskLevel(@RequestBody List<ChangeReviewDto> changeReviews) {
+    public void submitTaskA(@RequestBody ParticipantDto participant) {
+        Integer taskATime = participant.getTaskATime();
+        applicationService.updateTaskATime(participant.getId(), taskATime);
+        List<ChangeReviewDto> changeReviews = participant.getChangeReviews();
         applicationService.updateRiskLevel(changeReviews);
     }
 
@@ -68,13 +71,14 @@ public class ParticipantController {
     }
 
     private ParticipantDto convertToDto(Participant participant)  {
+        Integer taskATime = (participant.getTaskATime() == null) ? null : participant.getTaskATime();
         List<ChangeReviewDto> changeReviews = new ArrayList<>();
         if (participant.getChangeReviews() != null) {
             for (ChangeReview changeReview : participant.getChangeReviews()) {
                 changeReviews.add(convertToDto(changeReview));
             }
         }
-        ParticipantDto participantDto = new ParticipantDto(participant.getId(), participant.getTool(), participant.getProject(), changeReviews);
+        ParticipantDto participantDto = new ParticipantDto(participant.getId(), participant.getTool(), participant.getProject(), taskATime, changeReviews);
         return participantDto;
     }
 

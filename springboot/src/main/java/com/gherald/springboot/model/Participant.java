@@ -17,6 +17,8 @@ public class Participant {
 
     private String project;
 
+    private Integer taskATime;
+
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     private List<ChangeReview> changeReviews;
 
@@ -45,6 +47,14 @@ public class Participant {
 
     public void setProject(String project) {
         this.project = project;
+    }
+
+    public Integer getTaskATime() {
+        return taskATime;
+    }
+
+    public void setTaskATime(Integer taskATime) {
+        this.taskATime = taskATime;
     }
 
     public List<ChangeReview> getChangeReviews() {

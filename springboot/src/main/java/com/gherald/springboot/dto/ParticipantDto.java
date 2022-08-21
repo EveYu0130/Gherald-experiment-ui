@@ -10,12 +10,15 @@ public class ParticipantDto {
     private String tool;
 
     private String project;
+
+    private Integer taskATime;
     private List<ChangeReviewDto> changeReviews;
 
-    public ParticipantDto(String id, String tool, String project, List<ChangeReviewDto> changeReviews) {
+    public ParticipantDto(String id, String tool, String project, Integer taskATime, List<ChangeReviewDto> changeReviews) {
         this.id = id;
         this.tool = tool;
         this.project = project;
+        this.taskATime = taskATime;
         this.changeReviews = changeReviews;
     }
 
@@ -41,6 +44,14 @@ public class ParticipantDto {
 
     public void setProject(String project) {
         this.project = project;
+    }
+
+    public Integer getTaskATime() {
+        return taskATime;
+    }
+
+    public void setTaskATime(Integer taskATime) {
+        this.taskATime = taskATime;
     }
 
     public List<ChangeReviewDto> getChangeReviews() {

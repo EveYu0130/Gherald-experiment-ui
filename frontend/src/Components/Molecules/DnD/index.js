@@ -6,6 +6,7 @@ import AccessAlarmsIcon from "@mui/icons-material/AccessAlarms";
 import one from '../../../icons/one.png';
 import two from '../../../icons/two.png';
 import three from '../../../icons/three.png';
+import {forwardRef, useImperativeHandle, useRef} from "react";
 
 const icons = [
     (<img src={one} alt="ONE" width={50} height={50} className={"one"} />),
@@ -13,11 +14,16 @@ const icons = [
     (<img src={three} alt="THREE" width={50} height={50} className={"three"} />)
 ]
 
-function DnD({ changes, practice }) {
-    const [changeList, updateChangeList] = useState(changes);
-    const history = useHistory();
-    const [pause, setPause] = useState(false);
+const Timer = forwardRef(({pause, handleResumeClick, handlePauseClick}, ref) => {
     const [seconds, setSeconds] = useState(0);
+
+    useImperativeHandle(ref, () => ({
+        resetTime() {
+            setSeconds(0);
+        },
+        seconds
+    }))
+    // const [pause, setPause] = useState(false);
 
     useEffect(() => {
         let interval = null;
@@ -29,7 +35,30 @@ function DnD({ changes, practice }) {
             clearInterval(interval);
         }
         return () => clearInterval(interval);
-    }, [pause, seconds])
+    }, [seconds, pause])
+
+    return (
+        <Box sx={{ width: '100%', textAlign: 'center' }}>
+            {pause ? (
+                <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handleResumeClick}>
+                    <AccessAlarmsIcon sx={{mr: '5px'}}/>
+                    Resume
+                </Button>
+            ) : (
+                <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handlePauseClick}>
+                    <AccessAlarmsIcon sx={{mr: '5px'}}/>
+                    Pause
+                </Button>
+            )}
+        </Box>
+    );
+})
+
+function DnD({ data, practice }) {
+    const [changeList, updateChangeList] = useState(data.changeReviews);
+    const history = useHistory();
+    const [pause, setPause] = useState(false);
+    const timerRef = useRef();
 
     const handleOnDragEnd = (result) => {
         console.log(result)
@@ -49,12 +78,15 @@ function DnD({ changes, practice }) {
                 state: { practice: true }
             });
         } else {
+            const reviewTime = timerRef.current.seconds;
+            console.log(reviewTime);
+            timerRef.current.resetTime();
             fetch('/api/risk-assessment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(changeList)
+                body: JSON.stringify({...data, taskATime: reviewTime, changeReviews: changeList})
             }).then(response => {
                 history.push('/taskB')
                 console.log(response);
@@ -65,13 +97,13 @@ function DnD({ changes, practice }) {
     };
 
     const handlePauseClick = () => {
-        console.log(seconds);
         setPause(true);
+        console.log(timerRef.current.seconds);
     }
 
     const handleResumeClick = () => {
-        console.log(seconds);
         setPause(false);
+        console.log(timerRef.current.seconds);
     }
 
     const context = require.context("../../../images/", true, /.png$/);
@@ -79,19 +111,7 @@ function DnD({ changes, practice }) {
     return (
         <Box style={{ width: '100%' }}>
             {!practice &&
-                <Box sx={{ width: '100%', textAlign: 'center' }}>
-                    {pause ? (
-                        <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handleResumeClick}>
-                            <AccessAlarmsIcon sx={{mr: '5px'}}/>
-                            Resume
-                        </Button>
-                    ) : (
-                        <Button  variant="contained" sx={{ mx: '2%', my: '2%', width: '200px' }} onClick={handlePauseClick}>
-                            <AccessAlarmsIcon sx={{mr: '5px'}}/>
-                            Pause
-                        </Button>
-                    )}
-                </Box>
+                <Timer pause={pause} handleResumeClick={handleResumeClick} handlePauseClick={handlePauseClick} ref={timerRef} />
             }
             {!pause && <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable droppableId="changes">

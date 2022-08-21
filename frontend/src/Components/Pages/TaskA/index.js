@@ -37,7 +37,7 @@ const Background = styled(Box)({
 
 function TaskA(props) {
     const [loading, setLoading] = useState(true);
-    const [changes, setChanges] = useState([]);
+    const [data, setData] = useState([]);
     const [ready, setReady] = useState(false);
 
     let auth = useAuth();
@@ -47,7 +47,7 @@ function TaskA(props) {
             .then(results => results.json())
             .then(data => {
                 setLoading(false);
-                setChanges(data.changeReviews);
+                setData(data);
             })
     }, [])
 
@@ -121,7 +121,7 @@ function TaskA(props) {
                                     <CircularProgress size={100} />
                                 </Box>
                             ) : (
-                                <DnD changes={changes.map(change => ({...change, change: {...change.change, img: './../../../images/' + change.change.project + '-change-' + change.change.id + '.png'}}))} practice={props.practice ? true : false}/>
+                                <DnD data={data} practice={props.practice ? true : false}/>
                             )}
                         </Box>
                     )}

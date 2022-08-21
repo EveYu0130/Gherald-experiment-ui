@@ -83,6 +83,13 @@ public class ApplicationService {
     }
 
     @Transactional
+    public void updateTaskATime(String participantId, Integer time) {
+        Participant participant = participantRepository.findParticipantById(participantId);
+        participant.setTaskATime(time);
+        participantRepository.save(participant);
+    }
+
+    @Transactional
     public ChangeReview createCodeInspection(Integer reviewId, Integer reviewTime, List<CodeInspectionDto> codeInspections) {
         ChangeReview changeReview = changeReviewRepository.findChangeReviewById(reviewId);
         changeReview.setReviewTime(reviewTime);
