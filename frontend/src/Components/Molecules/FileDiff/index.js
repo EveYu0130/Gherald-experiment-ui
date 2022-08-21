@@ -16,7 +16,7 @@ const FileDiff = ({ file, userGroup }) => {
     // const [fileDiff] = file.diff ? parseDiff(file.diff) : parseDiff(formatLines(diffLines(file.codeA, file.codeB), {context: 3}), {nearbySequences: 'zip'});
     const linesCount = file.codeA ? file.codeA.split('\n').length : 0;
     return (
-        <Accordion key={file.filename}>
+        <Accordion key={file.filename} TransitionProps={{ unmountOnExit: true }}>
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={file.filename + "-content"}

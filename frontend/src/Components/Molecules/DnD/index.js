@@ -96,7 +96,7 @@ function DnD({ changes, practice }) {
             {!pause && <DragDropContext onDragEnd={handleOnDragEnd}>
                 <Droppable droppableId="changes">
                     {(provided) => (
-                        <Box className="changes" sx={{ backgroundColor: 'grey.200', p: 2 }} {...provided.droppableProps} ref={provided.innerRef}>
+                        <Box className="changes" sx={{ backgroundColor: 'secondary.main', p: 2 }} {...provided.droppableProps} ref={provided.innerRef}>
                             {changeList.map(({id, change}, index) => {
                                 return (
                                     <Grid key={change.id} container alignItems="center" spacing={2}>

@@ -6,7 +6,7 @@ let theme = createTheme({
             main: '#795548',
         },
         secondary: {
-            main: '#795548',
+            main: '#f5f5f5',
         },
         // warning: {
         //     light: '#ffcc80',

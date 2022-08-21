@@ -144,7 +144,7 @@ function ChangeInfo({ change, number }) {
 
                 </Box>
                 <Box sx={{ flexGrow: 1 }}>
-                    <AppBar position="static" color='transparent'>
+                    <AppBar position="static" color='secondary'>
                         <Toolbar>
                             <Typography component="div" sx={{ width: '77%', flexShrink: 0 }}>
                                 File

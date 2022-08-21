@@ -1,7 +1,7 @@
 import './index.css';
 import {Diff, Decoration, Hunk, withSourceExpansion, getChangeKey, tokenize, useSourceExpansion} from 'react-diff-view';
 import {IconButton, Typography, Box, Alert, AlertTitle, SvgIcon} from "@mui/material";
-import React, {useMemo} from "react";
+import React, {useMemo, useState} from "react";
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandIcon from '@mui/icons-material/Expand';
@@ -166,7 +166,8 @@ const renderToken = (token, defaultRender, i) => {
     }
 };
 
-const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMethods, userGroup}) => {
+const DiffView = ({hunks, oldSource, linesCount, modifiedLines, modifiedMethods, userGroup}) => {
+    const [renderingHunks, expandRange] = useSourceExpansion(hunks, oldSource);
     const options = {
         refractor: refractor,
         highlight: true,
@@ -177,12 +178,13 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
         //     // markEdits(hunks, {type: 'block'})
         // ],
     };
-    const tokens = tokenize(hunks, options);
+    const tokens = tokenize(renderingHunks, options);
     // console.log(hunks);
     // console.log(tokens);
     // const tokens = useMemo(() => tokenize(hunks, oldSource), [hunks]);
 
     const renderHunk = (children, hunk, index) => {
+
         const previousElement = children[children.length - 1];
 
         if (previousElement) {
@@ -195,7 +197,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
                         key={'expand-all-' + hunk.oldStart + hunk.content}
                         start={previousEnd}
                         end={currentStart}
-                        onClick={onExpandRange}
+                        onClick={expandRange}
                     />
                 );
                 children.push(expandAllElement);
@@ -206,7 +208,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
                         previousHunk={previousHunk}
                         start={previousEnd}
                         end={previousEnd + 20}
-                        onClick={onExpandRange}
+                        onClick={expandRange}
                     />
                 );
                 const expandUpElement = (
@@ -214,7 +216,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
                         key={'expand-up-' + hunk.oldStart + hunk.content}
                         start={hunk.oldStart - 20}
                         end={currentStart}
-                        onClick={onExpandRange}
+                        onClick={expandRange}
                     />
                 );
                 children.push(expandDownElement);
@@ -228,7 +230,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
                         key={'expand-up-all' + hunk.oldStart + hunk.content}
                         start={1}
                         end={currentStart}
-                        onClick={onExpandRange}
+                        onClick={expandRange}
                     />
                 );
                 children.push(expandUpAllElement);
@@ -239,7 +241,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
                         key={'expand-up-' + hunk.oldStart + hunk.content}
                         start={currentStart - 20}
                         end={currentStart}
-                        onClick={onExpandRange}
+                        onClick={expandRange}
                     />
                 );
                 children.push(expandUpElement);
@@ -255,7 +257,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
         children.push(hunkElement);
 
 
-        if (index === hunks.length - 1) {
+        if (index === renderingHunks.length - 1) {
             const currentEnd = hunk.oldStart + hunk.oldLines;
             if (currentEnd + 20 < linesCount) {
                 const expandDownElement = (
@@ -263,7 +265,7 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
                         key={'expand-down-' + hunk.oldStart + hunk.content}
                         start={currentEnd}
                         end={currentEnd + 20}
-                        onClick={onExpandRange}
+                        onClick={expandRange}
                     />
                 )
                 children.push(expandDownElement);
@@ -274,21 +276,20 @@ const DiffView = ({hunks, onExpandRange, linesCount, modifiedLines, modifiedMeth
                         key={'expand-down-all' + hunk.oldStart + hunk.content}
                         start={currentEnd}
                         end={linesCount}
-                        onClick={onExpandRange}
+                        onClick={expandRange}
                     />
                 )
                 children.push(expandDownAllElement);
             }
         }
-
         return children;
     };
 
     return (
-        <Diff className={"diff-view"} hunks={hunks} diffType="modify" viewType="split" tokens={tokens} widgets={getWidgets(hunks, modifiedLines, modifiedMethods, userGroup)}>
+        <Diff className={"diff-view"} hunks={renderingHunks} diffType="modify" viewType="split" tokens={tokens} widgets={getWidgets(renderingHunks, modifiedLines, modifiedMethods, userGroup)}>
             {hunks => hunks.reduce(renderHunk, [])}
         </Diff>
     );
 };
 
-export default withSourceExpansion()(DiffView);
+export default DiffView;
