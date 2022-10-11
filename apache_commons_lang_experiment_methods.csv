@@ -1,34 +1,19 @@
-name,start_line,end_line,prior_changes,prior_bugs,file,commit_id
-"StringUtils::unwrap( final String str , final char wrapChar)",9179,9192,6,2,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
-"StringUtils::unwrap( final String str , final String wrapToken)",9221,9237,4,0,src/main/java/org/apache/commons/lang3/StringUtils.java,06aea7e74cfe4a1578cb76672f1562132090c205
-StringUtilsTest::testUnwrap_StringChar(),3070,3085,4,0,src/test/java/org/apache/commons/lang3/StringUtilsTest.java,06aea7e74cfe4a1578cb76672f1562132090c205
-StringUtilsTest::testUnwrap_StringString(),3088,3107,2,0,src/test/java/org/apache/commons/lang3/StringUtilsTest.java,06aea7e74cfe4a1578cb76672f1562132090c205
-"ToStringStyle::JsonToStringStyle::appendDetail( StringBuffer buffer , String fieldName , Object value)",2568,2598,2,1,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,cac520971206093d32bf17925f880bd06d93f736
-NumberUtils::isNumber( final String str),1336,1449,3,3,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,9397608dd35a335d5e14813c0923f9419782980a
-NumberUtilsTest::testLANG971(),1229,1235,0,0,src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java,9397608dd35a335d5e14813c0923f9419782980a
-"DateUtils::getFragment( final Calendar calendar , final int fragment , final int unit)",1682,1722,2,1,src/main/java/org/apache/commons/lang3/time/DateUtils.java,0942ef04f1fa911d382b79a92dca1dd4b3eb88e6
-DateUtilsFragmentTest::testMinutesOfYearWithWrongOffsetBugWithCalendar(),535,545,0,0,src/test/java/org/apache/commons/lang3/time/DateUtilsFragmentTest.java,0942ef04f1fa911d382b79a92dca1dd4b3eb88e6
-NumberUtils::createNumber( String str),445,604,17,2,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
-NumberUtilsTest::testCreateNumberMagnitude(),251,275,1,0,src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java,d844d1eb5e5b530a82b77302f1f284fd2f924be3
-NumberUtils::createBigInteger( String str),695,719,6,0,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
-NumberUtilsTest::testCreateBigInteger(),343,363,8,0,src/test/java/org/apache/commons/lang3/math/NumberUtilsTest.java,c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8
-BooleanUtils::isOneTrue( final boolean ... array),162,187,0,0,src/main/java/org/apache/commons/lang3/BooleanUtils.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtils::isOneTrue( final Boolean ... array),205,218,0,0,src/main/java/org/apache/commons/lang3/BooleanUtils.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtilsTest::testIsOneTrue_object_nullInput(),123,125,0,0,src/test/java/org/apache/commons/lang3/BooleanUtilsTest.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtilsTest::testIsOneTrue_primitive_validInput_2items(),69,85,0,0,src/test/java/org/apache/commons/lang3/BooleanUtilsTest.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtilsTest::testIsOneTrue_object_nullElementInput(),133,135,0,0,src/test/java/org/apache/commons/lang3/BooleanUtilsTest.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtilsTest::testIsOneTrue_primitive_validInput_3items(),88,120,0,0,src/test/java/org/apache/commons/lang3/BooleanUtilsTest.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtilsTest::testIsOneTrue_primitive_nullInput(),59,61,0,0,src/test/java/org/apache/commons/lang3/BooleanUtilsTest.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtilsTest::testIsOneTrue_primitive_emptyInput(),64,66,0,0,src/test/java/org/apache/commons/lang3/BooleanUtilsTest.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtilsTest::testIsOneTrue_object_validInput_3items(),165,237,0,0,src/test/java/org/apache/commons/lang3/BooleanUtilsTest.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtilsTest::testIsOneTrue_object_emptyInput(),128,130,0,0,src/test/java/org/apache/commons/lang3/BooleanUtilsTest.java,0de9354f505f415c7ad35fe735cebab4900a698a
-BooleanUtilsTest::testIsOneTrue_object_validInput_2items(),138,162,0,0,src/test/java/org/apache/commons/lang3/BooleanUtilsTest.java,0de9354f505f415c7ad35fe735cebab4900a698a
-"CharSetUtils::containsAny( final String str , final String ... set)",106,117,0,0,src/main/java/org/apache/commons/lang3/CharSetUtils.java,bb95f8a19470f38587780d5b29387d328b9160f6
-CharSetUtilsTest::testContainsAny_StringString(),90,102,0,0,src/test/java/org/apache/commons/lang3/CharSetUtilsTest.java,bb95f8a19470f38587780d5b29387d328b9160f6
-CharSetUtilsTest::testContainsAny_StringStringarray(),105,126,0,0,src/test/java/org/apache/commons/lang3/CharSetUtilsTest.java,bb95f8a19470f38587780d5b29387d328b9160f6
-"StringUtils::getFuzzyDistance( final CharSequence term , final CharSequence query , final Locale locale)",7101,7152,0,0,src/main/java/org/apache/commons/lang3/StringUtils.java,b78295b4faca2fd26024a26ef4638b0dce5d40a3
-StringUtilsTest::testGetFuzzyDistance_StringStringNull(),2048,2050,0,0,src/test/java/org/apache/commons/lang3/StringUtilsTest.java,b78295b4faca2fd26024a26ef4638b0dce5d40a3
-StringUtilsTest::testGetFuzzyDistance(),2022,2030,0,0,src/test/java/org/apache/commons/lang3/StringUtilsTest.java,b78295b4faca2fd26024a26ef4638b0dce5d40a3
-StringUtilsTest::testGetFuzzyDistance_NullNullNull(),2033,2035,0,0,src/test/java/org/apache/commons/lang3/StringUtilsTest.java,b78295b4faca2fd26024a26ef4638b0dce5d40a3
-StringUtilsTest::testGetFuzzyDistance_NullStringLocale(),2043,2045,0,0,src/test/java/org/apache/commons/lang3/StringUtilsTest.java,b78295b4faca2fd26024a26ef4638b0dce5d40a3
-StringUtilsTest::testGetFuzzyDistance_StringNullLoclae(),2038,2040,0,0,src/test/java/org/apache/commons/lang3/StringUtilsTest.java,b78295b4faca2fd26024a26ef4638b0dce5d40a3
+commit_id,author_email,author_date,additions,deletions,diff,bug_count,author_prior_changes,author_prior_bugs,file,file_complexity,file_prior_changes,file_prior_bugs,method,method_complexity,method_start_line,method_end_line,method_prior_changes,method_prior_bugs,practice
+16774d1c0d6d8aa4579f7c96b3fdb78bd118e5aa,ggregory@apache.org,2012-11-08 16:08:23,5,4,9,0.0,541,24,src/main/java/org/apache/commons/lang3/StringUtils.java,726.0,351,11,"StringUtils::rightPad( String str , int size , String padStr)",9,4586,4615,13,0,1
+16774d1c0d6d8aa4579f7c96b3fdb78bd118e5aa,ggregory@apache.org,2012-11-08 16:08:23,5,4,9,0.0,541,24,src/main/java/org/apache/commons/lang3/StringUtils.java,726.0,351,11,"StringUtils::leftPad( String str , int size , String padStr)",9,4698,4727,13,0,1
+16774d1c0d6d8aa4579f7c96b3fdb78bd118e5aa,ggregory@apache.org,2012-11-08 16:08:23,5,4,9,0.0,541,24,src/main/java/org/apache/commons/lang3/StringUtils.java,726.0,351,11,StringUtils::normalizeSpace( String str),2,6478,6483,4,0,1
+16774d1c0d6d8aa4579f7c96b3fdb78bd118e5aa,ggregory@apache.org,2012-11-08 16:08:23,5,4,9,0.0,541,24,src/main/java/org/apache/commons/lang3/StringUtils.java,726.0,351,11,"StringUtils::center( String str , int size , String padStr)",5,4837,4852,11,0,1
+c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8,sebb@apache.org,2012-11-13 00:59:22,21,2,23,1.0,354,13,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,250.0,61,4,NumberUtils::createBigInteger( String str),9,695,719,6,0,0
+d844d1eb5e5b530a82b77302f1f284fd2f924be3,sebb@apache.org,2012-11-13 01:39:40,14,6,16,1.0,355,15,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,249.0,62,6,NumberUtils::createNumber( String str),55,445,604,17,2,0
+bb95f8a19470f38587780d5b29387d328b9160f6,bayard@apache.org,2013-04-20 09:05:43,12,0,12,0.0,1231,53,src/main/java/org/apache/commons/lang3/CharSetUtils.java,32.0,59,0,"CharSetUtils::containsAny( final String str , final String ... set)",5,106,117,0,0,0
+188933345a7ebad94f74ba0fb6e8bc6eb99552a6,britter@apache.org,2013-10-11 11:25:28,2,2,4,0.0,17,0,src/main/java/org/apache/commons/lang3/CharUtils.java,46.0,33,2,CharUtils::isAsciiAlphanumeric(final char ch),2,535,537,1,0,1
+188933345a7ebad94f74ba0fb6e8bc6eb99552a6,britter@apache.org,2013-10-11 11:25:28,2,2,4,0.0,17,0,src/main/java/org/apache/commons/lang3/CharUtils.java,46.0,33,2,CharUtils::isAsciiAlpha(final char ch),2,459,461,1,0,1
+0de9354f505f415c7ad35fe735cebab4900a698a,britter@apache.org,2013-10-15 19:09:31,33,0,33,0.0,28,0,src/main/java/org/apache/commons/lang3/BooleanUtils.java,176.0,62,1,BooleanUtils::isOneTrue( final Boolean ... array),5,205,218,0,0,0
+0de9354f505f415c7ad35fe735cebab4900a698a,britter@apache.org,2013-10-15 19:09:31,33,0,33,0.0,28,0,src/main/java/org/apache/commons/lang3/BooleanUtils.java,176.0,62,1,BooleanUtils::isOneTrue( final boolean ... array),6,162,187,0,0,0
+65392be352be6ccc8acf24405d819f60cd0d1a22,sebb@apache.org,2014-02-06 13:48:08,2,0,2,0.0,413,17,src/main/java/org/apache/commons/lang3/BooleanUtils.java,165.0,67,1,BooleanUtils::toBooleanObject( final String str),54,547,635,2,0,1
+9397608dd35a335d5e14813c0923f9419782980a,sebb@apache.org,2014-02-11 02:53:03,25,18,15,1.0,417,17,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,240.0,76,8,NumberUtils::isNumber( final String str),52,1336,1449,3,0,0
+b78295b4faca2fd26024a26ef4638b0dce5d40a3,britter@apache.org,2014-05-07 18:42:33,28,0,28,0.0,246,3,src/main/java/org/apache/commons/lang3/StringUtils.java,840.0,402,14,"StringUtils::getFuzzyDistance( final CharSequence term , final CharSequence query , final Locale locale)",9,7101,7152,0,0,0
+cac520971206093d32bf17925f880bd06d93f736,792626757@qq.com,2015-05-01 06:13:13,14,3,13,1.0,3,0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,284.0,77,4,"ToStringStyle::JsonToStringStyle::appendDetail( StringBuffer buffer , String fieldName , Object value)",10,2568,2598,2,1,0
+06aea7e74cfe4a1578cb76672f1562132090c205,silence.m@hotmail.com,2019-08-20 03:29:55,8,6,10,1.0,1,0,src/main/java/org/apache/commons/lang3/StringUtils.java,981.0,571,17,"StringUtils::unwrap( final String str , final String wrapToken)",8,9221,9237,4,0,0
+06aea7e74cfe4a1578cb76672f1562132090c205,silence.m@hotmail.com,2019-08-20 03:29:55,8,6,10,1.0,1,0,src/main/java/org/apache/commons/lang3/StringUtils.java,981.0,571,17,"StringUtils::unwrap( final String str , final char wrapChar)",6,9179,9192,6,1,0
+4f85c164a1a4eeb8813b61cf46132fb91971b323,garydgregory@gmail.com,2021-02-10 22:04:11,10,0,10,0.0,461,0,src/main/java/org/apache/commons/lang3/StringUtils.java,983.0,631,18,"StringUtils::substringBefore( final String str , final int separator)",3,8732,8741,0,0,0

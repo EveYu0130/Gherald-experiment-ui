@@ -1,0 +1,13 @@
+commit_id,author_email,author_date,additions,deletions,bug_count,author_prior_changes,author_prior_bugs,file,file_complexity,file_prior_changes,file_prior_bugs
+16774d1c0d6d8aa4579f7c96b3fdb78bd118e5aa,ggregory@apache.org,2012-11-08 16:08:23,5,4,0.0,541,24,src/main/java/org/apache/commons/lang3/StringUtils.java,726.0,351,11
+c1f9320476ab9e5f262fdf8a5b3e1ff70199aed8,sebb@apache.org,2012-11-13 00:59:22,21,2,1.0,354,13,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,250.0,61,4
+d844d1eb5e5b530a82b77302f1f284fd2f924be3,sebb@apache.org,2012-11-13 01:39:40,14,6,1.0,355,15,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,249.0,62,6
+bb95f8a19470f38587780d5b29387d328b9160f6,bayard@apache.org,2013-04-20 09:05:43,12,0,0.0,1231,53,src/main/java/org/apache/commons/lang3/CharSetUtils.java,32.0,59,0
+188933345a7ebad94f74ba0fb6e8bc6eb99552a6,britter@apache.org,2013-10-11 11:25:28,2,2,0.0,17,0,src/main/java/org/apache/commons/lang3/CharUtils.java,46.0,33,2
+0de9354f505f415c7ad35fe735cebab4900a698a,britter@apache.org,2013-10-15 19:09:31,33,0,0.0,28,0,src/main/java/org/apache/commons/lang3/BooleanUtils.java,176.0,62,1
+65392be352be6ccc8acf24405d819f60cd0d1a22,sebb@apache.org,2014-02-06 13:48:08,2,0,0.0,413,17,src/main/java/org/apache/commons/lang3/BooleanUtils.java,165.0,67,1
+9397608dd35a335d5e14813c0923f9419782980a,sebb@apache.org,2014-02-11 02:53:03,25,18,1.0,417,17,src/main/java/org/apache/commons/lang3/math/NumberUtils.java,240.0,76,8
+b78295b4faca2fd26024a26ef4638b0dce5d40a3,britter@apache.org,2014-05-07 18:42:33,28,0,0.0,246,3,src/main/java/org/apache/commons/lang3/StringUtils.java,840.0,402,14
+cac520971206093d32bf17925f880bd06d93f736,792626757@qq.com,2015-05-01 06:13:13,14,3,1.0,3,0,src/main/java/org/apache/commons/lang3/builder/ToStringStyle.java,284.0,77,4
+06aea7e74cfe4a1578cb76672f1562132090c205,silence.m@hotmail.com,2019-08-20 03:29:55,8,6,1.0,1,0,src/main/java/org/apache/commons/lang3/StringUtils.java,981.0,571,17
+4f85c164a1a4eeb8813b61cf46132fb91971b323,garydgregory@gmail.com,2021-02-10 22:04:11,10,0,0.0,461,0,src/main/java/org/apache/commons/lang3/StringUtils.java,983.0,631,18
